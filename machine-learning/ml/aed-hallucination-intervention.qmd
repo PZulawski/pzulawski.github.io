@@ -14,9 +14,9 @@ But probe accuracy alone does not establish this. A logistic regression finding 
 
 Concretely, we take a non-speech example and add a scaled version of the probe direction $\hat{\mathbf{w}}$ to the residual stream at the best probe layer (layer 2) during the encoder forward pass:
 
-$$\mathbf{a}' = \mathbf{a} + \alpha \cdot \|\boldsymbol{\mu}_\text{sp} - \boldsymbol{\mu}_\text{ns}\| \cdot \hat{\mathbf{w}}$$
+$$\mathbf{a}' = \mathbf{a} + \alpha \cdot (\mu_\text{sp} - \mu_\text{ns}) \cdot \hat{\mathbf{w}}$$
 
-where $\|\boldsymbol{\mu}_\text{sp} - \boldsymbol{\mu}_\text{ns}\|$ is the Euclidean distance between the class centre vectors, and $\alpha$ is a signed scaling factor. Setting $\alpha < 0$ pushes the non-speech activation towards the non-speech end of the direction; $\alpha > 0$ pushes it towards speech. We are interested in whether pushing a non-speech example further into the non-speech region reduces hallucinated output — i.e. whether the decoder, confronted with a more emphatic non-speech signal, produces less text.
+where $\mu_\text{sp} = \boldsymbol{\mu}_\text{sp} \cdot \hat{\mathbf{w}}$ and $\mu_\text{ns} = \boldsymbol{\mu}_\text{ns} \cdot \hat{\mathbf{w}}$ are the scalar projections of the class centres onto the probe direction, and $\alpha$ is a signed scaling factor. Setting $\alpha < 0$ pushes the non-speech activation towards the non-speech end of the direction; $\alpha > 0$ pushes it towards speech. We are interested in whether pushing a non-speech example further into the non-speech region reduces hallucinated output — i.e. whether the decoder, confronted with a more emphatic non-speech signal, produces less text.
 
 ### Adaptive alpha
 
