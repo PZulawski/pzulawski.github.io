@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GPT Adventures – Piotr Zulawski</title>
+<title>Replicating Results: Corneal Endothelium Image Processing – Piotr Zulawski</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,23 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-f670ab49fb9634e9dab58972b11477cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f670ab49fb9634e9dab58972b11477cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Piotr Zulawski</span>
     </a>
   </div>
@@ -93,27 +93,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../cycling/index.html"> 
+    <a class="nav-link" href="../../cycling/index.html"> 
 <span class="menu-text">Cycling</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../../programming/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../../machine-learning/index.html" aria-current="page"> 
 <span class="menu-text">Machine Learning</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../programming/gamedev/cometa.html"> 
+    <a class="nav-link" href="../../machine-learning/gamedev/cometa.html"> 
 <span class="menu-text">Game Development</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../other/cycling-data-analysis.html"> 
+    <a class="nav-link" href="../../other/cycling-data-analysis.html"> 
 <span class="menu-text">Other</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../bookshelf.html"> 
+    <a class="nav-link" href="../../bookshelf.html"> 
 <span class="menu-text">Bookshelf</span></a>
   </li>  
 </ul>
@@ -127,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/corneal-endothelium.html">Corneal Endothelium Image Processing</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -141,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine Learning</span></a>
   </div>
 </li>
@@ -156,13 +156,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
   </div>
 </li>
@@ -179,31 +179,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../machine-learning/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures — Part 1: Baseline Implementation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 2 - Profiling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Phase 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures — Part 4: Distribute It</span></a>
   </div>
 </li>
@@ -211,25 +211,25 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Neural Net From Scratch</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Corneal Endothelium Image Processing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Image Generation with GANs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/better-gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/better-gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Better GANs - Gradient Penalisation</span></a>
   </div>
 </li>
@@ -243,19 +243,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#part-1-baseline-implementation" id="toc-part-1-baseline-implementation" class="nav-link active" data-scroll-target="#part-1-baseline-implementation">Part 1: Baseline implementation</a></li>
-  <li><a href="#part-2-profile-and-find-the-bottlenecks" id="toc-part-2-profile-and-find-the-bottlenecks" class="nav-link" data-scroll-target="#part-2-profile-and-find-the-bottlenecks">Part 2: Profile and find the bottlenecks</a></li>
-  <li><a href="#part-3-make-it-betterfaster-one-change-at-a-time" id="toc-part-3-make-it-betterfaster-one-change-at-a-time" class="nav-link" data-scroll-target="#part-3-make-it-betterfaster-one-change-at-a-time">Part 3: Make it better/faster, one change at a time</a></li>
-  <li><a href="#part-4-distribute-it" id="toc-part-4-distribute-it" class="nav-link" data-scroll-target="#part-4-distribute-it">Part 4: Distribute it</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a></li>
+  <li><a href="#results-on-the-baseline-dataset" id="toc-results-on-the-baseline-dataset" class="nav-link" data-scroll-target="#results-on-the-baseline-dataset">Results on the baseline dataset</a></li>
+  <li><a href="#training-with-larger-images" id="toc-training-with-larger-images" class="nav-link" data-scroll-target="#training-with-larger-images">Training with larger images</a></li>
+  <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer learning</a></li>
+  <li><a href="#fine-tuning" id="toc-fine-tuning" class="nav-link" data-scroll-target="#fine-tuning">Fine-tuning</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GPT Adventures</h1>
+<h1 class="title">Replicating Results: Corneal Endothelium Image Processing</h1>
 </div>
 
 
@@ -272,30 +276,173 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<!-- TODO: save header image from Google Site to images/gpt-adventures/header.jpg -->
-<p>It has now been six months since I switched to doing ML full time. I have continued learning through my day-to-day MLE role, and by continuing working through various resources - from mostly theoretical, like Bishop and Price, to more engineering-oriented, like How To Scale Your Model Series.</p>
-<p>What I have realised, however, is that working with a mature codebase has natural limits: many parts of the pipeline are already in place, there is no incentive to re-implement them, and effort is directed by the current needs of the business.</p>
-<p>To speed up my own education then, I have decided to embark on a more holistic project that would allow me to think about the many important parts of the pipeline I haven’t had the chance to work with before. The immediate goal isn’t novelty (though, as I go, I will look for opportunities for productive digressions), but rather connecting and solidifying concepts; building mental models and the muscle memory of a well-rounded engineer.</p>
-<p>While I use agents when aiming to maximise impact, here I am optimising for learning, and thus will aim to write every line of code myself.</p>
-<p><strong><a href="https://github.com/PZulawski/GPT2-Small">GitHub repository</a></strong></p>
-<p>A GPT-2 Small implemented from scratch in PyTorch, then made progressively faster — profiling, optimisation, and distributed training across multiple GPUs. This might sound like “let’s just do nanoGPT” — except the real learning starts after the basic model is functional. The GPT is a vehicle for encountering and solving real systems problems, going through them in layers of depth: each phase tackling a different area, with clear before-and-after measurements at every step.</p>
-<p>I’ll break the project into phases, each focusing on a different aspect:</p>
-<section id="part-1-baseline-implementation" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-baseline-implementation">Part 1: Baseline implementation</h2>
-<p>Implement a small transformer model from scratch in PyTorch — no HuggingFace, no Karpathy copy-paste. The goal isn’t novelty, it’s fluency. This will be a naïve, easy-to-understand platform to build from.</p>
-<p>Aim for this part: a working transformer with attention, MLP blocks, positional embeddings, and a training loop on a small dataset. Trained to produce vaguely coherent text. Should be small enough to train on a single GPU in under an hour.</p>
+<p><strong>TL;DR:</strong></p>
+<ul>
+<li>In line with the 1991 paper by Zhang et al.&nbsp;[1], a simple conv-net was trained on dataset [2] to extract cell boundaries from microscopy images of human corneal endothelium</li>
+<li>The model was then tested on a separate, more challenging dataset [3], yielding poor results</li>
+<li>Training on dataset [3] explicitly stalled, producing results of similar quality to the attempted transfer learning</li>
+<li>Fine-tuning the model trained on dataset [2] with images from [3] required a large number of epochs, but produced a significant improvement on further, previously unseen samples from [3]</li>
+</ul>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Looking for practical projects to practise ML skills, inspired by Seoirse Murray’s attempt at replicating an old research paper, I decided to also have a go. I also explored a few different areas, such as the ability of a model trained on one set of images to perform on a different dataset with a different distribution, both out-of-the-box and after fine-tuning.</p>
+<p>The images in question are microscopy images of human corneal endothelium — cells which tightly tessellate the posterior surface of the cornea and regulate the flow of fluid to keep the cornea at the right level of hydration for optical transparency. The cells are approximately hexagonal and fairly uniform in size, and deviations from those two characteristics are used in diagnostics of various pathologies.</p>
+<p>In the 1990s, analysing the shape and size distribution was a laborious manual task, so Zhang et al.&nbsp;[1] attempted to develop a semi-automated processing pipeline to detect and extract a high-contrast mapping of the cell boundaries. To achieve this, they applied a simple convolutional neural network composed of three convolutional layers.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig1-training-samples.jpg" class="img-fluid figure-img"></p>
+<figcaption>Original data used by Zhang et al.&nbsp;— raw microscopy input (left) with training sample regions indicated.</figcaption>
+</figure>
+</div>
 </section>
-<section id="part-2-profile-and-find-the-bottlenecks" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-profile-and-find-the-bottlenecks">Part 2: Profile and find the bottlenecks</h2>
-<p>Build in features for train-time telemetry using PyTorch profiler, and a logging framework like wandb, and experiment design environments like Tensorboard or W&amp;B. Identify where time is wasted and rectify bottlenecks.</p>
+<section id="architecture" class="level2">
+<h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
+<p>As can be deduced from the table below, the inputs are single-channel greyscale images, as the first convolutional filter has only one channel. The size of subsequent layers reduces gradually as a result of relatively large kernels (relative to image size), with the output labels being only 67 pixels across.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Kernel size</th>
+<th>Channels in</th>
+<th>Channels out</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conv1</td>
+<td>11×11</td>
+<td>1</td>
+<td>3</td>
+<td>363 + 3</td>
+</tr>
+<tr class="even">
+<td>Conv2</td>
+<td>11×11</td>
+<td>3</td>
+<td>2</td>
+<td>726 + 2</td>
+</tr>
+<tr class="odd">
+<td>Conv3</td>
+<td>11×11</td>
+<td>2</td>
+<td>1</td>
+<td>242 + 1</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>1337</strong></td>
+</tr>
+</tbody>
+</table>
+<p>It is worth noting how few parameters this is. Given that the authors used just two training images of only 97×97 pixels each (giving a total of just under 19,000 pixels), there isn’t much scope for increasing the model significantly without running a serious risk of overfitting.</p>
 </section>
-<section id="part-3-make-it-betterfaster-one-change-at-a-time" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-make-it-betterfaster-one-change-at-a-time">Part 3: Make it better/faster, one change at a time</h2>
-<p>With the profiling setup, slowly turn the naïve Part 1 implementation into something a lot more well-rounded. Implement improvements - mixed precision arithmetic, AOT compilation, flash attention, gradient checkpointing, anything that addresses whatever bottlenecks have been identified - and clearly attribute the improvements to each change.</p>
+<section id="training" class="level2">
+<h2 class="anchored" data-anchor-id="training">Training</h2>
+<p>The authors have not made their data available, so following Seoirse’s example, I used an alternative dataset [2]. I extracted both 97×97 images (with corresponding 67×67 labels) and somewhat larger 200×200 images (with labels of equal size), with the intent of training one model exactly matching Zhang’s proposal and another, slightly modified one utilising padding and fed more data.</p>
+<p>Training the network in line with the authors’ instructions turned out to be somewhat challenging. In particular, the learning rate applied (0.05) was quite large, and despite reproducing the recommended parameter initialisation within the [−0.3, 0.3] range and the recommended bipolar sigmoid activation function, all attempts resulted in the loss oscillating without convergence. The largest learning rate for which convergence was successfully achieved was 0.01, but it required several attempts and a fair bit of luck in the initial parameter allocation. Nonetheless, both the loss curves and the number of iterations looked very similar, with overtraining commencing around ~400 iterations.</p>
 </section>
-<section id="part-4-distribute-it" class="level2">
-<h2 class="anchored" data-anchor-id="part-4-distribute-it">Part 4: Distribute it</h2>
-<p>Going beyond “get DP/FSDP working”. Instrument the setup, measure collective latencies. Measure scaling efficiency: if one GPU takes time T, do two GPUs take T/2? If not — why?Work out how much time is communication overhead vs compute.</p>
+<section id="results-on-the-baseline-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="results-on-the-baseline-dataset">Results on the baseline dataset</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig2-input-label-97px.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>97×97 pixel input image with the 67×67 label lined up and superimposed on top.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig3-baseline-results.jpg" class="img-fluid figure-img"></p>
+<figcaption>From left to right: input 97×97 image, raw network output, output with pixels below magnitude 0.3 removed, output with remaining pixels set to 1, ground truth.</figcaption>
+</figure>
+</div>
+<p>The small sample in Figure 3 appears to reflect the ground truth very well. There are a few artefacts in some cells (such as a protruding vertical edge in the cell just above centre), but only where those artefacts are directly connected to a cell boundary; isolated spots and splodges are mostly absent from the output.</p>
+<p>Trying the network on a deliberately difficult example helps evaluate the limits of this simple model. It performs remarkably well even in out-of-focus areas — at a glance, gaps in the output correspond to areas that even a human annotator would find difficult, if not impossible, to annotate with confidence.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig4-difficult-example.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Left to right: original image, raw output, filtered output — tested on a deliberately out-of-focus, challenging crop.</figcaption>
+</figure>
+</div>
+</section>
+<section id="training-with-larger-images" class="level2">
+<h2 class="anchored" data-anchor-id="training-with-larger-images">Training with larger images</h2>
+<p>Next, I trained a network with eight slightly larger images, 200×200 pixels. Since the images in the original dataset were on a larger scale (more cells per image), the idea was to give the network images where the number of cells would be more similar to that in the original paper.</p>
+<p>Once again, achieving convergence required learning rates significantly lower than those used in the original paper — the loss would oscillate for anything above 0.003. The network also took longer to train (approximately half an hour on a laptop CPU). The loss curve shows a number of inflection points, probably representing areas of shallower gradient within the loss function. The oscillating regions represent instances where I paused training to experiment with larger learning rates; on both occasions this caused the loss to begin oscillating.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig5-loss-200px.jpg" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Loss curves from training the model with 200×200 pixel input images.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig6-comparison-zhang.jpg" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Top: results obtained by Zhang et al.&nbsp;before (left) and after (right) post-processing. Bottom: results from my CNN, raw (left) and after simple filtering (right) — equivalent to top-left.</figcaption>
+</figure>
+</div>
+<p>After basic filtering of the raw outputs (thresholding then binarising), the results are visually similar to Zhang’s. The traced lines are somewhat thicker than the ground truth, suffer occasional breaks, and feature small ‘islands’ inside the boundaries where the original image dipped in intensity due to debris or non-boundary cellular features. While Zhang applied post-processing to remove some imperfections, I did not pursue that angle as my focus was on replicating the machine learning component. Both models are clearly struggling with similar challenges — unsurprisingly, given that they employ very similar tools. Training with larger images did result in fewer artefacts, and the cells appear more joined up than in Zhang’s results, indicating that the additional data was helpful.</p>
+</section>
+<section id="transfer-learning" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-learning">Transfer learning</h2>
+<p>Finally, I wanted to check how a model trained on one dataset might perform on a different dataset. For this purpose I used the open-source dataset published by the Rotterdam Ophthalmic Data Repository [3] and ran it through the model trained on the Alizarine dataset.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig7-alizarine-results.jpg" class="img-fluid figure-img"></p>
+<figcaption>From left to right: input image (‘Alizarine’ dataset), raw network output, filtered output, binarised output, ground truth.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig8-rotterdam-transfer.jpg" class="img-fluid figure-img"></p>
+<figcaption>Results from the model trained on the Alizarine dataset applied to the ‘Rotterdam’ dataset. From left to right: input image, raw output, filtered output, binarised output, ground truth.</figcaption>
+</figure>
+</div>
+<p>Clearly, the results on the Rotterdam dataset are a lot more noisy. The Rotterdam dataset is slightly more out of focus and has lower contrast, making it inherently more challenging. A 200×200 pixel patch also contained fewer, larger cells; while this shouldn’t be an issue for inference (convolutional networks are particularly suitable for recognising features regardless of scale), during training, combined with the fact that the hand-labelled lines are much thinner, this results in a dataset dominated by negative examples.</p>
+<p>Interestingly, when the model was explicitly trained on the Rotterdam data, it took many more epochs to achieve comparable results, even with more data provided. This is likely due to the label annotation method: the Rotterdam labels have much thinner lines, somewhat less consistently drawn, with small deviations and kinks from the unsteadiness of manual tracing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig9-rotterdam-label.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Rotterdam dataset input image with the label superimposed — note how the label does not consistently cover all boundary pixels and does not always follow the boundary centreline. Contrast with Figure 2.</figcaption>
+</figure>
+</div>
+<p>In combination, this results in a very thin, wobbling line, making it difficult for the model to decide which pixels to keep and which to discard.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig10-rotterdam-explicit.jpg" class="img-fluid figure-img"></p>
+<figcaption>Results from the model trained explicitly on the Rotterdam dataset. From left to right: input image, raw output, filtered output, binarised output, ground truth.</figcaption>
+</figure>
+</div>
+</section>
+<section id="fine-tuning" class="level2">
+<h2 class="anchored" data-anchor-id="fine-tuning">Fine-tuning</h2>
+<p>One last item of interest was to verify the performance of a model trained on the Alizarine dataset and subsequently fine-tuned on the Rotterdam dataset — the idea being that a model trained on a similar but somewhat ‘easier’ task would boost performance on the more challenging data.</p>
+<p>This, unexpectedly, worked remarkably well. It took a long time (2h+) due to the very small learning rate (1e-5), but fine-tuning from a model already converged on the Alizarine dataset enabled it to break through the loss values it had previously stalled at. The loss had not even finished improving by the time I stopped the training loop, suggesting it would keep getting better with more time.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig11-finetuning-loss.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>In fine-tuning, the loss continued to fall linearly for a large number of iterations.</figcaption>
+</figure>
+</div>
+<p>Even at this stage, the model is producing crisp and accurate boundaries on previously unseen images. There are numerous artefacts, but these could be easily removed with simple post-processing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/machine-learning/corneal-fig12-final-outputs.jpg" class="img-fluid figure-img"></p>
+<figcaption>Outputs from the final model — trained on the Alizarine dataset and subsequently fine-tuned on the Rotterdam dataset.</figcaption>
+</figure>
+</div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Wei Zhang, Akira Hasegawa, Kazuyoshi Itoh, and Yoshiki Ichioka. <em>Image processing of human corneal endothelium based on a learning network.</em></li>
+<li>Ruggeri, A.; Scarpa, F.; de Luca, M.; Meltendorf, C.; Schroeter, J. A system for the automatic estimation of morphometric parameters of corneal endothelium in alizarine red-stained images. <em>Br. J. Ophthalmol.</em> 2010, 94, 643–647.</li>
+<li>Bettina Selig, Koenraad A. Vermeer, Bernd Rieger, Toine Hillenaar and Cris L. Luengo Hendriks. Fully Automatic Evaluation of the Corneal Endothelium from In Vivo Confocal Microscopy. <em>BMC Medical Imaging.</em> 2015;15:13.</li>
+</ol>
 
 
 </section>

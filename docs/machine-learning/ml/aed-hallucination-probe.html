@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Replicating Results: Corneal Endothelium Image Processing – Piotr Zulawski</title>
+<title>Where Do AED Hallucinations Come From? – Piotr Zulawski</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -71,6 +106,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -101,11 +165,11 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Cycling</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../programming/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../../machine-learning/index.html" aria-current="page"> 
 <span class="menu-text">Machine Learning</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../programming/gamedev/cometa.html"> 
+    <a class="nav-link" href="../../machine-learning/gamedev/cometa.html"> 
 <span class="menu-text">Game Development</span></a>
   </li>  
   <li class="nav-item">
@@ -127,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../programming/ml/corneal-endothelium.html">Corneal Endothelium Image Processing</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Where Do AED Hallucinations Come From?</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -141,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine Learning</span></a>
   </div>
 </li>
@@ -156,13 +220,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
   </div>
 </li>
@@ -179,31 +243,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures — Part 1: Baseline Implementation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 2 - Profiling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Phase 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures — Part 4: Distribute It</span></a>
   </div>
 </li>
@@ -211,25 +275,25 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Neural Net From Scratch</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../machine-learning/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Corneal Endothelium Image Processing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Image Generation with GANs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/better-gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../machine-learning/ml/better-gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Better GANs - Gradient Penalisation</span></a>
   </div>
 </li>
@@ -243,13 +307,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
-  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a></li>
-  <li><a href="#results-on-the-baseline-dataset" id="toc-results-on-the-baseline-dataset" class="nav-link" data-scroll-target="#results-on-the-baseline-dataset">Results on the baseline dataset</a></li>
-  <li><a href="#training-with-larger-images" id="toc-training-with-larger-images" class="nav-link" data-scroll-target="#training-with-larger-images">Training with larger images</a></li>
-  <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer learning</a></li>
-  <li><a href="#fine-tuning" id="toc-fine-tuning" class="nav-link" data-scroll-target="#fine-tuning">Fine-tuning</a></li>
+  <li><a href="#method" id="toc-method" class="nav-link active" data-scroll-target="#method">Method</a>
+  <ul class="collapse">
+  <li><a href="#linear-probing" id="toc-linear-probing" class="nav-link" data-scroll-target="#linear-probing">Linear probing</a></li>
+  <li><a href="#activation-collection" id="toc-activation-collection" class="nav-link" data-scroll-target="#activation-collection">Activation collection</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#probing" id="toc-probing" class="nav-link" data-scroll-target="#probing">Probing</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#the-probe" id="toc-the-probe" class="nav-link" data-scroll-target="#the-probe">The probe</a></li>
+  </ul></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -257,9 +326,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Where Do AED Hallucinations Come From?</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Replicating Results: Corneal Endothelium Image Processing</h1>
+<h1 class="title">Where Do AED Hallucinations Come From?</h1>
 </div>
 
 
@@ -276,172 +345,89 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><strong>TL;DR:</strong></p>
+<p>It is a well-known fact that encoder-decoder (AED) models for speech-to-text (STT) transcription are prone to hallucinations [1]. These hallucinations are primarily present in audio segments containing sparse speech — long pauses filled with silence or ambient noise — or segments containing no speech at all.</p>
+<p>Some authors have previously attempted to tackle these hallucinations with post-processing [2], training data selection [3], test-time data filtering [4], and fine-tuning with specific non-speech datasets [5]. In my own work, I have applied these and other techniques to suppress hallucinations in AED models, with good success.</p>
+<p>Some residual hallucinations remain despite this careful, multi-pronged treatment, and they still manifest on audio that, to a human ear, is relatively unambiguous. This is surprising, given that the model is able to transcribe challenging audio accurately across dozens of languages — it feels counterintuitive that a much simpler task, deciding on the mere presence of speech in a given segment, should be problematic. Motivated by this, and as an excuse to develop skills relevant to interpretability work, I decided to look more closely at the model internals to understand the origin of hallucinations.</p>
+<p>The specific question I am looking to answer is: does the model internally represent the difference between speech and non-speech, and simply not surface it in its output? Or is the speech/non-speech distinction simply absent?</p>
+<p>There are two possible cases:</p>
 <ul>
-<li>In line with the 1991 paper by Zhang et al.&nbsp;[1], a simple conv-net was trained on dataset [2] to extract cell boundaries from microscopy images of human corneal endothelium</li>
-<li>The model was then tested on a separate, more challenging dataset [3], yielding poor results</li>
-<li>Training on dataset [3] explicitly stalled, producing results of similar quality to the attempted transfer learning</li>
-<li>Fine-tuning the model trained on dataset [2] with images from [3] required a large number of epochs, but produced a significant improvement on further, previously unseen samples from [3]</li>
+<li><strong>Case A</strong>: a latent <code>is_speech</code> representation exists in the encoder activations, but has no causal path to the output — the decoder ignores it. The information is there; the model just doesn’t report it.</li>
+<li><strong>Case B</strong>: no such representation exists. The encoder processes all audio through the same features regardless of content.</li>
 </ul>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Looking for practical projects to practise ML skills, inspired by Seoirse Murray’s attempt at replicating an old research paper, I decided to also have a go. I also explored a few different areas, such as the ability of a model trained on one set of images to perform on a different dataset with a different distribution, both out-of-the-box and after fine-tuning.</p>
-<p>The images in question are microscopy images of human corneal endothelium — cells which tightly tessellate the posterior surface of the cornea and regulate the flow of fluid to keep the cornea at the right level of hydration for optical transparency. The cells are approximately hexagonal and fairly uniform in size, and deviations from those two characteristics are used in diagnostics of various pathologies.</p>
-<p>In the 1990s, analysing the shape and size distribution was a laborious manual task, so Zhang et al.&nbsp;[1] attempted to develop a semi-automated processing pipeline to detect and extract a high-contrast mapping of the cell boundaries. To achieve this, they applied a simple convolutional neural network composed of three convolutional layers.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig1-training-samples.jpg" class="img-fluid figure-img"></p>
-<figcaption>Original data used by Zhang et al.&nbsp;— raw microscopy input (left) with training sample regions indicated.</figcaption>
-</figure>
-</div>
+<p>A standard performance evaluation — word error rate, or WER — collapses both cases to the same observable, so we need to look inside the model.</p>
+<section id="method" class="level2">
+<h2 class="anchored" data-anchor-id="method">Method</h2>
+<section id="linear-probing" class="level3">
+<h3 class="anchored" data-anchor-id="linear-probing">Linear probing</h3>
+<p>The main approach revolves around the <strong>linear representation hypothesis</strong>: if the speech/non-speech concept is linearly encoded in the residual stream, a logistic regression trained on mean-pooled layer activations should be able to separate the two classes. We train one probe per encoder layer and track accuracy with depth — this tells us where (if anywhere) the distinction emerges, and how strongly it is encoded.</p>
+<p>More concretely: at each encoder layer, every example produces a vector in <span class="math inline">\(\mathbb{R}^d\)</span> (here, <span class="math inline">\(d = 1792\)</span> for the deep encoder stage). A <strong>direction</strong> in this space is a unit vector along which the two classes tend to sit on opposite sides of a hyperplane. Logistic regression finds this hyperplane; its weight vector <span class="math inline">\(\mathbf{w}\)</span> is the direction. If such a direction exists, projecting any activation onto it produces a scalar that we can interpret as “how much of the speech concept is present at this layer”.</p>
+<p>A flat curve near chance accuracy at all layers would be evidence for Case B — no latent representation. A curve that rises early would indicate the distinction is grounded in low-level acoustic features rather than semantic abstraction.</p>
 </section>
-<section id="architecture" class="level2">
-<h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
-<p>As can be deduced from the table below, the inputs are single-channel greyscale images, as the first convolutional filter has only one channel. The size of subsequent layers reduces gradually as a result of relatively large kernels (relative to image size), with the output labels being only 67 pixels across.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Layer</th>
-<th>Kernel size</th>
-<th>Channels in</th>
-<th>Channels out</th>
-<th>Parameters</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Conv1</td>
-<td>11×11</td>
-<td>1</td>
-<td>3</td>
-<td>363 + 3</td>
-</tr>
-<tr class="even">
-<td>Conv2</td>
-<td>11×11</td>
-<td>3</td>
-<td>2</td>
-<td>726 + 2</td>
-</tr>
-<tr class="odd">
-<td>Conv3</td>
-<td>11×11</td>
-<td>2</td>
-<td>1</td>
-<td>242 + 1</td>
-</tr>
-<tr class="even">
-<td><strong>Total</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td><strong>1337</strong></td>
-</tr>
-</tbody>
-</table>
-<p>It is worth noting how few parameters this is. Given that the authors used just two training images of only 97×97 pixels each (giving a total of just under 19,000 pixels), there isn’t much scope for increasing the model significantly without running a serious risk of overfitting.</p>
+<section id="activation-collection" class="level3">
+<h3 class="anchored" data-anchor-id="activation-collection">Activation collection</h3>
+<p>We register a forward hook on each transformer layer in the encoder. The hook captures the residual stream output (shape <code>[batch, seq_len, d]</code>) and mean-pools over the time dimension, giving one vector per example per layer:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_hook(layer_idx):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> hook(module, <span class="bu">input</span>, output):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> output[<span class="dv">0</span>]   <span class="co"># (batch, seq_len, hidden_dim)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        layer_buffer[layer_idx] <span class="op">=</span> x.<span class="bu">float</span>().mean(dim<span class="op">=</span><span class="dv">1</span>).detach().cpu()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hook</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>handles <span class="op">=</span> [layer.register_forward_hook(make_hook(i))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> i, layer <span class="kw">in</span> <span class="bu">enumerate</span>(head.encoder.layers)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Note that <code>TransformerBlock.forward</code> returns a tuple <code>(residual_stream, kv_state)</code> — hence <code>output[0]</code>. Mean-pooling over time is a reasonable first choice: the speech/non-speech distinction should be distributed across the whole segment, not concentrated in a single frame. We run the encoder, but not the decoder — we are interested in what the encoder has built up, independent of how the decoder interprets it.</p>
 </section>
-<section id="training" class="level2">
-<h2 class="anchored" data-anchor-id="training">Training</h2>
-<p>The authors have not made their data available, so following Seoirse’s example, I used an alternative dataset [2]. I extracted both 97×97 images (with corresponding 67×67 labels) and somewhat larger 200×200 images (with labels of equal size), with the intent of training one model exactly matching Zhang’s proposal and another, slightly modified one utilising padding and fed more data.</p>
-<p>Training the network in line with the authors’ instructions turned out to be somewhat challenging. In particular, the learning rate applied (0.05) was quite large, and despite reproducing the recommended parameter initialisation within the [−0.3, 0.3] range and the recommended bipolar sigmoid activation function, all attempts resulted in the loss oscillating without convergence. The largest learning rate for which convergence was successfully achieved was 0.01, but it required several attempts and a fair bit of luck in the initial parameter allocation. Nonetheless, both the loss curves and the number of iterations looked very similar, with overtraining commencing around ~400 iterations.</p>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<p>We use 1,500 examples per class:</p>
+<ul>
+<li><strong>Non-speech</strong>: pure silence segments extracted by a force aligner, drawn from the non-speech training corpus. These are relatively unambiguous, by design — we want to probe the clean case first.</li>
+<li><strong>Speech</strong>: held-out validation examples from the main English training corpus, unseen during training.</li>
+</ul>
+<p>The non-speech category also includes a deliberate tail of less clear-cut examples — cheering crowds, faint radio transmissions, background chatter — surfaced through the ambiguous zone analysis described below. These are included to probe how smoothly the hypothetical latent is distributed, rather than whether it exists at all.</p>
 </section>
-<section id="results-on-the-baseline-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="results-on-the-baseline-dataset">Results on the baseline dataset</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig2-input-label-97px.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>97×97 pixel input image with the 67×67 label lined up and superimposed on top.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig3-baseline-results.jpg" class="img-fluid figure-img"></p>
-<figcaption>From left to right: input 97×97 image, raw network output, output with pixels below magnitude 0.3 removed, output with remaining pixels set to 1, ground truth.</figcaption>
-</figure>
-</div>
-<p>The small sample in Figure 3 appears to reflect the ground truth very well. There are a few artefacts in some cells (such as a protruding vertical edge in the cell just above centre), but only where those artefacts are directly connected to a cell boundary; isolated spots and splodges are mostly absent from the output.</p>
-<p>Trying the network on a deliberately difficult example helps evaluate the limits of this simple model. It performs remarkably well even in out-of-focus areas — at a glance, gaps in the output correspond to areas that even a human annotator would find difficult, if not impossible, to annotate with confidence.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig4-difficult-example.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Left to right: original image, raw output, filtered output — tested on a deliberately out-of-focus, challenging crop.</figcaption>
-</figure>
-</div>
+<section id="probing" class="level3">
+<h3 class="anchored" data-anchor-id="probing">Probing</h3>
+<p>For each layer, logistic regression (L2 regularisation, <code>C=0.1</code>) is trained with 5-fold cross-validation. The fitted weight vector <span class="math inline">\(\mathbf{w}\)</span> for the best-performing layer is retained for visualisation and the causal intervention.</p>
 </section>
-<section id="training-with-larger-images" class="level2">
-<h2 class="anchored" data-anchor-id="training-with-larger-images">Training with larger images</h2>
-<p>Next, I trained a network with eight slightly larger images, 200×200 pixels. Since the images in the original dataset were on a larger scale (more cells per image), the idea was to give the network images where the number of cells would be more similar to that in the original paper.</p>
-<p>Once again, achieving convergence required learning rates significantly lower than those used in the original paper — the loss would oscillate for anything above 0.003. The network also took longer to train (approximately half an hour on a laptop CPU). The loss curve shows a number of inflection points, probably representing areas of shallower gradient within the loss function. The oscillating regions represent instances where I paused training to experiment with larger learning rates; on both occasions this caused the loss to begin oscillating.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig5-loss-200px.jpg" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Loss curves from training the model with 200×200 pixel input images.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig6-comparison-zhang.jpg" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Top: results obtained by Zhang et al.&nbsp;before (left) and after (right) post-processing. Bottom: results from my CNN, raw (left) and after simple filtering (right) — equivalent to top-left.</figcaption>
-</figure>
-</div>
-<p>After basic filtering of the raw outputs (thresholding then binarising), the results are visually similar to Zhang’s. The traced lines are somewhat thicker than the ground truth, suffer occasional breaks, and feature small ‘islands’ inside the boundaries where the original image dipped in intensity due to debris or non-boundary cellular features. While Zhang applied post-processing to remove some imperfections, I did not pursue that angle as my focus was on replicating the machine learning component. Both models are clearly struggling with similar challenges — unsurprisingly, given that they employ very similar tools. Training with larger images did result in fewer artefacts, and the cells appear more joined up than in Zhang’s results, indicating that the additional data was helpful.</p>
 </section>
-<section id="transfer-learning" class="level2">
-<h2 class="anchored" data-anchor-id="transfer-learning">Transfer learning</h2>
-<p>Finally, I wanted to check how a model trained on one dataset might perform on a different dataset. For this purpose I used the open-source dataset published by the Rotterdam Ophthalmic Data Repository [3] and ran it through the model trained on the Alizarine dataset.</p>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="the-probe" class="level3">
+<h3 class="anchored" data-anchor-id="the-probe">The probe</h3>
+<p>The accuracy curve is flat, essentially at 1.000, from the first layer onwards.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig7-alizarine-results.jpg" class="img-fluid figure-img"></p>
-<figcaption>From left to right: input image (‘Alizarine’ dataset), raw network output, filtered output, binarised output, ground truth.</figcaption>
+<p><img src="../../images/ml/probe-accuracy-vs-depth.png" class="img-fluid figure-img"></p>
+<figcaption>Linear probe accuracy across all 32 encoder layers — 5-fold cross-validation. Chance is 0.5.</figcaption>
 </figure>
 </div>
+<p>Across all 32 layers, probe accuracy is 0.999–1.000. There is no warm-up period, no layer at which the distinction first “emerges” — it is there from layer 0 and stays there. This is a striking result. The best layer (layer 2) achieves 1.000 ± 0.001; the worst layer achieves 0.999 ± 0.001. The model encodes the speech/non-speech distinction essentially perfectly, from the very first transformer layer.</p>
+<p>The 1D projection confirms it visually: the two distributions are completely separated, with essentially no overlap. The ambiguous zone (shaded gold) sits in the gap between the two clusters — examples that genuinely sit between the two, which turn out to be the expected edge cases (faint background chatter, distant voices) on audio inspection.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig8-rotterdam-transfer.jpg" class="img-fluid figure-img"></p>
-<figcaption>Results from the model trained on the Alizarine dataset applied to the ‘Rotterdam’ dataset. From left to right: input image, raw output, filtered output, binarised output, ground truth.</figcaption>
+<p><img src="../../images/ml/probe-direction-viz.png" class="img-fluid figure-img"></p>
+<figcaption>Left: 1D projection of all examples onto the probe direction at layer 2 — complete separation. Right: PCA scatter at the same layer, with ambiguous-zone examples highlighted (gold diamonds).</figcaption>
 </figure>
 </div>
-<p>Clearly, the results on the Rotterdam dataset are a lot more noisy. The Rotterdam dataset is slightly more out of focus and has lower contrast, making it inherently more challenging. A 200×200 pixel patch also contained fewer, larger cells; while this shouldn’t be an issue for inference (convolutional networks are particularly suitable for recognising features regardless of scale), during training, combined with the fact that the hand-labelled lines are much thinner, this results in a dataset dominated by negative examples.</p>
-<p>Interestingly, when the model was explicitly trained on the Rotterdam data, it took many more epochs to achieve comparable results, even with more data provided. This is likely due to the label annotation method: the Rotterdam labels have much thinner lines, somewhat less consistently drawn, with small deviations and kinks from the unsteadiness of manual tracing.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig9-rotterdam-label.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Rotterdam dataset input image with the label superimposed — note how the label does not consistently cover all boundary pixels and does not always follow the boundary centreline. Contrast with Figure 2.</figcaption>
-</figure>
-</div>
-<p>In combination, this results in a very thin, wobbling line, making it difficult for the model to decide which pixels to keep and which to discard.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig10-rotterdam-explicit.jpg" class="img-fluid figure-img"></p>
-<figcaption>Results from the model trained explicitly on the Rotterdam dataset. From left to right: input image, raw output, filtered output, binarised output, ground truth.</figcaption>
-</figure>
-</div>
+<p>The PCA scatter underlines this: PC1 alone accounts for 42% of the variance at this layer, and the two classes sit cleanly at opposite ends of it. On audio inspection, the examples near the boundary are genuinely ambiguous: crowd noise, intelligible background conversations, shouts and yells, lyrics within background music — content that sits in the grey area between speech and non-speech by any reasonable definition. It is also worth noting that the distribution along the probe direction is smooth, with a continuous gradation from confidently non-speech to confidently speech-like rather than a hard split. This is circumstantial but suggestive evidence that the direction genuinely encodes speech-likeness, rather than some other quantity that happens to correlate with the class label in this dataset.</p>
 </section>
-<section id="fine-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="fine-tuning">Fine-tuning</h2>
-<p>One last item of interest was to verify the performance of a model trained on the Alizarine dataset and subsequently fine-tuned on the Rotterdam dataset — the idea being that a model trained on a similar but somewhat ‘easier’ task would boost performance on the more challenging data.</p>
-<p>This, unexpectedly, worked remarkably well. It took a long time (2h+) due to the very small learning rate (1e-5), but fine-tuning from a model already converged on the Alizarine dataset enabled it to break through the loss values it had previously stalled at. The loss had not even finished improving by the time I stopped the training loop, suggesting it would keep getting better with more time.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig11-finetuning-loss.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>In fine-tuning, the loss continued to fall linearly for a large number of iterations.</figcaption>
-</figure>
-</div>
-<p>Even at this stage, the model is producing crisp and accurate boundaries on previously unseen images. There are numerous artefacts, but these could be easily removed with simple post-processing.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/machine-learning/corneal-fig12-final-outputs.jpg" class="img-fluid figure-img"></p>
-<figcaption>Outputs from the final model — trained on the Alizarine dataset and subsequently fine-tuned on the Rotterdam dataset.</figcaption>
-</figure>
-</div>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>The probe results strongly suggest <strong>Case A</strong>: the encoder builds a near-perfect linear representation of the speech/non-speech distinction from the very first layer, grounded in low-level acoustic features. This representation does not change materially as it propagates through the 32-layer stack. The model unambiguously “knows” it is looking at non-speech.</p>
+<p>This has an interesting implication for the data-side fix applied earlier. Adding non-speech training data reduced hallucinations substantially — but these probe results suggest it may have worked by changing how the decoder was trained to respond to non-speech encoder representations, rather than by teaching the encoder to build the distinction in the first place. The encoder’s representation was already there; it was essentially acoustic from the outset. The fix, in effect, created a causal path from an existing representation to the correct output.</p>
+<p>Several questions remain that the probe alone cannot answer. First: why are some segments — which are to a human ear quite clearly non-speech, and which presumably sit well within the non-speech cluster — still hallucinated on? Are they, despite appearances, not as separated from the speech cluster as they seem? Or is their position in activation space not the operative factor at all?</p>
+<p>This leads naturally to the intervention question. If we were to take segments that sit in or near the ambiguous zone and push their activations further toward the non-speech end of the direction, would hallucinations be suppressed? And if so, is that because the direction is causally upstream of the decoder — or merely because the perturbation happens to corrupt whatever features the decoder was actually relying on? Establishing causality requires more than a correlation between probe position and output; it requires showing that deliberately moving activations along the direction produces a predictable, directional change in output.</p>
+<p>The flip side is equally important: what is the effect of this intervention on genuinely speech-like segments? If the intervention suppresses output indiscriminately — reducing word count even on real speech — then it is not a viable approach, however effective it might be at reducing hallucinations. Both questions are the subject of the next article.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ol type="1">
-<li>Wei Zhang, Akira Hasegawa, Kazuyoshi Itoh, and Yoshiki Ichioka. <em>Image processing of human corneal endothelium based on a learning network.</em></li>
-<li>Ruggeri, A.; Scarpa, F.; de Luca, M.; Meltendorf, C.; Schroeter, J. A system for the automatic estimation of morphometric parameters of corneal endothelium in alizarine red-stained images. <em>Br. J. Ophthalmol.</em> 2010, 94, 643–647.</li>
-<li>Bettina Selig, Koenraad A. Vermeer, Bernd Rieger, Toine Hillenaar and Cris L. Luengo Hendriks. Fully Automatic Evaluation of the Corneal Endothelium from In Vivo Confocal Microscopy. <em>BMC Medical Imaging.</em> 2015;15:13.</li>
+<li>A. Koenecke, A. S. G. Choi, K. X. Mei, H. Schellmann, and M. Sloane, “Careless Whisper: Speech-to-Text Hallucination Harms”</li>
+<li>M. Baranski, J. Jasinski, J. Bartolewska, S. Kacprzak, M. Witkowski, K. Kowalczyk, “Investigation of Whisper ASR Hallucinations Induced by Non-Speech Audio”</li>
+<li>S. Gandhi, P. von Platen, and A. M. Rush, “Distil-Whisper: Robust Knowledge Distillation via Large-Scale Pseudo Labelling”</li>
+<li>M. Bain, J. Huh, T. Han, and A. Zisserman, “WhisperX: Time-Accurate Speech Transcription of Long-Form Audio”</li>
+<li>Y. Wang, A. Alhmoud, S. Alsahly, M. Alqurishi, M. Ravanelli, “Calm-Whisper: Reduce Whisper Hallucination On Non-Speech By Calming Crazy Heads Down”</li>
 </ol>
 
 

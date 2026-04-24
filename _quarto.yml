@@ -11,9 +11,9 @@ website:
       - text: Cycling
         href: cycling/index.qmd
       - text: Machine Learning
-        href: programming/index.qmd
+        href: machine-learning/index.qmd
       - text: Game Development
-        href: programming/gamedev/cometa.qmd
+        href: machine-learning/gamedev/cometa.qmd
       - text: Other
         href: other/cycling-data-analysis.qmd
       - text: Bookshelf
@@ -47,32 +47,32 @@ website:
     - title: "Machine Learning"
       style: docked
       contents:
-        - programming/index.qmd
+        - machine-learning/index.qmd
         - text: "Hearing Things"
           contents:
-            - programming/ml/aed-hallucination-probe.qmd
-            - programming/ml/aed-hallucination-intervention.qmd
+            - machine-learning/ml/aed-hallucination-probe.qmd
+            - machine-learning/ml/aed-hallucination-intervention.qmd
         - text: "GPT Adventures"
           contents:
-            - programming/ml/gpt-adventures/index.qmd
-            - programming/ml/gpt-adventures/phase1.qmd
-            - programming/ml/gpt-adventures/phase2.qmd
-            - programming/ml/gpt-adventures/phase3.qmd
-            - programming/ml/gpt-adventures/phase4.qmd
+            - machine-learning/ml/gpt-adventures/index.qmd
+            - machine-learning/ml/gpt-adventures/phase1.qmd
+            - machine-learning/ml/gpt-adventures/phase2.qmd
+            - machine-learning/ml/gpt-adventures/phase3.qmd
+            - machine-learning/ml/gpt-adventures/phase4.qmd
         - text: "A Neural Net From Scratch"
-          href: programming/ml/neural-net-from-scratch.qmd
+          href: machine-learning/ml/neural-net-from-scratch.qmd
         - text: "Corneal Endothelium Image Processing"
-          href: programming/ml/corneal-endothelium.qmd
+          href: machine-learning/ml/corneal-endothelium.qmd
         - text: "Image Generation with GANs"
-          href: programming/ml/gans.qmd
+          href: machine-learning/ml/gans.qmd
         - text: "Better GANs - Gradient Penalisation"
-          href: programming/ml/better-gans.qmd
+          href: machine-learning/ml/better-gans.qmd
 
     - title: "Game Development"
       style: docked
       contents:
         - text: "Cometa"
-          href: programming/gamedev/cometa.qmd
+          href: machine-learning/gamedev/cometa.qmd
 
 format:
   html:

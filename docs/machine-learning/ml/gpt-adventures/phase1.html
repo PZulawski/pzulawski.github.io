@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Part 2 - Profiling – Piotr Zulawski</title>
+<title>GPT Adventures — Part 1: Baseline Implementation – Piotr Zulawski</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -106,35 +106,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -165,11 +136,11 @@ window.Quarto = {
 <span class="menu-text">Cycling</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../../programming/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../../../machine-learning/index.html" aria-current="page"> 
 <span class="menu-text">Machine Learning</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../programming/gamedev/cometa.html"> 
+    <a class="nav-link" href="../../../machine-learning/gamedev/cometa.html"> 
 <span class="menu-text">Game Development</span></a>
   </li>  
   <li class="nav-item">
@@ -191,7 +162,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/phase2.html">Part 2 - Profiling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../machine-learning/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../machine-learning/ml/gpt-adventures/phase1.html">GPT Adventures — Part 1: Baseline Implementation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -205,7 +176,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine Learning</span></a>
   </div>
 </li>
@@ -220,13 +191,13 @@ window.Quarto = {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
   </div>
 </li>
@@ -243,31 +214,31 @@ window.Quarto = {
       <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">GPT Adventures — Part 1: Baseline Implementation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../machine-learning/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 2 - Profiling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Phase 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GPT Adventures — Part 4: Distribute It</span></a>
   </div>
 </li>
@@ -275,25 +246,25 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Neural Net From Scratch</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Corneal Endothelium Image Processing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Image Generation with GANs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../programming/ml/better-gans.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../machine-learning/ml/better-gans.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Better GANs - Gradient Penalisation</span></a>
   </div>
 </li>
@@ -307,19 +278,24 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#logging" id="toc-logging" class="nav-link active" data-scroll-target="#logging">Logging</a></li>
-  <li><a href="#profiling" id="toc-profiling" class="nav-link" data-scroll-target="#profiling">Profiling</a></li>
-  <li><a href="#sense-checking-our-first-profiling-run" id="toc-sense-checking-our-first-profiling-run" class="nav-link" data-scroll-target="#sense-checking-our-first-profiling-run">Sense-checking our first profiling run</a></li>
-  <li><a href="#reducing-cpu-and-gpu-noise-and-improving-reproducibility" id="toc-reducing-cpu-and-gpu-noise-and-improving-reproducibility" class="nav-link" data-scroll-target="#reducing-cpu-and-gpu-noise-and-improving-reproducibility">Reducing CPU and GPU noise and improving reproducibility</a></li>
+  <li><a href="#philosophy" id="toc-philosophy" class="nav-link active" data-scroll-target="#philosophy">Philosophy</a></li>
+  <li><a href="#model-architecture" id="toc-model-architecture" class="nav-link" data-scroll-target="#model-architecture">Model architecture</a>
+  <ul class="collapse">
+  <li><a href="#attention" id="toc-attention" class="nav-link" data-scroll-target="#attention">Attention</a></li>
+  <li><a href="#feed-forward-block" id="toc-feed-forward-block" class="nav-link" data-scroll-target="#feed-forward-block">Feed-forward block</a></li>
+  </ul></li>
+  <li><a href="#data-pipeline" id="toc-data-pipeline" class="nav-link" data-scroll-target="#data-pipeline">Data pipeline</a></li>
+  <li><a href="#training-loop" id="toc-training-loop" class="nav-link" data-scroll-target="#training-loop">Training loop</a></li>
+  <li><a href="#what-is-deliberately-left-out" id="toc-what-is-deliberately-left-out" class="nav-link" data-scroll-target="#what-is-deliberately-left-out">What is deliberately left out</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/phase2.html">Part 2 - Profiling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../machine-learning/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../machine-learning/ml/gpt-adventures/phase1.html">GPT Adventures — Part 1: Baseline Implementation</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Part 2 - Profiling</h1>
+<h1 class="title">GPT Adventures — Part 1: Baseline Implementation</h1>
 </div>
 
 
@@ -336,117 +312,98 @@ window.Quarto = {
 </header>
 
 
-<p>In this part, we are going to equip ourselves with tools that will enable us to improve the model in an informed way.</p>
-<p>At the moment, the model runs and the loss goes down - but that’s about it. In the name of simplicity, the build is very naive. The implementation is sub-optimal in multiple ways, but we have no way of quantifying which of the defficiencies is actually holding us back the most and should be addressed first; we need to instrument the model to find out.</p>
-<p>To that end, we will build in two diagnostic tools into our training loop: logging and profiling. Logging will predominantly record the training telemetry (training and validation losses, magnitudes of gradients and activations, variable parameters like the learning rate, schedule), while profiling will record the computational performace (latencies of individual GPU and CPU operations, memory bandwidth utilisation, memory allocation).</p>
-<p>This will help us pin-point the main sources of inefficincy, and thus help focus the downstream improvements.</p>
-<section id="logging" class="level2">
-<h2 class="anchored" data-anchor-id="logging">Logging</h2>
-<p>For logging, we will use the wandb framework, which conveniently networks with the Weights&amp;Biases web UI for inspection of the logged quantities.</p>
-<p>In order to interface with the W&amp;B UI, we have to create an account and authenticate access before logging. The most streamlined way to authenticate is to generate an API key and store it in a project file, where it can be accessed at runtime:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auth, init, log and terminate wandb run</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> config_local <span class="im">import</span> WANDB_API_KEY</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>wandb.login(WANDB_API_KEY)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> wandb.init(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>args.run_name,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    project<span class="op">=</span><span class="st">'GPT2-Small'</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dir</span><span class="op">=</span><span class="ss">f'tmp/</span><span class="sc">{</span>args<span class="sc">.</span>run_name<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    config<span class="op">=</span>train_config,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>run.log({<span class="st">'valid_loss'</span>: valid_loss}, step<span class="op">=</span>global_step)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>run.finish()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The wandb framework also automatically logs various GPU performance metrics - from compute and memory bandwidth utilisation, to memory allocation and even things like power consumption and temperature. Some of the latter metrics may be superfluous, but the utilisation metrics will come in extremely handy when we move on to distributed training optimisation.</p>
-<p>Within the wandb framework we can also schedule experiments, including hyperparameter tuning. By setting the variation ranges for the parameters we are interested in and by setting the appropriate sampling methods (e.g.&nbsp;we may want to sample batch sizes uniformly from a fixed list containing powers of 2, while for the weight decay we may want to sample values spanning multiple orders of magnitude so log-uniform sampling may be more appropriate). The web UI also includes a built-in analysis tools for visualising correlation of hyperparameters with test metrics, as well as another quantity termed ‘importance’, which is a more sophisticated metric that captures interactions between different hyperparameters and distils them into a single number. Given that training runs are expensive, our ability to explore a dense grid of hyperparameters is limited; the importance metric allows us to focus the hyperparameter search on the most promising set of parameters.</p>
+<section id="philosophy" class="level2">
+<h2 class="anchored" data-anchor-id="philosophy">Philosophy</h2>
+<p>The temptation, when starting a project like this, is to immediately reach for the shiny things. Flash attention, <code>torch.compile</code>, mixed precision, distributed training — these are all coming, but not yet. <a href="https://grugbrain.dev/">Grug</a> — patron saint of the pragmatic developer — has a lot to say about the complexity demon and how it creeps in uninvited. The complexity demon is patient. It will wait.</p>
+<p>The goal for Part 1 is a working GPT-2 Small: correct, readable, and explicit. Every matrix multiplication named. Every shape annotated. No clever abstractions obscuring what is actually happening. The implementation should be something a future, wiser version of me can look at whilst holding a profiler trace and immediately understand what is slow and why — without first having to reverse-engineer what the code is doing at all.</p>
+<p>This means some deliberate simplifications relative to what a production implementation would look like. No weight tying between the embedding and unembedding matrices. ReLU rather than GELU. No KV cache. These are not mistakes to be fixed — they are placeholders to be swapped in one at a time, with a clear before-and-after measurement each time.</p>
 </section>
-<section id="profiling" class="level2">
-<h2 class="anchored" data-anchor-id="profiling">Profiling</h2>
-<p>For profiling, we will use the in-built PyTorch profiler. This is also extremely convenient, since a profiler instance can be employed as a simple context manager enclosing the code we wish to profile during runtime. We can therefore easily inject it into the training loop, albeit at the cost of an additional indentation; though even this cost is marginal, since, later on, we are likely to employ context managers for things like mixed-precision arithmetic, and, thanks to magic of Python, we can easily stack context managers within a single declaration.</p>
-<p>One subtlety is that I don’t want to have to inject the profiling code ad-hoc each time, but I also don’t want to profile every single run. We need some kind of utility that will make our profiler dormant if it is not required, and only kick in if a suitable flag is passed when launching a training run.</p>
-<p>We can achieve this by creating dummy class that matches the interface of the profiler, but essentially does nothing when any method of that interface is invoked. This is, essentialy, an example of the GOF ‘null object pattern’:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Null object pattern</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_profiler(profile: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>):</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> profile:</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        activities <span class="op">=</span> [</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            torch.profiler.ProfilerActivity.CPU,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            torch.profiler.ProfilerActivity.CUDA,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        schedule <span class="op">=</span> torch.profiler.schedule(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            skip_first<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            wait<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            warmup<span class="op">=</span><span class="dv">30</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            active<span class="op">=</span><span class="dv">15</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            repeat<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        prof <span class="op">=</span> torch.profiler.profile(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            activities<span class="op">=</span>activities,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            schedule<span class="op">=</span>schedule,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            record_shapes<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            with_stack<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            profile_memory<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            with_flops<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            acc_events<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> prof</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> NullProfiler()</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NullProfiler():</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__enter__</span>(<span class="va">self</span>):</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__exit__</span>(<span class="va">self</span>, exc_type, exc, tb):</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> step(<span class="va">self</span>):</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>We override both the context manager methods (<code>__enter__</code> and <code>__exit__</code>) and the <code>step</code> method through which we interact with the context manager inside the training loop.</p>
-<p>One thing to keep in mind is that we almost certainly do not want to profile the entire training run; the overhead of profiling can be significant, and the trace files produced by runs of extended durations can ver yquickly explode in size. Lucikly, the behaviour of torch profilers can be controlled with a scheduler. A scheduler object can be instantiated with the following parameters:</p>
-<pre><code>skip_first=0, wait=0, warmup=30, active=15, repeat=1</code></pre>
+<section id="model-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="model-architecture">Model architecture</h2>
+<p>The top-level <code>Transformer</code> class takes five parameters: <code>d_attention</code> (the residual stream dimension), <code>d_qkv</code> (the per-head query/key/value dimension), <code>d_ff</code> (the feed-forward hidden dimension), <code>n_layers</code>, and <code>max_ctx</code> (the maximum sequence length). The number of attention heads is derived rather than specified directly: <code>n_heads = d_attention // d_qkv</code>, with an assert enforcing divisibility.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Transformer(nn.Module):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, d_attention, d_qkv, d_ff, vocab_size, n_layers, max_ctx):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="va">self</span>.d_attention <span class="op">%</span> <span class="va">self</span>.d_qkv <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_heads <span class="op">=</span> <span class="va">self</span>.d_attention <span class="op">//</span> <span class="va">self</span>.d_qkv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For GPT-2 Small, this gives us the familiar configuration: <code>d_attention=768</code>, <code>d_qkv=64</code>, <code>d_ff=3072</code>, 12 heads, 12 layers, <code>max_ctx=1024</code>.</p>
+<p>The forward pass is deliberately sequential and annotated:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    bs, seq_len <span class="op">=</span> x.shape</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.embeds(x)                          <span class="co"># bs, seq_len, d_attention</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    pos_embed <span class="op">=</span> <span class="va">self</span>.pos_embeds(<span class="va">self</span>.pos_embed_range[:seq_len])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x <span class="op">+</span> pos_embed                           <span class="co"># bs, seq_len, d_attention</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> transformer_block <span class="kw">in</span> <span class="va">self</span>.blocks:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> transformer_block(x, <span class="va">self</span>.causal_mask, <span class="va">self</span>.is_inference)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> <span class="va">self</span>.vocab_project(x)              <span class="co"># bs, seq_len, vocab_size</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> logits</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Learned positional embeddings rather than sinusoidal ones — simpler to implement and standard for GPT-2. The causal mask is computed once at construction and registered as a buffer, so it moves to the correct device automatically when the model is moved.</p>
+<section id="attention" class="level3">
+<h3 class="anchored" data-anchor-id="attention">Attention</h3>
+<p>The attention block has three separate projection matrices — <code>Wq</code>, <code>Wk</code>, <code>Wv</code> — one for each of queries, keys, and values. This is the most explicit possible implementation of multi-head attention: each projection is named, and their outputs are clearly distinct objects before the dot products are computed.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.Wq <span class="op">=</span> nn.Linear(d_attention, n_heads <span class="op">*</span> d_qkv, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.Wk <span class="op">=</span> nn.Linear(d_attention, n_heads <span class="op">*</span> d_qkv, bias<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.Wv <span class="op">=</span> nn.Linear(d_attention, n_heads <span class="op">*</span> d_qkv, bias<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is not how most production implementations do it — fusing Q, K, V into a single matrix multiplication is faster and the standard approach. But fusing them is an optimisation, and optimisations come later. For now, three matrices is clearer about what is actually happening.</p>
+<p>The <strong>pre-norm</strong> architecture is used throughout: LayerNorm is applied to the input <em>before</em> the attention or feed-forward computation, not after. The residual connection then adds the un-normalised input back to the output. GPT-2 itself actually uses post-norm, but pre-norm has since become the standard in most subsequent architectures owing to better training stability at scale — and since the two are identical in implementation complexity, there is no reason not to use the better one.</p>
+<p>The scaled dot-product attention is written out explicitly using <code>einops.einsum</code>, with dimension names spelled out in full:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>atten_dot_prods <span class="op">=</span> einops.einsum(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    einops.rearrange(q_cat, <span class="st">'bs seq_len (n_heads d_qkv) -&gt; bs seq_len n_heads d_qkv'</span>, n_heads<span class="op">=</span><span class="va">self</span>.n_heads),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    einops.rearrange(k_cat, <span class="st">'bs seq_len (n_heads d_qkv) -&gt; bs seq_len n_heads d_qkv'</span>, n_heads<span class="op">=</span><span class="va">self</span>.n_heads),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bs seq_q n_heads d_qkv, bs seq_k n_heads d_qkv -&gt; bs seq_q seq_k n_heads'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">/</span> np.sqrt(<span class="va">self</span>.d_qkv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The einops dimension strings serve as inline documentation: it is immediately clear that the output has shape <code>(batch, seq_q, seq_k, n_heads)</code>. There is no ambiguity about which axis is which — and when something goes wrong with shapes, the rearrange strings tell you exactly where.</p>
+<p>The <strong>causal mask</strong> is an upper-triangular matrix of <code>-inf</code> values, added to the attention logits before softmax. Positions that should not be attended to become <code>-inf</code> before softmax, collapsing to zero attention weight. In this initial version it is constructed and moved to the correct device inside the forward pass — a redundant allocation on every call, which the profiler will duly notice.</p>
+</section>
+<section id="feed-forward-block" class="level3">
+<h3 class="anchored" data-anchor-id="feed-forward-block">Feed-forward block</h3>
+<p>The MLP is the canonical two-layer design: up-projection to <code>d_ff</code> (4× the residual stream dimension), ReLU activation, down-projection back to <code>d_attention</code>. Again, pre-norm and residual connection:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    x_res <span class="op">=</span> x</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.layer_norm(x)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.Wup(x)             <span class="co"># bs, seq_len, d_ff</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> nn.functional.relu(x)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.Wdp(x)             <span class="co"># bs, seq_len, d_attention</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">+</span> x_res</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>GELU would be more faithful to the original GPT-2 paper, but ReLU is simpler and easier to reason about. Swapping it in later will be a one-line change with a measurable effect.</p>
+</section>
+</section>
+<section id="data-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="data-pipeline">Data pipeline</h2>
+<p>Tokenisation uses <code>tiktoken</code> with GPT-2’s BPE vocabulary (~50k tokens). Each line of the corpus is encoded with <code>&lt;|endoftext|&gt;</code> delimiters, producing a flat token stream that is then <strong>chunked into fixed-length sequences</strong> of <code>max_ctx</code> tokens:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="bu">len</span>(data) <span class="op">//</span> <span class="va">self</span>.max_seq_len</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.data_samples <span class="op">=</span> data[:n_samples <span class="op">*</span> <span class="va">self</span>.max_seq_len].view(n_samples, <span class="va">self</span>.max_seq_len)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Targets are the inputs offset by one position — next-token prediction. The tokenised corpus is cached to disk after the first run to avoid re-tokenising on every launch.</p>
+<p>The dataset also supports splitting off a validation set via <code>split_valid_from_train</code>, which uses a random permutation to pull out a fraction of samples, removing them from the training set in the process.</p>
+</section>
+<section id="training-loop" class="level2">
+<h2 class="anchored" data-anchor-id="training-loop">Training loop</h2>
+<p>The training loop is straightforward: forward pass, cross-entropy loss, backward pass, optimiser step. AdamW with the hyperparameters from the original GPT-2 paper: <code>lr=6e-4</code>, <code>β=(0.9, 0.95)</code>, <code>weight_decay=0.01</code>.</p>
+<p>The learning rate schedule follows a <strong>cosine decay with linear warmup</strong>, implemented from scratch as a custom <code>LRScheduler</code>. The warmup ramps linearly from <code>lr_min</code> to <code>lr_max</code> over the first <code>wu_fraction</code> of total steps, then follows a cosine curve back down:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">self</span>.current_step <span class="op">&lt;=</span> <span class="va">self</span>.wu_steps:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [(<span class="va">self</span>.current_step <span class="op">/</span> <span class="va">self</span>.wu_steps) <span class="op">*</span> adjusted_scale <span class="op">+</span> <span class="va">self</span>.lr_min]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    adjusted_cosine_step <span class="op">=</span> (<span class="va">self</span>.current_step <span class="op">-</span> <span class="va">self</span>.wu_steps) <span class="op">/</span> (<span class="va">self</span>.total_steps <span class="op">-</span> <span class="va">self</span>.wu_steps)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [math.cos(adjusted_cosine_step <span class="op">*</span> math.pi <span class="op">/</span> <span class="dv">2</span>) <span class="op">*</span> adjusted_scale <span class="op">+</span> <span class="va">self</span>.lr_min]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Implementing the scheduler from scratch rather than using a library implementation was a deliberate choice — understanding what the learning rate is actually doing at each step is useful context for later, when we are trying to understand why a training run behaves the way it does.</p>
+</section>
+<section id="what-is-deliberately-left-out" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-deliberately-left-out">What is deliberately left out</h2>
+<p>To keep things explicit and measurable, several things are intentionally absent from this implementation:</p>
 <ul>
-<li><code>skip_first</code>: keeps the profiler idle for the specified number of steps</li>
-<li><code>wait</code>: is almost identical to <code>skip_first</code>, except that the specified number of steps is skipped every profiler cycle</li>
-<li><code>warmup</code>: records the specified number of steps, but discards the data; this helps disregard data affected by the profiler init overhead</li>
-<li><code>active</code>: specifies the number of steps (after skip_first/wait and warmup steps) over which to record the data</li>
-<li><code>repeat</code>: specifies how many times to repeat the recording cycle specified in the previous parameters; 0 means repeat indefinitely</li>
+<li><strong>No <code>torch.compile</code></strong> — compilation obscures what kernels are being launched, which makes profiling harder</li>
+<li><strong>No mixed precision</strong> — fp32 throughout, so numerical behaviour is straightforward</li>
+<li><strong>No flash attention</strong> — the naive O(N²) attention is written out in full; the inefficiency is the point</li>
+<li><strong>No KV cache</strong> — inference re-computes all positions from scratch every time; the scope of this project is training optimisation, so inference efficiency is deliberately set aside to keep things focused</li>
+<li><strong>Single GPU only</strong> — distribution comes in Part 4</li>
 </ul>
-<p>After the profiling run, we can package the data into a .json file. This is not particularly human-readable, and is meant solely for being parsed by a trace viewer, such as Perfetto.</p>
-</section>
-<section id="sense-checking-our-first-profiling-run" class="level2">
-<h2 class="anchored" data-anchor-id="sense-checking-our-first-profiling-run">Sense-checking our first profiling run</h2>
-<p>Let’s use the new profiling tools to investigate our naive transformer implementation.</p>
-<p>Apart from generating .json trace files, we can also simply print out per-operation stats directly into the terminal. Let us do that for the top-10 CUDA ops, sorted by total time taken: We can clearly see that a handful of ops dominate both runtime and memory allocation. Most time is spent doing a ton of in-place additions (<code>add_</code>), while the memory is allocated during the cryptic-looking <code>select_backward</code> calls. To gain insight on what those calls represent, note that we are profiling over 15 steps, and the length of training sequences is 256 tokens. Also note that the number of <code>select_backward</code> calls is 3840, equal to the product of the two numbers. This means that the operation we are looking for is one that, at each step, gets executed once per token.</p>
-<p>Even without this insight, it’s easy to see that the loss calculation looks rather suspicious. Whenever there is a for-loop inside our training loop, we should consider whether this genuinely needs to be sequential; a genuinely sequential loop in our code includes the looping over transformer layers; here, the subsequent layer genuinely cannot start before the previous layer has finished and its outputs are available. Here, however, the loss of each token is independent of all the other tokens, and we can easily batch the computation.</p>
-<p>Not only is the explicit looping slow, it also consumes memory. In order to backward-propagate the loss for a single token while respecting the shapes expected in the computation graph of the backward pass, we must still allocate a tensor of compatible shape - in our case, (batch_size) x (seq_len) x (vocab_size) - corresponding to the entire original logits tensor. Substituting in the actual numbers, the amount of memory required to allocate a tensor of this size is:</p>
-<p><span class="math display">\[
-(8) \times (256) \times (50257) \times (4 \text{ bytes}) = 393\text{MB}
-\]</span></p>
-<p>This matches the observed value of 1472.37GB / 3840 = 393MB</p>
-<p>The entries for other tokens will be simply filled with zeros, capturing the fact that, at a given point in the for-loop, there is no gradient signal associated with the remaining tokens. This allocation of extrremaly sparse tensors happens for every position in the loop, with only a single non-zero ‘slot’ per iteraton providing useful gradient signal.</p>
-<p>By batching the computation for the entire sequence, only one tensor will be allocated, reducing the overall memory required for this op by a factor of seq_len.</p>
-<p>This is parhaps a slightly contrived example, stemming from the deliberately naive implementation, setting us up for some low-hanging fruit. Nonetheless, it’s nice to confirm that profiling works as intended, and get used to generating and reading the profile traces. We will now move on to some more interesting optimisations in <a href="../../../programming/ml/gpt-adventures/phase3.html">Part 3</a>.</p>
-<p>Before moving on, let us note that any total times reported by the profiler (e.g.&nbsp;via <code>prof.key_averages()</code>), like the CPU total time or CUDA total time are not strictly speaking wall-clock times. The CPU time, for example, aggregates time spent across all threads, so may be much higher than the wall-clock runtime. Since our training loop will mostly run in a single CUDA stream (and CUDA streams execute sequentially), this will be much closer to the wall-clock time. But to get the full picture, and to correctly identify any bottlenecks, it will generally be required to investigate profiler traces and dependencies/sync points in our computation. In general, we will seek to densly pack the CUDA stream (so that CPU scheduling is not throttling the GPU throughput), and then making sure that whatever we packed the CUDA stream with is efficient.</p>
-</section>
-<section id="reducing-cpu-and-gpu-noise-and-improving-reproducibility" class="level2">
-<h2 class="anchored" data-anchor-id="reducing-cpu-and-gpu-noise-and-improving-reproducibility">Reducing CPU and GPU noise and improving reproducibility</h2>
-<p>Once the profiling utilities are set up, we have to take some care to make sure that, when we compart two runs, we do so on equal footing. There is plenty of stochasticity in how the model executes, and if we don’t take steps to suppress it, it will introduce a significant amount of noise into our measurements. This is particularly true at the sharp end of optimisation, where any improvements may be of similar order as those random variations.</p>
-<p>Firstly, let us set the <code>torch.manual_seed(42)</code>. This doesn’t have much effect on latency, but if we start from a different initialisation each time, it may be hard to spot if some of our interventions aiming at improving training speed have an adverse effect on model performance.</p>
-<p>Secondly, let’s minimise the latency associated with CPU ops. Since our model is small (circa 120M params), and modern accelerators are extremely fast, it is not unlikely that we will see the speed of CPU ops bottlenecking the training speed.</p>
-<p>The GPU setup I’m using for training has more than one CPU core per GPU. Since my training loop is single-threaded, I have found that being bounced between different CPU cores was actually harmful - it was both slower, and more noisy - than allocating a single, dedicated core to execute the training loop from start to finish. If your setup is similar, I recommend doing the same.</p>
-<p>To find the CPU cores associated with the particular accelerator (there may be many accelerators in the GPU slice, each served by multiple CPUs), executing <code>nvidia-smi topo -m</code> should print out a table which includes a column header ‘CPU Affinity’. Entries under this heading are two, comma-separated ranges indicating the physical and hyperthreaded cores, e.g.&nbsp;<code>0-31,64-95</code>. To select a particular core to run the process, run the usual command prefixed with <code>taskset</code> and the selected physical and hyperthread cores, e.g.:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">taskset</span> <span class="at">-c</span> 0,64 python3 train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>One reason why this works could be that, when the process is pciked up by a different core, that core may not be at its maximum clock speed. If the process is handed over frequenlty, it spends a lot of the time being handled at sub-maximal frequency. CPU clock speed can be set manualy, by changing the clock speed policy in <code>/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor</code> (which will typically be set to something like <code>ondemand</code>, <code>powersave</code> or <code>schedutil</code> - the nature of these policies is self evident from their names) to <code>performance</code>, which sets the clock speed for the given core to maximum at all times. This consumes more power, and as such is not the default option. You will also need sudo rights to modify the policy files. This is not something I could change on the machine I’m working with, but explicitly assinging the core using <code>taskset</code> ensured that the <code>schedutil</code> default consistently maxed out the clock speed as long as the schedule was consistently busy - which it is whenever training is CPU-limited, so no problem there.</p>
-<p>If your logging setup requires periodically syncing the GPU computation (e.g.&nbsp;to perform and log gradient anlytics) make sure that your profiling range does not include that step, or at least includes it consistently across the runs being compared.</p>
-<p>It is also worth mentioning that Python garbage collection can also inject unpredicatble latency into the system, so it may be worth disabling it for the duration of the profiled section. This can be done by importing and disabling garbage collection:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gc</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gc.disable()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Finally, not all noise can be removed, so just make sure that you profile over a sensible number of training steps to get a well-averaged view. Do mind, however, that this may result in very large trace files being generated - possibly large enough as to exceed the available RAM, and thus be impossible to load into trace a viewer in their entirety.</p>
+<p>Each of these will be added in a later part, with a clear measurement of its effect. For now, the complexity demon remains outside the codebase. But it will come — Grug know it always does.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase1-loss-curve.png" class="img-fluid figure-img"></p>
+<figcaption>Phase 1 training loss curve — Shakespeare corpus, single GPU.</figcaption>
+</figure>
+</div>
 
 
 </section>

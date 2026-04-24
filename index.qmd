@@ -20,7 +20,7 @@ Hi there. Welcome to my website, which holds an eclectic collection of my projec
 :::
 
 ::: {.g-col-4}
-<a href="programming/index.qmd" class="home-card">
+<a href="machine-learning/index.qmd" class="home-card">
 <div class="home-card-img">
 <img src="/images/home-programming.gif" alt="Programming">
 </div>
