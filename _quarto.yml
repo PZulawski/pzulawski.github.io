@@ -1,0 +1,82 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Piotr Zulawski"
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Cycling
+        href: cycling/index.qmd
+      - text: Machine Learning
+        href: programming/index.qmd
+      - text: Game Development
+        href: programming/gamedev/cometa.qmd
+      - text: Other
+        href: other/cycling-data-analysis.qmd
+      - text: Bookshelf
+        href: bookshelf.qmd
+
+  sidebar:
+    - title: "Cycling"
+      style: docked
+      contents:
+        - cycling/index.qmd
+        - text: "Racing"
+          contents:
+            - cycling/season-summary-2024.qmd
+            - text: "2024 National Championships - Race Report"
+              href: cycling/goodwood.qmd
+        - text: "Aerodynamics"
+          contents:
+            - cycling/wind-tunnel-2023.qmd
+            - cycling/wind-tunnel-2024.qmd
+            - cycling/bike-mods.qmd
+        - text: "Physiology"
+          contents:
+            - cycling/lactate-testing-pt1.qmd
+            - cycling/lactate-testing-pt2.qmd
+
+    - title: "Other"
+      style: docked
+      contents:
+        - other/cycling-data-analysis.qmd
+
+    - title: "Machine Learning"
+      style: docked
+      contents:
+        - programming/index.qmd
+        - programming/ml/index.qmd
+        - text: "GPT Adventures"
+          contents:
+            - programming/ml/gpt-adventures/index.qmd
+            - programming/ml/gpt-adventures/phase1.qmd
+            - programming/ml/gpt-adventures/phase2.qmd
+            - programming/ml/gpt-adventures/phase3.qmd
+            - programming/ml/gpt-adventures/phase4.qmd
+        - text: "A Neural Net From Scratch"
+          href: programming/ml/neural-net-from-scratch.qmd
+        - text: "Corneal Endothelium Image Processing"
+          href: programming/ml/corneal-endothelium.qmd
+        - text: "Image Generation with GANs"
+          href: programming/ml/gans.qmd
+        - text: "Better GANs - Gradient Penalisation"
+          href: programming/ml/better-gans.qmd
+        - text: "Hearing Things"
+          contents:
+            - programming/ml/aed-hallucination-probe.qmd
+            - programming/ml/aed-hallucination-intervention.qmd
+
+    - title: "Game Development"
+      style: docked
+      contents:
+        - text: "Cometa"
+          href: programming/gamedev/cometa.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: styles.css

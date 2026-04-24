@@ -1,0 +1,48 @@
+---
+title: "Bookshelf"
+---
+
+A list of all the books I have read since December 2023. Shamelessly copied from Seoirse Murray (who himself shamelessly copied), I have marked great books in [blue]{style="color:#1155cc"} and exceptional books in [green]{style="color:#38761d"}.
+
+Of course these designations only reflect how I viewed them when I read them, and may not constitute a recommendation in perpetuity.
+
+| Author | Title | Date Finished |
+|--------|-------|---------------|
+| Malcolm Gladwell | Revenge of the Tipping Point | Ongoing |
+| Malcolm Gladwell | The Tipping Point | November 2024 |
+| Mikhail Bulgakov | The Master and Margarita | November 2024 |
+| Ernest Nagel & James R. Newman | Gödel's Proof | Ongoing |
+| Malcolm Gladwell | Blink | October 2024 |
+| Ben Aaronovitch | The Rivers of London | October 2024 |
+| Malcolm Gladwell | Talking to Strangers | October 2024 |
+| BJ Fogg | Tiny Habits | September 2024 |
+| Stanislaw Lem | [The Cyberiad]{style="color:#38761d"} | September 2024 |
+| Malcolm Gladwell | [Outliers]{style="color:#1155cc"} | September 2024 |
+| James Clear | Atomic Habits | September 2024 |
+| Ray Dalio | Why Nations Succeed or Fail | August 2024 |
+| Sebastian Mallaby | More Money than God | August 2024 |
+| William Gibson | [Peripheral]{style="color:#1155cc"} | August 2024 |
+| Edward Chancellor | The Price of Time | July 2024 |
+| David Kushner | [Masters of Doom]{style="color:#1155cc"} | July 2024 |
+| Haruki Murakami | The Wind-Up Bird Chronicle | June 2024 |
+| Bob Mortimer | The Satsuma Complex | June 2024 |
+| Anthony Horowitz | [The Word Is Murder]{style="color:#1155cc"} | May 2024 |
+| Serhii Plokhy | [Chernobyl]{style="color:#1155cc"} | May 2024 |
+| Tayler Hamilton & Daniel Coyle | [The Secret Race]{style="color:#1155cc"} | April 2024 |
+| Mustafa Suleyman | The Coming Wave | DNF |
+| James C. Scott | Seeing Like a State | April 2024 |
+| J. R. R. Tolkien | [The Lord of the Rings: Return of the King]{style="color:#38761d"} | March 2024 |
+| J. R. R. Tolkien | [The Lord of the Rings: The Two Towers]{style="color:#38761d"} | March 2024 |
+| Merlin Sheldrake | [Entangled Life]{style="color:#1155cc"} | March 2024 |
+| Jennifer Doudna & Samuel Sternberg | [A Crack in Creation]{style="color:#1155cc"} | February 2024 |
+| Yanis Varoufakis | [Technofeudalism]{style="color:#1155cc"} | February 2024 |
+| Tracy Kidder | [The Soul of a New Machine]{style="color:#1155cc"} | February 2024 |
+| Andrew Chatwin | Val Cleaver — A Very English Rocketeer | January 2024 |
+| Jack Hartnell | Medieval Bodies | January 2024 |
+| Chris Miller | Chip War | January 2024 |
+| Andy Weir | Artemis | January 2024 |
+| Sebastian Mallaby | [The Power Law]{style="color:#1155cc"} | January 2024 |
+| Douglas R. Hofstadter | [I am a Strange Loop]{style="color:#38761d"} | January 2024 |
+| Siddhartha Mukherjee | [The Gene: An Intimate History]{style="color:#1155cc"} | December 2023 |
+| Czesław Miłosz | [The Captive Mind]{style="color:#1155cc"} | December 2023 |
+| Neil Gaiman | Norse Mythology | December 2023 |

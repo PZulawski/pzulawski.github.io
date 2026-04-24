@@ -1,0 +1,258 @@
+Images needed for machine learning & programming pages
+=======================================================
+Thumbnails go in /images/machine-learning/.
+Subpage images go in the directories noted below.
+
+===================================================================
+INDEX PAGE THUMBNAILS  (place in /images/machine-learning/)
+===================================================================
+
+  thumb-aed-probe.png
+    -> Thumbnail for Hearing Things Part 1 — suggest the 1D projection
+       histogram or the flat probe accuracy chart.
+
+  thumb-aed-intervention.png
+    -> Thumbnail for Hearing Things Part 2 — suggest something representing
+       activation steering or the decoder output comparison.
+
+GPT ADVENTURES SERIES
+
+  thumb-gpt-index.png
+    -> Thumbnail for the GPT Adventures overview/index card. Suggest a hero image
+       representing the series — e.g. a training loss curve, the GPT-2 architecture
+       diagram, or a generated text sample.
+
+  thumb-gpt-pt1.png
+    -> Thumbnail for Part 1: Baseline implementation. Suggest something representing
+       the initial model — e.g. an early training run, the model architecture sketch,
+       or a code snippet of the transformer forward pass.
+
+---
+
+GPT ADVENTURES — PHASE 1  (place in /images/gpt-adventures/)
+
+  phase1-loss-curve.png
+    -> Training loss curve for the Phase 1 baseline — Shakespeare corpus, single
+       GPU, showing the initial loss drop over training steps.
+
+  thumb-gpt-pt2.png
+    -> Thumbnail for Part 2: Profile & find bottlenecks. Suggest a profiling
+       visualisation — e.g. a PyTorch profiler flame graph, an nsys trace, or a
+       GPU utilisation chart.
+
+  thumb-gpt-pt3.png
+    -> Thumbnail for Part 3: Make it faster, one change at a time. Suggest a
+       performance comparison — e.g. a bar chart of throughput improvements, a
+       before/after profiler trace, or a speedup waterfall.
+
+  thumb-gpt-pt4.png
+    -> Thumbnail for Part 4: Distribute it. Suggest something representing
+       distributed training — e.g. a multi-GPU diagram, DDP scaling chart, or
+       a screenshot of parallel processes running.
+
+---
+
+OTHER ML THUMBNAILS                                    [ALL HAVE]
+
+  thumb-gans.gif                                       [HAVE]
+  thumb-corneal.png                                    [HAVE]
+  thumb-neural-net.png                                 [HAVE]
+  thumb-better-gans.gif                                [HAVE]
+  thumb-bayesian.png                                   [HAVE]
+  thumb-cometa.gif                                     [HAVE]
+
+===================================================================
+SUBPAGE IMAGES
+===================================================================
+
+AED HALLUCINATION PROBE  (place in /images/ml/)
+
+  probe-accuracy-vs-depth.png                          [HAVE]
+    -> Linear probe accuracy across all 32 encoder layers (extracted from notebook).
+
+  probe-direction-viz.png                              [HAVE]
+    -> 1D projection histogram + PCA scatter at best layer (extracted from notebook).
+
+---
+
+GPT ADVENTURES — INDEX  (place in /images/gpt-adventures/)
+
+  header.jpg
+    -> Header/hero image for the GPT Adventures index page.
+
+---
+
+GPT ADVENTURES — PHASE 4  (place in /images/gpt-adventures/)
+
+  phase4-bucketing.png
+    -> Gradient bucketing visualization — CUDA timeline showing AllReduce patterns
+       for different bucket sizes (1MB, 25MB, larger). Bottom row is a separate
+       CUDA stream showing overlapped collective ops.
+
+  phase4-topology.png
+    -> GPU topology diagram — 8xA100 slice showing two subgroups of 4 GPUs,
+       PCIe connections within subgroups and DCI host bridge between subgroups.
+
+  phase4-allreduce-timeline.png
+    -> CUDA timeline showing AllReduce operations and their overlap (or lack
+       thereof) with backward compute — illustrating the gap before the
+       optimiser step.
+
+  phase4-scaling-pcie.png
+    -> Training performance comparison across device counts on PCIe — showing
+       that adding GPUs becomes counterproductive due to communication overhead.
+
+  phase4-nvswitch-topology.png
+    -> NVSwitch topology diagram — direct GPU-to-GPU connections via dedicated
+       NVSwitch switching hardware.
+
+  phase4-nvswitch-hgx.png
+    -> HGX A100 NVSwitch configuration diagram (borrowed from Nvidia Developer
+       page) — showing 12 NVLink connections per GPU across 6 NVSwitch boxes.
+
+  phase4-scaling-nvswitch.png
+    -> Training speed vs. number of devices with NVSwitch — sustained speed-up
+       even at 8 GPUs, gains becoming marginal beyond that.
+
+  phase4-allreduce-latency.png
+    -> AllReduce latency comparison between the 40GB and 80GB A100 GPU boxes
+       — showing different effective bandwidths despite identical NVLink specs.
+
+  phase4-scaling-efficiency.png
+    -> Near-linear scaling efficiency with NVSwitch — AllReduces largely
+       overlapped with compute up to 8 GPUs.
+
+  phase4-ddp-vs-fsdp.png
+    -> DDP vs FSDP performance comparison — showing marginal difference for
+       our model size.
+
+  phase4-memory-checkpointing.png
+    -> Allocated GPU memory percentage — with and without gradient checkpointing.
+
+  phase4-throughput-checkpointing.png
+    -> Throughput (tok/s) — with and without gradient checkpointing, showing
+       the re-computation overhead.
+
+---
+
+GPT ADVENTURES — PHASE 3  (place in /images/gpt-adventures/)  [ALL HAVE]
+
+  phase3-full-trace.png                                [HAVE]
+  phase3-forward-zoom.png                              [HAVE]
+  phase3-fused-mha-timing.png                          [HAVE]
+  phase3-causal-mask-gap.png                           [HAVE]
+  phase3-mpa-timing.png                                [HAVE]
+  phase3-sparse-cuda.png                               [HAVE]
+  phase3-compilation-gaps.png                          [HAVE]
+  phase3-bf16-scaler-removed.png                       [HAVE]
+  phase3-chrome-trace.png                              [HAVE]
+
+---
+
+IMAGE GENERATION WITH GANs  (place in /images/ml/)
+
+  gans-critic-concept.png
+    -> A critic scrutinises images produced by the generator, throwing fakes
+       in the bin. (Produced using a generative model.)
+
+  gans-training-loop.png
+    -> Data flow and the training loop outline for a GAN.
+
+  gans-bce-loss.png
+    -> Binary cross entropy loss used to train the model.
+
+  gans-digit-evolution.gif
+    -> Evolution of the generator's output over 200 epochs for a fixed set of
+       noise inputs (animated GIF).
+
+  gans-mode-collapse.gif
+    -> Mode collapse — evolution of outputs over ~500 epochs (left) and the
+       final state (right) (animated GIF).
+
+---
+
+A NEURAL NET FROM SCRATCH  (place in /images/ml/)
+
+  nns-uncertain-examples.png
+    -> Examples the network was most uncertain about — e.g. an 8 that could be
+       read as a 7 with a heavily slanted bar.
+
+  nns-weight-visualisation.png
+    -> Network weights visualised — the pattern roughly corresponds to
+       discriminative pixel regions between 7s and 8s.
+
+---
+
+CORNEAL ENDOTHELIUM IMAGE PROCESSING  (place in /images/ml/)
+
+  corneal-fig1-training-samples.png
+    -> Original data used by Zhang et al. — raw microscopy input with training
+       sample regions indicated.
+
+  corneal-fig2-input-label-97px.png
+    -> 97×97 pixel input image with the 67×67 label lined up and superimposed.
+
+  corneal-fig3-baseline-results.png
+    -> From left to right: input 97×97 image, raw network output, output with
+       pixels below magnitude 0.3 removed, output with remaining pixels set to
+       1, ground truth.
+
+  corneal-fig4-difficult-example.png
+    -> Left to right: original image, raw output, filtered output — tested on a
+       deliberately out-of-focus, challenging crop.
+
+  corneal-fig5-loss-200px.png
+    -> Loss curves from training the model with 200×200 pixel input images.
+
+  corneal-fig6-comparison-zhang.png
+    -> Top: results by Zhang et al. before (left) and after (right) post-processing.
+       Bottom: CNN results, raw (left) and after simple filtering (right).
+
+  corneal-fig7-alizarine-results.png
+    -> From left to right: input image ('Alizarine' dataset), raw network output,
+       filtered output, binarised output, ground truth.
+
+  corneal-fig8-rotterdam-transfer.png
+    -> Results from the Alizarine-trained model applied to the Rotterdam dataset.
+       From left to right: input, raw output, filtered, binarised, ground truth.
+
+  corneal-fig9-rotterdam-label.png
+    -> Rotterdam dataset input image with the label superimposed — note
+       inconsistent boundary pixel coverage vs Figure 2.
+
+  corneal-fig10-rotterdam-explicit.png
+    -> Results from the model trained explicitly on the Rotterdam dataset.
+       From left to right: input, raw output, filtered, binarised, ground truth.
+
+  corneal-fig11-finetuning-loss.png
+    -> In fine-tuning, the loss continued to fall linearly for a large number
+       of iterations.
+
+  corneal-fig12-final-outputs.png
+    -> Outputs from the final model — trained on Alizarine, fine-tuned on
+       Rotterdam.
+
+---
+
+BETTER GANs — GRADIENT PENALISATION  (place in /images/ml/)
+
+  better-gans-interpolation.png
+    -> A merged image calculated by blending a real and a fake image using
+       weights summing to unity.
+
+  better-gans-lipschitz.png
+    -> Visual representation of verifying the magnitude of a function's gradient
+       in 1D — local gradients compared to a line with gradient ±2.
+
+  better-gans-results.png
+    -> Left: small network (max 16 channels). Right: larger network (max 256
+       channels). Both have four convolutional layers.
+
+---
+
+COMETA  (place in /images/gamedev/)
+
+  cometa-damage-model.png
+    -> Damage model in action — left: a pristine rock hit with a single bullet,
+       shattering into four chunks with jagged edges. Right: the same asteroid
+       hit with a rocket, instantly vaporising nearly half of it.

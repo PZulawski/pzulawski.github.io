@@ -1,0 +1,47 @@
+---
+title: "How Good Would Goodwood Be?"
+---
+
+*...or: A Day Out at the National Champs.*
+
+*This write-up is a reproduction of my contribution to the Cambridge CC's biannual, equinoctial (I Googled that) newsletter. Here, I tried something a little more light-hearted, with fewer tables and graphs.*
+
+---
+
+From the very start of the year, I had a couple of targets for the season. First and foremost, I wanted to improve on last year's performance in the National 10, where I finished 12th. Having just one target would however have left me dangerously undiversified — one injury, one cold, or any other type of unexpected happenstance could put my entire season at risk.
+
+Rather fortuitously, the Closed Circuit race was moved from its customary (and customarily gloomy) October slot to a decidedly more appealing August one. This not only provided me with another A-race for the season, but also put the two events in a perfect three-week separation: long enough to come out of any incidental force majeure that may befall me, yet short enough to just about keep peak form going over the period.
+
+I had enjoyed a steady progression all the way into the pre-race taper week — a result of an altered training strategy that saw me include hard, race-specific interval work much later in the cycle, so as to avoid the previous year's issues of hitting a premature performance plateau and carrying buckets of fatigue into the pointy end of the season. The taper itself was also a fair bit more extensive, included after recording some encouraging results in early-season experimentation. It consisted of two days completely off the bike, followed by two days of short-and-sweet race openers, one in the morning and one in the afternoon.
+
+## Recce
+
+Since getting from Cambridge to Chichester is a rather long and unreliable journey, and the only opportunity to get on the racetrack would be prior to the day's proceedings commencing (i.e. early in the morning), we decided to travel early and spend the night within striking distance of Goodwood.
+
+Not missing out on the morning practice has proven invaluable. Since I am a very narrowly specialised rider and favour non-technical, out-and-back contests of horsepower, I am prone to haemorrhaging time in turns and corners. While the Goodwood circuit is far from being the most technical, the race is short enough for every deviation from the racing line and skipped pedal stroke to matter. I ended up spending nearly all the designated warm-up time doing laps of the circuit, taking in and memorising various visual cues: kerbs, paint marks, aerodrome hangars… Anything I could later spot in my peripheral vision to use as a landmark, indicating when to start swinging into the corner to keep the optimal racing line, without having to look up too far or too early.
+
+## Pre-race
+
+After the recce, I had about an hour of down time to change into the racing kit, affix the numbers, and triple-check all the nuts and bolts. Keeping the hands busy helps me take the mind off pre-race anxiety, so measuring tyre widths, re-calculating the tyre pressure, and making sure no PSIs had sneaked in or out of the tubes — all for the *n*th time — is the sort of entertainment I tend to indulge in during the final hours before a big race.
+
+Apart from the thorough course recce, another unexpected game changer came in the form of a bucket. An ice bucket, to be precise. I had learnt my lesson from my visit to Goodwood earlier in the year, which was an unrelentingly hot day, just like the one at hand was shaping up to be. The only practical way to get a good warm-up at Goodwood is on a turbo. However, the interior of the racecourse is rather well sheltered from the wind, yet quite exposed to the sun. During my previous visit I failed to account for that, and as a result the warm-up could be said to have over-delivered on its more literal meaning. I was pretty cooked even before I got to the start line, and had my worst race of the season as a result.
+
+![The previous Goodwood visit — proof that arriving cooked is not the ideal pre-race state.](/images/cycling/goodwood-overheated.jpg)
+
+Fool me once, as the saying goes. This time around I was prepared: five kilograms of ice, five litres of water, and an ice vest. Ain't no kill like overkill. Between strapping the vest as tight as it would go and my better half dousing me with ice slush at regular intervals, I finished the warm-up just about without reaching body temperatures that would render raw chicken edible, and proceeded to the start line. With one last icy shower at two minutes to go, I was as ready as I was going to be — and much less ready than I wanted to be.
+
+## The race
+
+After the initial acceleration, I kept the powder dry (though purely metaphorically, as I was otherwise rather comprehensively drenched); I calculated that in these hot conditions, the race was to be negative-splitted. I assessed each corner with a quick glance, and if no rider was in sight, I'd assume a more aggressive position and use the previously memorised visual cues coming into my peripheral vision to negotiate corners with as much speed as I would dare. Luckily, I scored a relatively clean run, with few overtakes and without any hold-ups.
+
+It was a fairly blustery day, and the strategy was to push into a particular section of each lap — the Lavant Straight. Moreover, each lap I tried to lift the power a little, gauging my effort against mounting exhaustion and overheating. I managed to comply with that plan fairly well and had enough juice left for one more push.
+
+I started emptying the tank in the last half-lap, beginning with the final foray into the Lavant Straight, coming out of the headwind into a right-hander leading past the paddock and the viewing galleries, and into the final corner, carrying the momentum into the finishing straight.
+
+![Race telemetry — time gaps between the top riders across the course.](/images/cycling/goodwood-telemetry.png)
+
+The race strategy appears to have paid off: tough conditions on the day meant that many riders who adopted the classical 'pedal to the metal' approach early started flagging in the last couple of laps. Meanwhile, my incremental negative-split saw me hold steady against the competition — I was actually behind Rob, who produced an excellent ride on the day — with nothing to pick between the top four riders until about half-way. The ability to kick into another gear in the second half made all the difference, with the bulk of the advantage manufactured in that critical headwind straight.
+
+This confirms that a big part of the ride was getting good bang for the power and managing the heat. I may have still taken the title without a two-hundred-pound skinsuit, but I don't think I would have fared well without the twenty-quid ice bucket — go figure!
+
+![](/images/cycling/goodwood-celebration.jpg){width=50%}

@@ -1,0 +1,150 @@
+---
+title: "Programming"
+page-layout: full
+---
+
+A collection of projects and write-ups spanning machine learning and game development.
+
+## Machine Learning
+
+### Hearing Things
+
+:::: {.grid}
+
+::: {.g-col-4}
+<a href="ml/aed-hallucination-probe.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-aed-probe.png" alt="AED Hallucination Probe"></div>
+<div class="home-card-body">
+<h3>Hearing Things — Part 1</h3>
+<p>Linear probing: does the encoder know it's looking at non-speech?</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/aed-hallucination-intervention.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-aed-intervention.png" alt="AED Causal Intervention"></div>
+<div class="home-card-body">
+<h3>Hearing Things — Part 2</h3>
+<p>Causal intervention: does the decoder read the signal?</p>
+</div>
+</a>
+:::
+
+::::
+
+### GPT Adventures
+
+:::: {.grid}
+
+::: {.g-col-4}
+<a href="ml/gpt-adventures/index.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-index.png" alt="GPT Adventures"></div>
+<div class="home-card-body">
+<h3>GPT Adventures — Overview</h3>
+<p>Training a GPT-2 Small from scratch</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/gpt-adventures/phase1.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt1.png" alt="GPT Adventures Part 1"></div>
+<div class="home-card-body">
+<h3>GPT Adventures — Part 1</h3>
+<p>Baseline implementation</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/gpt-adventures/phase2.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt2.png" alt="GPT Adventures Part 2"></div>
+<div class="home-card-body">
+<h3>GPT Adventures — Part 2</h3>
+<p>Profile &amp; find bottlenecks</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/gpt-adventures/phase3.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt3.png" alt="GPT Adventures Part 3"></div>
+<div class="home-card-body">
+<h3>GPT Adventures — Part 3</h3>
+<p>Make it faster, one change at a time</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/gpt-adventures/phase4.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt4.png" alt="GPT Adventures Part 4"></div>
+<div class="home-card-body">
+<h3>GPT Adventures — Part 4</h3>
+<p>Distribute it</p>
+</div>
+</a>
+:::
+
+::::
+
+### Other ML
+
+:::: {.grid}
+
+::: {.g-col-4}
+<a href="ml/gans.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-gans.gif" alt="Image Generation with GANs"></div>
+<div class="home-card-body">
+<h3>Image Generation with GANs</h3>
+<p>More convnet fun &amp; basics of GANs</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/corneal-endothelium.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-corneal.png" alt="Corneal Endothelium"></div>
+<div class="home-card-body">
+<h3>Corneal Endothelium Image Processing</h3>
+<p>Reproducing old ML papers &amp; experimenting with convnets</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/neural-net-from-scratch.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-neural-net.png" alt="Neural Net From Scratch"></div>
+<div class="home-card-body">
+<h3>A Neural Net From Scratch</h3>
+<p>Understanding the bread &amp; butter of ML</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="ml/better-gans.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-better-gans.gif" alt="Better GANs"></div>
+<div class="home-card-body">
+<h3>Better GANs — Gradient Penalisation</h3>
+<p>Improving GANs by addressing vanishing gradients &amp; mode collapse</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<div class="home-card">
+<a href="https://www.secondmind.ai/insights/unlocking-more-efficient-design-with-secondmind-open-source-tools" target="_blank">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-bayesian.png" alt="Bayesian Optimisation"></div>
+</a>
+<div class="home-card-body">
+<h3>Bayesian Optimisation For Multi-Objective Problems</h3>
+<p>A collaboration between Reaction Engines &amp; SecondMind on tricky, real world optimisation problems.</p>
+<p>See the <a href="https://www.secondmind.ai/insights/unlocking-more-efficient-design-with-secondmind-open-source-tools" target="_blank">blog post</a> and the <a href="https://arxiv.org/abs/2206.13326" target="_blank">paper</a> by the excellent SecondMind colleagues.</p>
+</div>
+</div>
+:::
+
+::::
+

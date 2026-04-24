@@ -1,0 +1,47 @@
+---
+title: "Cycling — Historical Data Analysis"
+---
+
+I was curious to know how much time I have spent on cycling over the years. While I have no record of the time spent tinkering, fixing, planning, and analysing, I do have a pretty good record of the actual time-in-saddle.
+
+## Volume
+
+Over 1059 sessions, I have spent just short of **1600 hours** turning the crank. That means an average session was about 1.5 hours in duration — which, for a turbo-monkey, sounds about right.
+
+![Session counts and cumulative hours over time.](/images/other/cycling-data-volume.png)
+
+My records begin in mid-2019, and back then I didn't record all my training on Strava; the few records I do have from that year are manual uploads after I created a Strava account. Prior to that, in 2018, I haven't recorded my rides at all. Taking that into account, the real total is probably closer to 2000 hours, but I would be surprised if it was any more than that.
+
+By another metric, in the five years on record, I have completed a session on nearly **60% of all days**.
+
+## Energy
+
+As for total energy expenditure, unsurprisingly the graph looks very similar. Stacking up the power data yields a result of **1.4 GJ** — or the calorie content of about 350 kg of raw granulated sugar, or over two tons of boiled potatoes, or just under a ton of the good old baked beans (which is well over two thousand tins, and feels pretty close to my actual consumption…).
+
+And, for those who measure area in tennis courts and volume in Olympic swimming pools: that's also enough energy to accelerate a singular (small) garden pea to about 1.8% of the speed of light.
+
+![Cumulative energy expenditure over time.](/images/other/cycling-data-energy.png)
+
+## Power over time
+
+A slightly more interesting insight comes from looking at power data over time.
+
+In my 'road bike era', the power creeps on a steady upward trend. Then, around summer of '22, not only does it tank — it steadily decreases over time. That's no mistake. As I moved over to time trialling, I suffered a significant decline in power output. My best ever 20-minute max power on a road bike was north of 450 W; on a TT bike, I never broke 420 W. Moreover, as I embraced aerodynamics more and more, I traded power for CdA. While I was always aware of the process — after all, the metric you want to optimise is neither CdA nor power output alone, but *speed*, which is a rather non-trivial combination of the two — it is still quite shocking just how much power I traded, and still ended up going faster.
+
+![Power data over time — the road bike era, the transition to time trialling, and the progressive trade of power for CdA.](/images/other/cycling-data-power.png)
+
+The power data also reveals two distinct training modes: lower-intensity winter grind and higher-intensity summer season. Summer sessions sit overwhelmingly above the trend, and vice versa.
+
+## Cadence
+
+My cadence preference has also evolved. It started reasonably high, when I was just riding around without focusing on any metrics. It then dipped as I started focusing on raw power output (my 'man like see big number' era) and realised that I can make up with strength what I lack in cardiovascular development. I even seem to have had a period of consistent riding at ridiculously low cadences — I can't even remember what that was about.
+
+Then, at the start of 2023, I acquired my super-stubby cranks and never looked back. After a period of steady adaptation, my preferred cadence crept into the high 90s (with racing cadence settling well over 100 RPM) and stayed there — a rather remarkable departure from the slow-spinning fever dream of late 2021.
+
+![Cadence over time — the low-cadence era, the crank change, and the subsequent shift to high-cadence riding.](/images/other/cycling-data-cadence.png)
+
+In total, I have turned a bicycle crank just shy of **8 million times** (on record).
+
+## Reflections
+
+All in all, I think the numbers don't seem particularly excessive — I had instinctively expected the grand total for the hours to be higher. If anything, I think I have enjoyed a rather good economy of effort: I can't know for sure, but I would guess that in terms of hours ridden until first National title (not that this is a sensible metric to track), I've done rather well. Though in hours per title, I am almost certainly nowhere near the top — many riders have achieved multiple titles, and once you start amortising time over a few wins, the numbers start tumbling down.

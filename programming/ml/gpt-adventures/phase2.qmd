@@ -1,0 +1,158 @@
+---
+title: "Part 2 - Profiling"
+---
+
+In this part, we are going to equip ourselves with tools that will enable us to improve the model in an informed way.
+
+At the moment, the model runs and the loss goes down - but that's about it. In the name of simplicity, the build is very naive. The implementation is sub-optimal in multiple ways, but we have no way of quantifying which of the defficiencies is actually holding us back the most and should be addressed first; we need to instrument the model to find out.
+
+To that end, we will build in two diagnostic tools into our training loop: logging and profiling. Logging will predominantly record the training telemetry (training and validation losses, magnitudes of gradients and activations, variable parameters like the learning rate, schedule), while profiling will record the computational performace (latencies of individual GPU and CPU operations, memory bandwidth utilisation, memory allocation).
+
+This will help us pin-point the main sources of inefficincy, and thus help focus the downstream improvements.
+
+## Logging
+
+For logging, we will use the wandb framework, which conveniently networks with the Weights&Biases web UI for inspection of the logged quantities.
+
+In order to interface with the W&B UI, we have to create an account and authenticate access before logging. The most streamlined way to authenticate is to generate an API key and store it in a project file, where it can be accessed at runtime:
+
+```python
+# Auth, init, log and terminate wandb run
+from config_local import WANDB_API_KEY
+
+wandb.login(WANDB_API_KEY)
+run = wandb.init(
+    name=args.run_name,
+    project='GPT2-Small',
+    dir=f'tmp/{args.run_name}',
+    config=train_config,
+)
+...
+run.log({'valid_loss': valid_loss}, step=global_step)
+...
+run.finish()
+```
+
+The wandb framework also automatically logs various GPU performance metrics - from compute and memory bandwidth utilisation, to memory allocation and even things like power consumption and temperature. Some of the latter metrics may be superfluous, but the utilisation metrics will come in extremely handy when we move on to distributed training optimisation.
+
+Within the wandb framework we can also schedule experiments, including hyperparameter tuning. By setting the variation ranges for the parameters we are interested in and by setting the appropriate sampling methods (e.g. we may want to sample batch sizes uniformly from a fixed list containing powers of 2, while for the weight decay we may want to sample values spanning multiple orders of magnitude so log-uniform sampling may be more appropriate). The web UI also includes a built-in analysis tools for visualising correlation of hyperparameters with test metrics, as well as another quantity termed 'importance', which is a more sophisticated metric that captures interactions between different hyperparameters and distils them into a single number. Given that training runs are expensive, our ability to explore a dense grid of hyperparameters is limited; the importance metric allows us to focus the hyperparameter search on the most promising set of parameters.
+
+## Profiling
+
+For profiling, we will use the in-built PyTorch profiler. This is also extremely convenient, since a profiler instance can be employed as a simple context manager enclosing the code we wish to profile during runtime. We can therefore easily inject it into the training loop, albeit at the cost of an additional indentation; though even this cost is marginal, since, later on, we are likely to employ context managers for things like mixed-precision arithmetic, and, thanks to magic of Python, we can easily stack context managers within a single declaration.
+
+One subtlety is that I don't want to have to inject the profiling code ad-hoc each time, but I also don't want to profile every single run. We need some kind of utility that will make our profiler dormant if it is not required, and only kick in if a suitable flag is passed when launching a training run.
+
+We can achieve this by creating dummy class that matches the interface of the profiler, but essentially does nothing when any method of that interface is invoked. This is, essentialy, an example of the GOF 'null object pattern':
+
+```python
+# Null object pattern
+def get_profiler(profile: bool = False):
+    if profile:
+        activities = [
+            torch.profiler.ProfilerActivity.CPU,
+            torch.profiler.ProfilerActivity.CUDA,
+        ]
+        schedule = torch.profiler.schedule(
+            skip_first=0,
+            wait=0,
+            warmup=30,
+            active=15,
+            repeat=1
+        )
+        prof = torch.profiler.profile(
+            activities=activities,
+            schedule=schedule,
+            record_shapes=True,
+            with_stack=True,
+            profile_memory=True,
+            with_flops=True,
+            acc_events=True,
+        )
+        return prof
+    else:
+        return NullProfiler()
+
+
+class NullProfiler():
+    def __init__(self):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        pass
+
+    def step(self):
+        pass
+```
+
+We override both the context manager methods (`__enter__` and `__exit__`) and the `step` method through which we interact with the context manager inside the training loop.
+
+One thing to keep in mind is that we almost certainly do not want to profile the entire training run; the overhead of profiling can be significant, and the trace files produced by runs of extended durations can ver yquickly explode in size. Lucikly, the behaviour of torch profilers can be controlled with a scheduler. A scheduler object can be instantiated with the following parameters:
+
+```
+skip_first=0, wait=0, warmup=30, active=15, repeat=1
+```
+
+- `skip_first`: keeps the profiler idle for the specified number of steps
+- `wait`: is almost identical to `skip_first`, except that the specified number of steps is skipped every profiler cycle
+- `warmup`: records the specified number of steps, but discards the data; this helps disregard data affected by the profiler init overhead
+- `active`: specifies the number of steps (after skip_first/wait and warmup steps) over which to record the data
+- `repeat`: specifies how many times to repeat the recording cycle specified in the previous parameters; 0 means repeat indefinitely
+
+After the profiling run, we can package the data into a .json file. This is not particularly human-readable, and is meant solely for being parsed by a trace viewer, such as Perfetto.
+
+## Sense-checking our first profiling run
+
+Let's use the new profiling tools to investigate our naive transformer implementation.
+
+Apart from generating .json trace files, we can also simply print out per-operation stats directly into the terminal. Let us do that for the top-10 CUDA ops, sorted by total time taken: We can clearly see that a handful of ops dominate both runtime and memory allocation. Most time is spent doing a ton of in-place additions (`add_`), while the memory is allocated during the cryptic-looking `select_backward` calls. To gain insight on what those calls represent, note that we are profiling over 15 steps, and the length of training sequences is 256 tokens. Also note that the number of `select_backward` calls is 3840, equal to the product of the two numbers. This means that the operation we are looking for is one that, at each step, gets executed once per token.
+
+Even without this insight, it's easy to see that the loss calculation looks rather suspicious. Whenever there is a for-loop inside our training loop, we should consider whether this genuinely needs to be sequential; a genuinely sequential loop in our code includes the looping over transformer layers; here, the subsequent layer genuinely cannot start before the previous layer has finished and its outputs are available. Here, however, the loss of each token is independent of all the other tokens, and we can easily batch the computation.
+
+Not only is the explicit looping slow, it also consumes memory. In order to backward-propagate the loss for a single token while respecting the shapes expected in the computation graph of the backward pass, we must still allocate a tensor of compatible shape - in our case, (batch_size) x (seq_len) x (vocab_size) - corresponding to the entire original logits tensor. Substituting in the actual numbers, the amount of memory required to allocate a tensor of this size is:
+
+$$
+(8) \times (256) \times (50257) \times (4 \text{ bytes}) = 393\text{MB}
+$$
+
+This matches the observed value of 1472.37GB / 3840 = 393MB
+
+The entries for other tokens will be simply filled with zeros, capturing the fact that, at a given point in the for-loop, there is no gradient signal associated with the remaining tokens. This allocation of extrremaly sparse tensors happens for every position in the loop, with only a single non-zero 'slot' per iteraton providing useful gradient signal.
+
+By batching the computation for the entire sequence, only one tensor will be allocated, reducing the overall memory required for this op by a factor of seq_len.
+
+This is parhaps a slightly contrived example, stemming from the deliberately naive implementation, setting us up for some low-hanging fruit. Nonetheless, it's nice to confirm that profiling works as intended, and get used to generating and reading the profile traces. We will now move on to some more interesting optimisations in [Part 3](phase3.qmd).
+
+Before moving on, let us note that any total times reported by the profiler (e.g. via `prof.key_averages()`), like the CPU total time or CUDA total time are not strictly speaking wall-clock times. The CPU time, for example, aggregates time spent across all threads, so may be much higher than the wall-clock runtime. Since our training loop will mostly run in a single CUDA stream (and CUDA streams execute sequentially), this will be much closer to the wall-clock time. But to get the full picture, and to correctly identify any bottlenecks, it will generally be required to investigate profiler traces and dependencies/sync points in our computation. In general, we will seek to densly pack the CUDA stream (so that CPU scheduling is not throttling the GPU throughput), and then making sure that whatever we packed the CUDA stream with is efficient.
+
+## Reducing CPU and GPU noise and improving reproducibility
+
+Once the profiling utilities are set up, we have to take some care to make sure that, when we compart two runs, we do so on equal footing. There is plenty of stochasticity in how the model executes, and if we don't take steps to suppress it, it will introduce a significant amount of noise into our measurements. This is particularly true at the sharp end of optimisation, where any improvements may be of similar order as those random variations.
+
+Firstly, let us set the `torch.manual_seed(42)`. This doesn't have much effect on latency, but if we start from a different initialisation each time, it may be hard to spot if some of our interventions aiming at improving training speed have an adverse effect on model performance.
+
+Secondly, let's minimise the latency associated with CPU ops. Since our model is small (circa 120M params), and modern accelerators are extremely fast, it is not unlikely that we will see the speed of CPU ops bottlenecking the training speed.
+
+The GPU setup I'm using for training has more than one CPU core per GPU. Since my training loop is single-threaded, I have found that being bounced between different CPU cores was actually harmful - it was both slower, and more noisy - than allocating a single, dedicated core to execute the training loop from start to finish. If your setup is similar, I recommend doing the same.
+
+To find the CPU cores associated with the particular accelerator (there may be many accelerators in the GPU slice, each served by multiple CPUs), executing `nvidia-smi topo -m` should print out a table which includes a column header 'CPU Affinity'. Entries under this heading are two, comma-separated ranges indicating the physical and hyperthreaded cores, e.g. `0-31,64-95`. To select a particular core to run the process, run the usual command prefixed with `taskset` and the selected physical and hyperthread cores, e.g.:
+
+```bash
+taskset -c 0,64 python3 train.py
+```
+
+One reason why this works could be that, when the process is pciked up by a different core, that core may not be at its maximum clock speed. If the process is handed over frequenlty, it spends a lot of the time being handled at sub-maximal frequency. CPU clock speed can be set manualy, by changing the clock speed policy in `/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor` (which will typically be set to something like `ondemand`, `powersave` or `schedutil` - the nature of these policies is self evident from their names) to `performance`, which sets the clock speed for the given core to maximum at all times. This consumes more power, and as such is not the default option. You will also need sudo rights to modify the policy files. This is not something I could change on the machine I'm working with, but explicitly assinging the core using `taskset` ensured that the `schedutil` default consistently maxed out the clock speed as long as the schedule was consistently busy - which it is whenever training is CPU-limited, so no problem there.
+
+If your logging setup requires periodically syncing the GPU computation (e.g. to perform and log gradient anlytics) make sure that your profiling range does not include that step, or at least includes it consistently across the runs being compared.
+
+It is also worth mentioning that Python garbage collection can also inject unpredicatble latency into the system, so it may be worth disabling it for the duration of the profiled section. This can be done by importing and disabling garbage collection:
+
+```python
+import gc
+gc.disable()
+```
+
+Finally, not all noise can be removed, so just make sure that you profile over a sensible number of training steps to get a well-averaged view. Do mind, however, that this may result in very large trace files being generated - possibly large enough as to exceed the available RAM, and thus be impossible to load into trace a viewer in their entirety.

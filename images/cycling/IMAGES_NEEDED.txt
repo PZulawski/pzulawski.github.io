@@ -1,0 +1,162 @@
+Images needed for cycling pages
+================================
+Save each file from the corresponding Google Sites page (right-click > Save image as)
+and place it in this directory with the exact filename listed below.
+
+---
+
+CYCLING INDEX PAGE THUMBNAILS
+Place these in: images/cycling/thumbnails/
+These are used as card images on the cycling index page. Supply whatever image best
+represents each article — does not need to match any image already in the article.
+
+  thumbnails/lactate-pt1.png       -> Thumbnail for Lactate Testing Pt 1
+  thumbnails/lactate-pt2.png       -> Thumbnail for Lactate Testing Pt 2
+  thumbnails/wind-tunnel-2023.png  -> Thumbnail for Wind Tunnel Testing 2023
+  thumbnails/wind-tunnel-2024.png  -> Thumbnail for Wind Tunnel Testing 2024
+  thumbnails/bike-mods.png         -> Thumbnail for Bike Mods 2023/2024
+  thumbnails/season-summary.png    -> Thumbnail for Season Summary 2024
+  thumbnails/goodwood.png          -> Thumbnail for How Good Would Goodwood Be?
+
+---
+
+LACTATE TESTING PT 1
+Page: https://sites.google.com/view/pzulawski/cycling/lactate-testing-pt-1
+
+  lactate-pt1-ramp-test.png
+    -> First graph: power output, heart rate, and breath frequency across the full
+       ramp test. Black dashed lines mark LT1 at 295W and LT2 at 385W.
+
+  lactate-pt1-breath-freq.png
+    -> Second graph: breath frequency across the full protocol, showing three
+       distinct regions (ramp-up, plateau, sharp increase at LT2).
+
+  lactate-pt1-breath-vol.png
+    -> Third graph: breath frequency alongside total air volume (red line, right
+       axis) — volume stays roughly constant through the 295W plateau.
+
+  lactate-pt1-co2-ratio.png
+    -> Fourth graph: breath frequency alongside CO2-to-O2 concentration ratio —
+       steep gradient visible in the 1500-1800s window marking the LT1 region.
+
+---
+
+LACTATE TESTING PT 2
+Page: https://sites.google.com/view/pzulawski/cycling/lactate-testing-pt-2
+
+  lactate-pt2-three-stages.png
+    -> First graph: breath frequency across the ramp test with three stages
+       annotated, LT2 marked.
+
+  lactate-pt2-trend-lines.png
+    -> Second graph: same data with three linear trend lines overlaid, highlighting
+       the dramatically different gradients of each stage (Stage 3 is ~35x steeper
+       than Stage 2).
+
+---
+
+WIND TUNNEL TESTING 2023
+Page: https://sites.google.com/view/pzulawski/cycling/wind-tunnel-testing-2023
+(8 images, in order of appearance on the page)
+
+  wt23-e3310-progression.png
+    -> Image 1: E33/10 time trial progression across the season — improving times
+       on declining power.
+
+  wt23-mule-rig.png
+    -> Image 2: The mule rig components — pursuit base bar, slotted brackets,
+       transition piece, and carbon armrests.
+
+  wt23-baseline-position.png
+    -> Image 3: Best attempt at replicating the baseline position on the mule rig.
+
+  wt23-compact-position.png
+    -> Image 4: "Hands back and up" — the compact front-end configuration with
+       retracted arms and increased extension angle.
+
+  wt23-final-position.png
+    -> Image 5: Final low-stack position — "losing a lot of back curve height"
+       compared to baseline profile.
+
+  wt23-gains-chart.png
+    -> Image 6: Watt savings chart across speed and yaw conditions — 15.9W average,
+       peaks above 21W at high yaw.
+
+  wt23-position-comparison.png
+    -> Image 7: Position comparison summary (appears after the gains discussion).
+
+  wt23-cervelo-bracket.png
+    -> Image 8: Cervelo P5 bracket geometry — curved three-dimensional mating
+       surfaces, illustrating the challenge for custom modifications.
+
+---
+
+WIND TUNNEL TESTING 2024
+Page: https://sites.google.com/view/pzulawski/cycling/wind-tunnel-testing-2024
+
+  wt24-tunnel-position-front.png          [HAVE]
+    -> Front view of the baseline position in the wind tunnel.
+
+  wt24-tunnel-position-base-mule-comp.png [HAVE]
+    -> Side-by-side comparison of positions tested during the session (three views).
+
+  wt24-tunnel-position-front-final.png    [HAVE]
+    -> Front view with the Tempor helmet — wider coverage around the shoulders
+       compared to the Drone.
+
+  wt24-tunnel-position-side-base-final-comparison.png [HAVE]
+    -> Side view: base position (left) vs final position (right).
+
+  wt24-cost-effectiveness-table.png       [HAVE]
+    -> Equipment bang-for-buck summary — items tested, CdA improvement, cost,
+       and CdA/£ ratio.
+
+  wt24-results-table.png                  [HAVE]
+    -> Full session results table — all run codes with CdA at each yaw angle.
+
+---
+
+BIKE MODS 2023/2024
+Page: https://sites.google.com/view/pzulawski/cycling/bike-mods-20232024
+
+  bike-mods-original-bracket.png
+    -> Original Cervelo P5 front-end bracket, shown from the underside — curved
+       mating surfaces at top, armrest flat on the opposite side, 'binocular'
+       extension clamps at the bottom.
+
+  bike-mods-3d-scan.png
+    -> 3D laser scan of the original bracket — point cloud processed into a mesh
+       for use in CAD.
+
+  bike-mods-concept-sketch.png
+    -> Initial concept sketch for the new bracket — essentially a shelf with the
+       mating surfaces replicated and a flat armrest surface appended forward via
+       a descending connecting section.
+
+  bike-mods-cad-model.png
+    -> Finished CAD model of the new bracket, after several iterations checking
+       tolerances, deflection, stiffening rib, and bolt holes.
+
+  bike-mods-machined-part.gif
+    -> The finished machined aluminium bracket — carved from a solid block (animated GIF).
+
+  bike-mods-installed-1.png
+    -> Bracket installed on the base bar (photo 1) — showing the 0.75mm rubber shim
+       and the tight clearance between the descending section and the base bar.
+
+  bike-mods-installed-2.png
+    -> Bracket installed on the base bar (photo 2) — additional angle of the
+       installed bracket.
+
+  bike-mods-race.png
+    -> Bracket in use at the East Anglian VTTA F2a/10, 5th June.
+
+---
+
+HOW GOOD WOULD GOODWOOD BE
+Page: https://sites.google.com/view/pzulawski/cycling/how-good-would-goodwood-be
+
+  goodwood-overheated.png
+    -> Photo from the earlier Goodwood visit (same year) where the author overheated
+       badly during warm-up, resulting in the worst race of the season — referenced
+       in the text as "pic rel below".

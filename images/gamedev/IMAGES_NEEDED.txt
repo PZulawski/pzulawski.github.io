@@ -1,0 +1,13 @@
+Images needed for game development pages
+==========================================
+Place each file in this directory (/images/gamedev/) with the exact filename listed below.
+
+---
+
+COMETA  (programming/gamedev/cometa.qmd)
+
+  cometa-damage-model.png
+    -> Damage model in action — left: a pristine rock hit with a single bullet,
+       shattering into four chunks with jagged edges. Right: the same asteroid
+       hit with a rocket, instantly vaporising nearly half of it and imparting
+       an impulse onto the remaining sub-asteroids.

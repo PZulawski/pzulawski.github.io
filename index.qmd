@@ -1,0 +1,46 @@
+---
+title: "Piotr Zulawski"
+page-layout: full
+---
+
+Hi there. Welcome to my website, which holds an eclectic collection of my projects. If any of it is of interest, please feel free to contact me via [email](mailto:piotr.zulawski@gmail.com).
+
+:::: {.grid}
+
+::: {.g-col-4}
+<a href="cycling/index.qmd" class="home-card">
+<div class="home-card-img">
+<img src="/images/home-cycling.png" alt="Cycling">
+</div>
+<div class="home-card-body">
+<h3>Cycling</h3>
+<p>My Adventures With Time Trialling</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="programming/index.qmd" class="home-card">
+<div class="home-card-img">
+<img src="/images/home-programming.gif" alt="Programming">
+</div>
+<div class="home-card-body">
+<h3>Programming</h3>
+<p>Machine Learning &amp; Game Development</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="other/cycling-data-analysis.qmd" class="home-card">
+<div class="home-card-img">
+<img src="/images/home-other.png" alt="Other">
+</div>
+<div class="home-card-body">
+<h3>Other</h3>
+<p>Miscellaneous Items</p>
+</div>
+</a>
+:::
+
+::::

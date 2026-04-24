@@ -1,0 +1,93 @@
+---
+title: "Cycling"
+---
+
+I race time trials on my heavily DIY'd Cervelo P5. Most of what's written here describes my explorations of the engineering of going faster - testing and data; searching for marginal gains in equipment, aerodynamics, and physiology of racing and training.
+
+## Racing
+
+:::: {.grid}
+
+::: {.g-col-6}
+<a href="season-summary-2024.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/summary-2024.jpg" alt="Season Summary 2024"></div>
+<div class="home-card-body">
+<h3>Season Summary 2024</h3>
+<p>A few words on racing and what's next</p>
+</div>
+</a>
+:::
+
+::: {.g-col-6}
+<a href="goodwood.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/nat-champs.jpg" alt="Goodwood"></div>
+<div class="home-card-body">
+<h3>How Good Would Goodwood Be?</h3>
+<p>National Championships race report</p>
+</div>
+</a>
+:::
+
+::::
+
+## Aerodynamics
+
+:::: {.grid}
+
+::: {.g-col-4}
+<a href="wind-tunnel-2023.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/wind-tunnel-2023.png" alt="Wind Tunnel 2023"></div>
+<div class="home-card-body">
+<h3>Wind Tunnel Testing 2023</h3>
+<p>Silverstone Sports Engineering Hub — position and setup</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="wind-tunnel-2024.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/wind-tunnel-2024.jpg" alt="Wind Tunnel 2024"></div>
+<div class="home-card-body">
+<h3>Wind Tunnel Testing 2024</h3>
+<p>Verification, equipment testing, and the footwear discovery</p>
+</div>
+</a>
+:::
+
+::: {.g-col-4}
+<a href="bike-mods.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/bike-mods.jpg" alt="Bike Mods"></div>
+<div class="home-card-body">
+<h3>Bike Mods 2023/2024</h3>
+<p>Design and machining of custom front-end brackets</p>
+</div>
+</a>
+:::
+
+::::
+
+## Physiology
+
+:::: {.grid}
+
+::: {.g-col-6}
+<a href="lactate-testing-pt1.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/lactate-testing-p1.png" alt="Lactate Testing Pt 1"></div>
+<div class="home-card-body">
+<h3>Lactate Testing — Part I: LT1</h3>
+<p>Looking for a field heuristic for the first lactate threshold</p>
+</div>
+</a>
+:::
+
+::: {.g-col-6}
+<a href="lactate-testing-pt2.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/cycling/lactate-testing-p2.png" alt="Lactate Testing Pt 2"></div>
+<div class="home-card-body">
+<h3>Lactate Testing — Part II: LT2</h3>
+<p>And the second</p>
+</div>
+</a>
+:::
+
+::::

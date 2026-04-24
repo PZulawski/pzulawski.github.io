@@ -1,0 +1,42 @@
+---
+title: "GPT Adventures"
+image: /images/gpt-adventures/header.jpg
+---
+
+<!-- TODO: save header image from Google Site to images/gpt-adventures/header.jpg -->
+
+It has now been six months since I switched to doing ML full time. I have continued learning through my day-to-day MLE role, and by continuing working through various resources - from mostly theoretical, like Bishop and Price, to more engineering-oriented, like How To Scale Your Model Series.
+
+What I have realised, however, is that working with a mature codebase has natural limits: many parts of the pipeline are already in place, there is no incentive to re-implement them, and effort is directed by the current needs of the business.
+
+To speed up my own education then, I have decided to embark on a more holistic project that would allow me to think about the many important parts of the pipeline I haven't had the chance to work with before. The immediate goal isn't novelty (though, as I go, I will look for opportunities for productive digressions), but rather connecting and solidifying concepts; building mental models and the muscle memory of a well-rounded engineer.
+
+While I use agents when aiming to maximise impact, here I am optimising for learning, and thus will aim to write every line of code myself.
+
+The project goal is simple: Build a GPT-2 Small, Then Make It Hurt Less.
+
+The core idea is to implement a small transformer from scratch. This might sound like "let's just do nanoGPT" - except for the real learning will really start after the basic model is functional. The GPT will be a vehicle for encountering and solving real systems problems, and the key is to go through it in layers of depth, each tackling a different area I have recognised as something I either don't know enough about, or simply want to learn more about.
+
+I'll break the project into phases, each focusing on a different aspect:
+
+## Part 1: Baseline implementation
+
+Implement a small transformer model from scratch in PyTorch — no HuggingFace, no Karpathy copy-paste. The goal isn't novelty, it's fluency. This will be a naïve, easy-to-understand platform to build from.
+
+Aim for this part: a working transformer with attention, MLP blocks, positional embeddings, and a training loop on a small dataset. Trained to produce vaguely coherent text. Should be small enough to train on a single GPU in under an hour.
+
+## Part 2: Profile and find the bottlenecks
+
+Build in features for train-time telemetry using PyTorch profiler, and a logging framework like wandb, and experiment design environments like Tensorboard or W&B. Identify where time is wasted and rectify bottlenecks.
+
+## Part 3: Make it better/faster, one change at a time
+
+With the profiling setup, slowly turn the naïve Part 1 implementation into something a lot more well-rounded. Implement improvements - mixed precision arithmetic, AOT compilation, flash attention, gradient checkpointing, anything that addresses whatever bottlenecks have been identified - and clearly attribute the improvements to each change.
+
+## Part 4: Distribute it
+
+Going beyond "get DP/FSDP working". Instrument the setup, measure collective latencies. Measure scaling efficiency: if one GPU takes time T, does two GPUs take T/2? Why not? Work out how much time is communication overhead vs compute.
+
+## Part 5: Add a twist
+
+Not sure yet - the idea is to come up with something small but interesting and novel to study. This won't be a NeurIPS paper, but with a degree of novelty; set a hypothesis and look to confirm/contradict it.

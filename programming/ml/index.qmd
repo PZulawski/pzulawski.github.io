@@ -1,0 +1,9 @@
+---
+title: "Machine Learning"
+---
+
+- [GPT Adventures](gpt-adventures/index.qmd) --- Building a GPT-2 Small from scratch and progressively optimising it
+- [A Neural Net From Scratch](neural-net-from-scratch.qmd)
+- [Corneal Endothelium Image Processing](corneal-endothelium.qmd)
+- [Image Generation with GANs](gans.qmd)
+- [Better GANs - Gradient Penalisation](better-gans.qmd)

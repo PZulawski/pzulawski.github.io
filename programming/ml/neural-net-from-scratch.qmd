@@ -1,0 +1,168 @@
+---
+title: "A Neural Net From Scratch"
+---
+
+When I'm starting on a new subject, I find it difficult to get my head around abstractions before I feel I have a solid and intuitive understanding of the fundamental building blocks. Otherwise, it feels more like memorising than understanding, and the uncracked problem will gnaw at me and distract me from focusing on the material at hand.
+
+So, as I start picking up this new subject, I feel I have read around the topic enough to start building a loose understanding of the fundamentals. I thought it would be fun to put that to a test by implementing a basic neural net from scratch. Let's start simple — just to have something to build on and experiment with. Let's start by identifying digits — but not all digits; let's kick off with something really easy, like differentiating between eights and sevens.
+
+## Data loading
+
+Let's start by importing the MNIST dataset, extracting all the 7s and 8s, shuffling them, and changing the labels to 1 for 7s and 0 for 8s. We'll hold a test set of 200 images for verification.
+
+```python
+data = pd.read_csv('sample_data/mnist_train_small.csv')
+data_array = data.to_numpy()
+n_train = 400
+
+mask = data_array[:,0] == 7
+sevens = data_array[mask]
+mask = data_array[:,0] == 8
+eights = data_array[mask]
+
+data_train = np.concatenate((sevens.T, eights.T), axis=1)
+np.random.shuffle(data_train.T)
+
+x_train = data_train[1:, 0:data_train.shape[1] - n_train]
+y_train = data_train[0, 0:data_train.shape[1] - n_train].reshape(1,-1)
+x_test  = data_train[1:, data_train.shape[1] - n_train:]
+y_test  = data_train[0, data_train.shape[1] - n_train:].reshape(1,-1)
+
+y_train = (y_train - 6) * (y_train == 7)
+y_test  = (y_test  - 6) * (y_test  == 7)
+```
+
+## Parameter initialisation
+
+```python
+def initialize_parameters(layer_sizes):
+    params = {}
+    for l in range(1, len(layer_sizes)):
+        params["W" + str(l)] = np.random.randn(layer_sizes[l], layer_sizes[l-1]) * 0.1
+        params["b" + str(l)] = np.zeros((layer_sizes[l], 1))
+    return params
+```
+
+## Activation and loss functions
+
+We'll use a sigmoid for activation, as we need it in the final layer to output something in the 0–1 range interpretable as a probability. For loss, the negative log-likelihood does the job: it's zero for a perfect fit, and very large when predictions and labels are mismatched.
+
+```python
+def sigmoid(Z):
+    return 1 / (1 + np.exp(-Z))
+
+def compute_loss(AL, Y):
+    m = Y.shape[1]
+    return -1/m * np.sum((Y * np.log(AL) + (1-Y) * np.log(1-AL)))
+```
+
+We'll also need the derivatives for backprop:
+
+```python
+def sigmoid_backward(A):
+    return A * (1 - A)
+
+def loss_backward(Y, AL):
+    return (AL - Y) / (AL * (1 - AL))
+```
+
+## Forward pass
+
+We iterate through the layers, multiplying the activations of the previous layer by the weights (written as a matrix product), and passing the resulting sum through the activation function. The values of $A$ and $Z$ are cached for use in backprop.
+
+```python
+def forward_pass(X, params):
+    n_layers = int(len(params.keys()) / 2)
+    caches = {}
+    caches["A0"] = X
+    A = X
+    for l in range(1, n_layers + 1):
+        Z = params["W" + str(l)] @ A + params["b" + str(l)]
+        A = sigmoid(Z)
+        caches["Z" + str(l)] = Z
+        caches["A" + str(l)] = A
+    return A, caches
+```
+
+## Backward pass
+
+The backward pass uses the chain rule to propagate gradients ever deeper into the network, one layer at a time.
+
+What we ultimately want is the derivative of the loss function $L$ with respect to any given weight. Using the chain rule, the derivative of the loss with respect to the $i$-th weight of the last layer is:
+
+$$\frac{\partial L}{\partial w_i^{[l]}} = \frac{\partial L}{\partial A^{[l]}} \cdot \frac{\partial A^{[l]}}{\partial Z^{[l]}} \cdot \frac{\partial Z^{[l]}}{\partial w_i^{[l]}}$$
+
+The first two terms are the derivatives of the loss function and the activation function; the last term is simply the vector of activations from the previous layer — exactly why we cached them during the forward pass.
+
+After computing the gradients of the $l$-th layer, we override $dA$ before exiting the iteration to carry the accumulated chain-rule product into the next layer.
+
+For the gradients of the weights:
+
+$$dW^{[l]} = \frac{1}{m} \, dZ^{[l]} \cdot (A^{[l-1]})^T$$
+
+It makes sense that the influence of each weight depends on the strength of the activation it mediates, and that gradients are summed over the $m$ training examples. For biases, the derivative of $Z$ with respect to the bias is 1, so the automatic summing over training examples doesn't happen — we carry it out explicitly.
+
+```python
+def backward_pass(Y, params, caches):
+    n_layers = int(len(params.keys()) / 2)
+    m = Y.shape[1]
+    grads = {}
+    dA = loss_backward(Y, caches["A" + str(n_layers)])
+    for l in range(n_layers, 0, -1):
+        dZ = dA * sigmoid_backward(caches["A" + str(l)])
+        grads["dW" + str(l)] = 1/m * (dZ @ caches["A" + str(l-1)].T)
+        grads["db" + str(l)] = 1/m * np.sum(dZ, axis=1, keepdims=True)
+        dA = params["W" + str(l)].T @ dZ
+    return grads
+```
+
+## Gradient update and training loop
+
+```python
+def apply_grads(params, grads, learning_rate):
+    n_layers = int(len(params.keys()) / 2)
+    for l in range(n_layers, 0, -1):
+        params["W" + str(l)] -= grads["dW" + str(l)] * learning_rate
+        params["b" + str(l)] -= grads["db" + str(l)] * learning_rate
+    return params
+
+def train(X, Y, params, epochs, learning_rate):
+    losses = []
+    for k in range(epochs):
+        AL, caches = forward_pass(X, params)
+        grads = backward_pass(Y, params, caches)
+        params = apply_grads(params, grads, learning_rate)
+        loss = compute_loss(AL, Y)
+        losses.append(loss)
+        if k % 100 == 0:
+            print(f"Epoch: {k}, loss: {loss}")
+    return params, losses
+
+def accuracy(X_test, Y_test, params):
+    results, _ = forward_pass(X_test, params)
+    preds = results > 0.5
+    return np.sum(preds == Y_test) / Y_test.shape[1]
+```
+
+This is a batch gradient descent implementation — the entire batch is processed in every epoch, so there's no need to zero gradients between iterations.
+
+Initialising and training:
+
+```python
+params = initialize_parameters([x_train.shape[0], 10, 5, 1])
+params, losses = train(x_train, y_train, params, 4000, 1e0)
+```
+
+## Results
+
+I did manage to get this to run, but only after setting the initial weight values and learning rate to very low values — otherwise the loop would throw divisions by zero, NaNs, and other undesirables. This is likely because unnormalised input values cause large inputs to the sigmoid, which outputs 1s that then cause the denominator of the loss derivative to go to zero, making gradients explode. I will investigate input normalisation in a subsequent post.
+
+Even so, the simple single-layer net (effectively a logistic regression) performs quite well. Trained on 3600 examples, it achieved **100% accuracy** on the 400 test examples, though it was a little hesitant on some items.
+
+![Examples the network was most uncertain about — this 8 could genuinely be read as a 7 with a heavily slanted bar.](/images/ml/nns-uncertain-examples.png)
+
+It is also interesting to look at what the weights of the network actually look like. As expected, the corner pixels receive very little attention. In the centre the situation is more complex, but the low-valued pixels do seem to correspond with areas where features of an 8 can be found and where those of a 7 are unlikely to appear, and vice versa.
+
+![Network weights visualised — the pattern roughly corresponds to discriminative pixel regions between 7s and 8s.](/images/ml/nns-weight-visualisation.png)
+
+Networks trained with fewer examples produce weights that are significantly easier to interpret as an identifiable 7. Those networks also exhibited lower performance — they can be seen as relatively 'naïve', while networks trained with more examples find less obvious patterns and recognise the digits more robustly, even if how they do it becomes less transparent.

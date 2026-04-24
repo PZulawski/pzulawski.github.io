@@ -1,0 +1,26 @@
+Images needed for the home page
+================================
+Save each file from https://sites.google.com/view/pzulawski (right-click > Save image as)
+and place it in this directory (/images/) with the exact filename listed below.
+
+  home-cycling.png
+    -> The cycling section image (leftmost card on the home page).
+
+  home-programming.gif
+    -> The programming section image (centre card on the home page) — this is a GIF on the original site.
+
+  home-other.png
+    -> The other/miscellaneous section image (rightmost card on the home page).
+
+---
+
+PROGRAMMING INDEX PAGE THUMBNAILS
+Place these in: images/programming/
+These are used as card images on the programming index page.
+
+  thumb-gpt-adventures.png   -> Thumbnail for GPT Adventures series
+  thumb-neural-net.png       -> Thumbnail for A Neural Net From Scratch
+  thumb-corneal.png          -> Thumbnail for Corneal Endothelium Image Processing
+  thumb-gans.gif             -> Thumbnail for Image Generation with GANs (GIF — can animate)
+  thumb-better-gans.png      -> Thumbnail for Better GANs — Gradient Penalisation
+  thumb-cometa.png           -> Thumbnail for Cometa (GameDev)
