@@ -387,7 +387,7 @@ window.Quarto = {
 </section>
 <section id="probing" class="level3">
 <h3 class="anchored" data-anchor-id="probing">Probing</h3>
-<p>For each layer, logistic regression (L2 regularisation, <code>C=0.1</code>) is trained with 5-fold cross-validation. The fitted weight vector <span class="math inline">\(\mathbf{w}\)</span> for the best-performing layer is retained for visualisation and the causal intervention.</p>
+<p>For each layer, logistic regression is trained and the fitted weight vector <span class="math inline">\(\mathbf{w}\)</span> for the best-performing layer is retained for visualisation.</p>
 </section>
 </section>
 <section id="results" class="level2">
@@ -398,23 +398,23 @@ window.Quarto = {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/probe-accuracy-vs-depth.png" class="img-fluid figure-img"></p>
-<figcaption>Linear probe accuracy across all 32 encoder layers — 5-fold cross-validation. Chance is 0.5.</figcaption>
+<figcaption>Linear probe accuracy across encoder layers. Chance is 0.5.</figcaption>
 </figure>
 </div>
-<p>Across all 32 layers, probe accuracy is 0.999–1.000. There is no warm-up period, no layer at which the distinction first “emerges” — it is there from layer 0 and stays there. This is a striking result. The best layer (layer 2) achieves 1.000 ± 0.001; the worst layer achieves 0.999 ± 0.001. The model encodes the speech/non-speech distinction essentially perfectly, from the very first transformer layer.</p>
-<p>The 1D projection confirms it visually: the two distributions are completely separated, with essentially no overlap. The ambiguous zone (shaded gold) sits in the gap between the two clusters — examples that genuinely sit between the two, which turn out to be the expected edge cases (faint background chatter, distant voices) on audio inspection.</p>
+<p>Across all layers, probe accuracy is 0.999–1.000. There is no warm-up period, no layer at which the distinction first “emerges” — it is there from layer 0 and stays there. The best layer achieves 1.000 ± 0.001; the worst layer achieves 0.999 ± 0.001. The model encodes the speech/non-speech distinction essentially perfectly, from the very first transformer layer.</p>
+<p>The 1D projection confirms it visually: the two distributions are completely separated, with essentially no overlap. The ambiguous zone (shaded gold) sits in the gap — examples that genuinely straddle the boundary: crowd noise, intelligible background conversations, shouts and yells, lyrics within background music. On audio inspection, these are exactly the cases one would expect to be ambiguous.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/probe-direction-viz.png" class="img-fluid figure-img"></p>
-<figcaption>Left: 1D projection of all examples onto the probe direction at layer 2 — complete separation. Right: PCA scatter at the same layer, with ambiguous-zone examples highlighted (gold diamonds).</figcaption>
+<figcaption>Left: 1D projection of all examples onto the probe direction — complete separation. Right: PCA scatter at the best layer, with ambiguous-zone examples highlighted (gold diamonds).</figcaption>
 </figure>
 </div>
-<p>The PCA scatter underlines this: PC1 alone accounts for 42% of the variance at this layer, and the two classes sit cleanly at opposite ends of it. On audio inspection, the examples near the boundary are genuinely ambiguous: crowd noise, intelligible background conversations, shouts and yells, lyrics within background music — content that sits in the grey area between speech and non-speech by any reasonable definition. It is also worth noting that the distribution along the probe direction is smooth, with a continuous gradation from confidently non-speech to confidently speech-like rather than a hard split. This is circumstantial but suggestive evidence that the direction genuinely encodes speech-likeness, rather than some other quantity that happens to correlate with the class label in this dataset.</p>
+<p>The PCA scatter underlines this: PC1 alone accounts for 42% of the variance at this layer, and the two classes sit cleanly at opposite ends of it. It is also worth noting that the distribution along the probe direction is smooth — a continuous gradation from confidently non-speech to confidently speech-like rather than a hard split. This is circumstantial but suggestive evidence that the direction genuinely encodes speech-likeness, rather than some other quantity that merely correlates with the class label.</p>
 </section>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>The probe results strongly suggest <strong>Case A</strong>: the encoder builds a near-perfect linear representation of the speech/non-speech distinction from the very first layer, grounded in low-level acoustic features. This representation does not change materially as it propagates through the 32-layer stack. The model unambiguously “knows” it is looking at non-speech.</p>
+<p>The probe results strongly suggest <strong>Case A</strong>: the encoder builds a near-perfect linear representation of the speech/non-speech distinction from the very first layer, grounded in low-level acoustic features. This representation does not change materially as it propagates through the encoder stack. The model unambiguously “knows” it is looking at non-speech.</p>
 <p>This has an interesting implication for the data-side fix applied earlier. Adding non-speech training data reduced hallucinations substantially — but these probe results suggest it may have worked by changing how the decoder was trained to respond to non-speech encoder representations, rather than by teaching the encoder to build the distinction in the first place. The encoder’s representation was already there; it was essentially acoustic from the outset. The fix, in effect, created a causal path from an existing representation to the correct output.</p>
 <p>Several questions remain that the probe alone cannot answer. First: why are some segments — which are to a human ear quite clearly non-speech, and which presumably sit well within the non-speech cluster — still hallucinated on? Are they, despite appearances, not as separated from the speech cluster as they seem? Or is their position in activation space not the operative factor at all?</p>
 <p>This leads naturally to the intervention question. If we were to take segments that sit in or near the ambiguous zone and push their activations further toward the non-speech end of the direction, would hallucinations be suppressed? And if so, is that because the direction is causally upstream of the decoder — or merely because the perturbation happens to corrupt whatever features the decoder was actually relying on? Establishing causality requires more than a correlation between probe position and output; it requires showing that deliberately moving activations along the direction produces a predictable, directional change in output.</p>
