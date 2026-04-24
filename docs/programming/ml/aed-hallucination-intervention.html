@@ -171,15 +171,32 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../programming/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Programming</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Machine Learning</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hearing Things</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true">
@@ -245,29 +262,6 @@ window.Quarto = {
  <span class="menu-text">Better GANs - Gradient Penalisation</span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true">
- <span class="menu-text">Hearing Things</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -350,7 +344,7 @@ window.Quarto = {
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> — i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> — on a held-out development set. Evaluation is then run on 100 fresh examples per class, reporting only examples where the word count changes (CHANGED_ONLY).</p>
+<p>The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> — i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> — on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.</p>
 <section id="non-speech-segments" class="level3">
 <h3 class="anchored" data-anchor-id="non-speech-segments">Non-speech segments</h3>
 <p>18 out of 100 non-speech segments had their hallucinated output suppressed to silence by steering. All 18 were sitting well within the non-speech cluster (<span class="math inline">\(t \leq 0.16\)</span>), attracting strong steering (<span class="math inline">\(|\alpha| \geq 2.7\)</span>).</p>
@@ -493,13 +487,13 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+<p>The hallucinations are characteristic of the failure mode: short, confident-sounding fragments — affirmations, interjections, fragments of social speech — produced from ambient noise. The table shows only segments where the transcript changed; steering suppressed approximately 50% of hallucinations in the full non-speech test set. In some cases where full suppression did not occur, the hallucination was abbreviated rather than eliminated — e.g.&nbsp;<em>I’m</em> → <em>I</em>, <em>stopping</em> → <em>stop</em> — suggesting the steering is moving the activation in the right direction without fully crossing whatever threshold triggers silence. Critically, steering did not induce more extensive hallucination in any test sample. A more carefully calibrated steering mechanism would likely improve the suppression rate further, but the objective here is solely to demonstrate that the mechanism works — that the probe direction is causally connected to the decoder output.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/probe-steering-movement.png" class="img-fluid figure-img"></p>
 <figcaption>Left: PCA scatter showing the pre-steering position of suppressed non-speech examples (blue dots) with arrows to their post-steering positions (gold diamonds) — all moving deeper into the non-speech cluster. Right: the same movement shown on the 1D probe axis, with the non-speech centre (blue dashed) and speech centre (red dashed) marked for reference. Every steered example moves further left, away from the ambiguous zone and deeper into non-speech territory.</figcaption>
 </figure>
 </div>
-<p>The hallucinations are characteristic of the failure mode: short, confident-sounding fragments — affirmations, interjections, fragments of social speech — produced from ambient noise. The table shows only segments where the transcript changed; steering suppressed approximately 50% of hallucinations in the full non-speech test set. In some cases where full suppression did not occur, the hallucination was abbreviated rather than eliminated — e.g.&nbsp;<em>I’m</em> → <em>I</em>, <em>stopping</em> → <em>stop</em> — suggesting the steering is moving the activation in the right direction without fully crossing whatever threshold triggers silence. Critically, steering did not induce more extensive hallucination in any test sample. A more carefully calibrated steering mechanism would likely improve the suppression rate further, but the objective here is solely to demonstrate that the mechanism works — that the probe direction is causally connected to the decoder output.</p>
 </section>
 <section id="speech-segments" class="level3">
 <h3 class="anchored" data-anchor-id="speech-segments">Speech segments</h3>

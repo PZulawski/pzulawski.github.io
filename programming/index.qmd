@@ -1,13 +1,14 @@
 ---
-title: "Programming"
 page-layout: full
 ---
 
-A collection of projects and write-ups spanning machine learning and game development.
-
 ## Machine Learning
 
+A collection of ML project write-ups.
+
 ### Hearing Things
+
+*Interpretability experiments on an AED speech recognition model — linear probing and causal activation steering to understand the mechanistic basis of non-speech hallucinations.*
 
 :::: {.grid}
 
@@ -34,6 +35,8 @@ A collection of projects and write-ups spanning machine learning and game develo
 ::::
 
 ### GPT Adventures
+
+*A GPT-2 Small implemented from scratch in PyTorch, then made progressively faster — profiling, optimisation, and distributed training across multiple GPUs.*
 
 :::: {.grid}
 
@@ -89,7 +92,7 @@ A collection of projects and write-ups spanning machine learning and game develo
 
 ::::
 
-### Other ML
+### Miscellaneous ML Side-Quests
 
 :::: {.grid}
 

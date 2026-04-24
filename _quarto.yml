@@ -48,7 +48,10 @@ website:
       style: docked
       contents:
         - programming/index.qmd
-        - programming/ml/index.qmd
+        - text: "Hearing Things"
+          contents:
+            - programming/ml/aed-hallucination-probe.qmd
+            - programming/ml/aed-hallucination-intervention.qmd
         - text: "GPT Adventures"
           contents:
             - programming/ml/gpt-adventures/index.qmd
@@ -64,10 +67,6 @@ website:
           href: programming/ml/gans.qmd
         - text: "Better GANs - Gradient Penalisation"
           href: programming/ml/better-gans.qmd
-        - text: "Hearing Things"
-          contents:
-            - programming/ml/aed-hallucination-probe.qmd
-            - programming/ml/aed-hallucination-intervention.qmd
 
     - title: "Game Development"
       style: docked

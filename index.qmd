@@ -25,7 +25,7 @@ Hi there. Welcome to my website, which holds an eclectic collection of my projec
 <img src="/images/home-programming.gif" alt="Programming">
 </div>
 <div class="home-card-body">
-<h3>Programming</h3>
+<h3>Code</h3>
 <p>Machine Learning &amp; Game Development</p>
 </div>
 </a>

@@ -42,7 +42,7 @@ handles = [layer.register_forward_hook(make_hook(i))
            for i, layer in enumerate(head.encoder.layers)]
 ```
 
-Note that `TransformerBlock.forward` returns a tuple `(residual_stream, kv_state)` — hence `output[0]`. Mean-pooling over time is a reasonable first choice: the speech/non-speech distinction should be distributed across the whole segment, not concentrated in a single frame. We run body and encoder, but not the decoder — we are interested in what the encoder has built up, independent of how the decoder interprets it.
+Note that `TransformerBlock.forward` returns a tuple `(residual_stream, kv_state)` — hence `output[0]`. Mean-pooling over time is a reasonable first choice: the speech/non-speech distinction should be distributed across the whole segment, not concentrated in a single frame. We run the encoder, but not the decoder — we are interested in what the encoder has built up, independent of how the decoder interprets it.
 
 ### Data
 

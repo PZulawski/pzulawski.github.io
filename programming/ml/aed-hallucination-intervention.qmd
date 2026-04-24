@@ -48,7 +48,7 @@ Each outcome has different implications for what a principled fix would look lik
 
 ## Results
 
-The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to $\alpha_\text{max} = 3.2$ — i.e. $\alpha = -3.2 \cdot (1 - t)$ — on a held-out development set. Evaluation is then run on 100 fresh examples per class, reporting only examples where the word count changes (CHANGED_ONLY).
+The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to $\alpha_\text{max} = 3.2$ — i.e. $\alpha = -3.2 \cdot (1 - t)$ — on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.
 
 ### Non-speech segments
 
@@ -75,9 +75,9 @@ The probe direction is fitted on 900 examples per class. The steering magnitude 
 | 85 | 0.07 | −2.98 | *It.* | *(silence)* |
 | 94 | 0.02 | −3.12 | *Thank you.* | *(silence)* |
 
-![Left: PCA scatter showing the pre-steering position of suppressed non-speech examples (blue dots) with arrows to their post-steering positions (gold diamonds) — all moving deeper into the non-speech cluster. Right: the same movement shown on the 1D probe axis, with the non-speech centre (blue dashed) and speech centre (red dashed) marked for reference. Every steered example moves further left, away from the ambiguous zone and deeper into non-speech territory.](/images/ml/probe-steering-movement.png)
-
 The hallucinations are characteristic of the failure mode: short, confident-sounding fragments — affirmations, interjections, fragments of social speech — produced from ambient noise. The table shows only segments where the transcript changed; steering suppressed approximately 50% of hallucinations in the full non-speech test set. In some cases where full suppression did not occur, the hallucination was abbreviated rather than eliminated — e.g. *I'm* → *I*, *stopping* → *stop* — suggesting the steering is moving the activation in the right direction without fully crossing whatever threshold triggers silence. Critically, steering did not induce more extensive hallucination in any test sample. A more carefully calibrated steering mechanism would likely improve the suppression rate further, but the objective here is solely to demonstrate that the mechanism works — that the probe direction is causally connected to the decoder output.
+
+![Left: PCA scatter showing the pre-steering position of suppressed non-speech examples (blue dots) with arrows to their post-steering positions (gold diamonds) — all moving deeper into the non-speech cluster. Right: the same movement shown on the 1D probe axis, with the non-speech centre (blue dashed) and speech centre (red dashed) marked for reference. Every steered example moves further left, away from the ambiguous zone and deeper into non-speech territory.](/images/ml/probe-steering-movement.png)
 
 ### Speech segments
 

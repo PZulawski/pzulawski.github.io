@@ -13,9 +13,9 @@ To speed up my own education then, I have decided to embark on a more holistic p
 
 While I use agents when aiming to maximise impact, here I am optimising for learning, and thus will aim to write every line of code myself.
 
-The project goal is simple: Build a GPT-2 Small, Then Make It Hurt Less.
+**[GitHub repository](https://github.com/PZulawski/GPT2-Small)**
 
-The core idea is to implement a small transformer from scratch. This might sound like "let's just do nanoGPT" - except for the real learning will really start after the basic model is functional. The GPT will be a vehicle for encountering and solving real systems problems, and the key is to go through it in layers of depth, each tackling a different area I have recognised as something I either don't know enough about, or simply want to learn more about.
+A GPT-2 Small implemented from scratch in PyTorch, then made progressively faster — profiling, optimisation, and distributed training across multiple GPUs. This might sound like "let's just do nanoGPT" — except the real learning starts after the basic model is functional. The GPT is a vehicle for encountering and solving real systems problems, going through them in layers of depth: each phase tackling a different area, with clear before-and-after measurements at every step.
 
 I'll break the project into phases, each focusing on a different aspect:
 
@@ -35,8 +35,4 @@ With the profiling setup, slowly turn the naïve Part 1 implementation into some
 
 ## Part 4: Distribute it
 
-Going beyond "get DP/FSDP working". Instrument the setup, measure collective latencies. Measure scaling efficiency: if one GPU takes time T, does two GPUs take T/2? Why not? Work out how much time is communication overhead vs compute.
-
-## Part 5: Add a twist
-
-Not sure yet - the idea is to come up with something small but interesting and novel to study. This won't be a NeurIPS paper, but with a degree of novelty; set a hypothesis and look to confirm/contradict it.
+Going beyond "get DP/FSDP working". Instrument the setup, measure collective latencies. Measure scaling efficiency: if one GPU takes time T, do two GPUs take T/2? If not — why?Work out how much time is communication overhead vs compute.
