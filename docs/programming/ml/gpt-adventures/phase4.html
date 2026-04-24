@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GPT Adventures — Part 4: Distribute It – Piotr Zulawski</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-f670ab49fb9634e9dab58972b11477cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Piotr Zulawski</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../cycling/index.html"> 
+<span class="menu-text">Cycling</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../programming/index.html" aria-current="page"> 
+<span class="menu-text">Machine Learning</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../programming/gamedev/cometa.html"> 
+<span class="menu-text">Game Development</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../other/cycling-data-analysis.html"> 
+<span class="menu-text">Other</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../bookshelf.html"> 
+<span class="menu-text">Bookshelf</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/phase4.html">GPT Adventures — Part 4: Distribute It</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true">
+ <span class="menu-text">GPT Adventures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gpt-adventures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GPT Adventures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gpt-adventures/phase1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GPT Adventures — Part 1: Baseline Implementation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gpt-adventures/phase2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 2 - Profiling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gpt-adventures/phase3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Phase 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gpt-adventures/phase4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">GPT Adventures — Part 4: Distribute It</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/neural-net-from-scratch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Neural Net From Scratch</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/corneal-endothelium.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Corneal Endothelium Image Processing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/gans.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Generation with GANs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/better-gans.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Better GANs - Gradient Penalisation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hearing Things</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/aed-hallucination-probe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Where Do AED Hallucinations Come From?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../programming/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#training-loop-refactor" id="toc-training-loop-refactor" class="nav-link active" data-scroll-target="#training-loop-refactor">Training Loop Refactor</a></li>
+  <li><a href="#distributed-data-parallel" id="toc-distributed-data-parallel" class="nav-link" data-scroll-target="#distributed-data-parallel">Distributed Data Parallel</a></li>
+  <li><a href="#interconnects-pcie-dci-and-host-bridges" id="toc-interconnects-pcie-dci-and-host-bridges" class="nav-link" data-scroll-target="#interconnects-pcie-dci-and-host-bridges">Interconnects — PCIe, DCI and Host Bridges</a></li>
+  <li><a href="#increasing-the-number-of-devices" id="toc-increasing-the-number-of-devices" class="nav-link" data-scroll-target="#increasing-the-number-of-devices">Increasing the Number of Devices</a></li>
+  <li><a href="#nvlinks-and-nvswitches" id="toc-nvlinks-and-nvswitches" class="nav-link" data-scroll-target="#nvlinks-and-nvswitches">NVLinks and NVSwitches</a></li>
+  <li><a href="#sanity-checks" id="toc-sanity-checks" class="nav-link" data-scroll-target="#sanity-checks">Sanity Checks</a></li>
+  <li><a href="#fsdp" id="toc-fsdp" class="nav-link" data-scroll-target="#fsdp">FSDP</a></li>
+  <li><a href="#gradient-checkpointing" id="toc-gradient-checkpointing" class="nav-link" data-scroll-target="#gradient-checkpointing">Gradient Checkpointing</a></li>
+  <li><a href="#tensor-parallelism" id="toc-tensor-parallelism" class="nav-link" data-scroll-target="#tensor-parallelism">Tensor Parallelism</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/index.html">GPT Adventures</a></li><li class="breadcrumb-item"><a href="../../../programming/ml/gpt-adventures/phase4.html">GPT Adventures — Part 4: Distribute It</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">GPT Adventures — Part 4: Distribute It</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this part, I will explore the various methods of, and factors influencing, distributed training. Things I would like to understand more include exploring how training speed depends on:</p>
+<ul>
+<li>Distributed training modalities (Distributed Data Parallel, Fully Distributed Data Parallel, Tensor Parallelism and Pipeline Parallelism) and their limitations</li>
+<li>The effect of accelerator interconnect bandwidth (PCIe vs NVSwitch)</li>
+<li>Number of accelerators</li>
+</ul>
+<p>And, of course, the interdependencies between those factors.</p>
+<section id="training-loop-refactor" class="level2">
+<h2 class="anchored" data-anchor-id="training-loop-refactor">Training Loop Refactor</h2>
+<p>We have to refactor the training loop in order to make it compatible with distributed training. Rather than a single for loop inside the script’s main method, main is now only used to configure and spawn the distributed process group. Each rank executes a training loop analogous to the original, single-device loop, with each rank allocated an equal, disjoint shard of the training set data. In our case, we shard the data using PyTorch’s <code>DistributedSampler</code>.</p>
+<p>Per-device batch size is also adjusted to keep the same overall batch size; this means that the amount of per-forward/backward-pass compute is reduced, which reduces the amount of compute that can be overlapped with comms as the number of devices increases. Depending on the distributed training scheme and the topology of our compute resource, the overall comms latency can increase, creating a double-whammy of sorts; we’ll need to keep a close eye on this to ensure we are not limited by our comms bandwidth.</p>
+</section>
+<section id="distributed-data-parallel" class="level2">
+<h2 class="anchored" data-anchor-id="distributed-data-parallel">Distributed Data Parallel</h2>
+<p>Let us start with the conceptually simplest of frameworks. In DDP, we simply fully replicate the model on each of the N accelerators, and have every accelerator process a different part of the overall batch. Once all machines have finished processing and have produced gradients for their shard of the batch, we synchronise the gradients by performing an AllReduce.</p>
+<p>Note that there actually are many smaller AllReduces. When running experiments, it struck me that in the initial implementation I never had to specify how to partition the gradient communications; clearly, the NCCL backend did it for me, but it was not entirely clear how I ended up with the number of AllReduce calls I did.</p>
+<p>It turns out that NCCL performs something called <strong>gradient bucketing</strong>. During the backward pass, it accumulates the gradient artifacts as they become available into a flat buffer. Once the size of that buffer is exceeded, an AllReduce fires and gradients are synchronised; the default bucket size is 25MB. Below we can observe the effect of varying the bucket size. While medium and large buckets perform similarly, if the bucket size becomes too small, the overhead of launching kernels dominates — using 1MB buckets was considerably slower. Note also that when the parameters of a single, particularly large weights matrix can exceed the capacity of a bucket on a single increment — hence even in the small bucket example some of the AllReduces are larger and take longer to complete. In particular, the first and last buckets correspond to the embedding/unembedding matrices, and these immediately fill the bucket for all three sizes tested.</p>
+<p>(Note: the bottom row is a separate CUDA stream, and this is where we can see the collective operations being overlapped with the backward pass compute.)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-bucketing.png" class="img-fluid figure-img"></p>
+<figcaption>Gradient bucketing — effect of varying bucket size on AllReduce patterns.</figcaption>
+</figure>
+</div>
+<p>This flexibility in how we synchronise gradients stems from the fact that, in DDP, while gradients must be fully in sync before we can perform the optimiser step, the gradient tensors themselves are not on the critical path — meaning that they are not inputs into any of the subsequent backward pass computations; they are independent end-products in their own right. This (and many other concepts) is excellently laid out in Part 5 of <a href="https://github.com/stanford-cs336/spring2024-lectures/blob/main/lecture_scaling.pdf">The Scaling Book</a>.</p>
+</section>
+<section id="interconnects-pcie-dci-and-host-bridges" class="level2">
+<h2 class="anchored" data-anchor-id="interconnects-pcie-dci-and-host-bridges">Interconnects — PCIe, DCI and Host Bridges</h2>
+<p>All other things being equal, the duration of an AllReduce should be inversely proportional to the bandwidth of the interconnect over which it is being performed. To see how well this holds, we can experiment with different types of interconnects. For example, one of the GPU slices I have access to is an 8×A100 slice, composed of two subgroups of 4 GPUs each. Within each subgroup, each GPU is connected to a CPU host via PCIe, but GPUs from different subgroups can only communicate over a (much slower) DCI connection between the CPU hosts, as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-topology.png" class="img-fluid figure-img"></p>
+<figcaption>GPU topology diagram showing PCIe connections within subgroups and DCI host bridge connections between subgroups.</figcaption>
+</figure>
+</div>
+<p>Therefore, a distributed training run on two GPUs within the same subgroup should be faster (owing to the decreased AllReduce durations) than an equivalent run performed on two GPUs from disparate subgroups (which requires data to egress the node and traverse the DCI host-to-host bridge).</p>
+<p>We can test this by profiling a training run as usual. But we can also get a quicker, cleaner, lower-level insight into how the latency of the collectives themselves is affected by the networking configuration. NCCL comes with a suite of utilities for testing collective op latencies. One of these tools is:</p>
+<pre><code>all_reduce_perf -b 1M -e 1G -f 2 -g 2</code></pre>
+<p>where <code>-b</code> and <code>-e</code> set the size of the test data packet being AllReduced, <code>-f</code> sets the increment factor between packets, and <code>-g</code> sets the number of GPUs to use in the test (i.e.&nbsp;here we are using packets of size between 1MB and 1GB, doubling the message size between iterations, and the communication is between two GPUs).</p>
+<p>First, we run <code>nvidia-smi topo -m</code> to verify which devices are PCIe connected (<code>NODE</code>) and which are only connected via the host (<code>SYS</code>):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>GPU0</th>
+<th>GPU1</th>
+<th>GPU2</th>
+<th>GPU3</th>
+<th>GPU4</th>
+<th>GPU5</th>
+<th>GPU6</th>
+<th>GPU7</th>
+<th>NIC0</th>
+<th>NIC1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GPU0</td>
+<td>—</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+</tr>
+<tr class="even">
+<td>GPU1</td>
+<td>NODE</td>
+<td>—</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+</tr>
+<tr class="odd">
+<td>GPU2</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>—</td>
+<td>NODE</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+</tr>
+<tr class="even">
+<td>GPU3</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>—</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+</tr>
+<tr class="odd">
+<td>GPU4</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>—</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+</tr>
+<tr class="even">
+<td>GPU5</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>NODE</td>
+<td>—</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+</tr>
+<tr class="odd">
+<td>GPU6</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>—</td>
+<td>NODE</td>
+<td>PHB</td>
+<td>PHB</td>
+</tr>
+<tr class="even">
+<td>GPU7</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>SYS</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>NODE</td>
+<td>—</td>
+<td>NODE</td>
+<td>NODE</td>
+</tr>
+</tbody>
+</table>
+<p>Note how the block matrix reflects the configuration shown in the diagram above.</p>
+<p><strong>GPUs 0–1 (PCIe-connected):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Size (B)</th>
+<th style="text-align: right;">Count</th>
+<th style="text-align: right;">Time OOP (µs)</th>
+<th style="text-align: right;">AlgBW OOP (GB/s)</th>
+<th style="text-align: right;">BusBW OOP (GB/s)</th>
+<th style="text-align: right;">Time IP (µs)</th>
+<th style="text-align: right;">AlgBW IP (GB/s)</th>
+<th style="text-align: right;">BusBW IP (GB/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">8,388,608</td>
+<td style="text-align: right;">2,097,152</td>
+<td style="text-align: right;">580.2</td>
+<td style="text-align: right;">14.46</td>
+<td style="text-align: right;">14.46</td>
+<td style="text-align: right;">632.5</td>
+<td style="text-align: right;">13.26</td>
+<td style="text-align: right;">13.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16,777,216</td>
+<td style="text-align: right;">4,194,304</td>
+<td style="text-align: right;">947.6</td>
+<td style="text-align: right;">17.71</td>
+<td style="text-align: right;">17.71</td>
+<td style="text-align: right;">926.0</td>
+<td style="text-align: right;">18.12</td>
+<td style="text-align: right;">18.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">33,554,432</td>
+<td style="text-align: right;">8,388,608</td>
+<td style="text-align: right;">1798.5</td>
+<td style="text-align: right;">18.66</td>
+<td style="text-align: right;">18.66</td>
+<td style="text-align: right;">1802.0</td>
+<td style="text-align: right;">18.62</td>
+<td style="text-align: right;">18.62</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">67,108,864</td>
+<td style="text-align: right;">16,777,216</td>
+<td style="text-align: right;">3528.4</td>
+<td style="text-align: right;">19.02</td>
+<td style="text-align: right;">19.02</td>
+<td style="text-align: right;">3520.6</td>
+<td style="text-align: right;">19.06</td>
+<td style="text-align: right;">19.06</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">134,217,728</td>
+<td style="text-align: right;">33,554,432</td>
+<td style="text-align: right;">6924.6</td>
+<td style="text-align: right;">19.38</td>
+<td style="text-align: right;">19.38</td>
+<td style="text-align: right;">6914.9</td>
+<td style="text-align: right;">19.41</td>
+<td style="text-align: right;">19.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">268,435,456</td>
+<td style="text-align: right;">67,108,864</td>
+<td style="text-align: right;">13,698</td>
+<td style="text-align: right;">19.60</td>
+<td style="text-align: right;">19.60</td>
+<td style="text-align: right;">13,699</td>
+<td style="text-align: right;">19.59</td>
+<td style="text-align: right;">19.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">536,870,912</td>
+<td style="text-align: right;">134,217,728</td>
+<td style="text-align: right;">27,104</td>
+<td style="text-align: right;">19.81</td>
+<td style="text-align: right;">19.81</td>
+<td style="text-align: right;">27,090</td>
+<td style="text-align: right;">19.82</td>
+<td style="text-align: right;">19.82</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,073,741,824</td>
+<td style="text-align: right;">268,435,456</td>
+<td style="text-align: right;">53,866</td>
+<td style="text-align: right;">19.93</td>
+<td style="text-align: right;">19.93</td>
+<td style="text-align: right;">54,288</td>
+<td style="text-align: right;">19.78</td>
+<td style="text-align: right;">19.78</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Avg bus bandwidth: 18.51 GB/s</strong></p>
+<p><strong>GPUs 3–7 (host bridge / DCI-connected):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Size (B)</th>
+<th style="text-align: right;">Count</th>
+<th style="text-align: right;">Time OOP (µs)</th>
+<th style="text-align: right;">AlgBW OOP (GB/s)</th>
+<th style="text-align: right;">BusBW OOP (GB/s)</th>
+<th style="text-align: right;">Time IP (µs)</th>
+<th style="text-align: right;">AlgBW IP (GB/s)</th>
+<th style="text-align: right;">BusBW IP (GB/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">8,388,608</td>
+<td style="text-align: right;">2,097,152</td>
+<td style="text-align: right;">679.7</td>
+<td style="text-align: right;">12.34</td>
+<td style="text-align: right;">12.34</td>
+<td style="text-align: right;">643.6</td>
+<td style="text-align: right;">13.03</td>
+<td style="text-align: right;">13.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16,777,216</td>
+<td style="text-align: right;">4,194,304</td>
+<td style="text-align: right;">1274.7</td>
+<td style="text-align: right;">13.16</td>
+<td style="text-align: right;">13.16</td>
+<td style="text-align: right;">1250.0</td>
+<td style="text-align: right;">13.42</td>
+<td style="text-align: right;">13.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">33,554,432</td>
+<td style="text-align: right;">8,388,608</td>
+<td style="text-align: right;">2466.6</td>
+<td style="text-align: right;">13.60</td>
+<td style="text-align: right;">13.60</td>
+<td style="text-align: right;">2482.7</td>
+<td style="text-align: right;">13.52</td>
+<td style="text-align: right;">13.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">67,108,864</td>
+<td style="text-align: right;">16,777,216</td>
+<td style="text-align: right;">4928.8</td>
+<td style="text-align: right;">13.62</td>
+<td style="text-align: right;">13.62</td>
+<td style="text-align: right;">4898.2</td>
+<td style="text-align: right;">13.70</td>
+<td style="text-align: right;">13.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">134,217,728</td>
+<td style="text-align: right;">33,554,432</td>
+<td style="text-align: right;">9763.1</td>
+<td style="text-align: right;">13.75</td>
+<td style="text-align: right;">13.75</td>
+<td style="text-align: right;">9762.8</td>
+<td style="text-align: right;">13.75</td>
+<td style="text-align: right;">13.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">268,435,456</td>
+<td style="text-align: right;">67,108,864</td>
+<td style="text-align: right;">19,506</td>
+<td style="text-align: right;">13.76</td>
+<td style="text-align: right;">13.76</td>
+<td style="text-align: right;">19,517</td>
+<td style="text-align: right;">13.75</td>
+<td style="text-align: right;">13.75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">536,870,912</td>
+<td style="text-align: right;">134,217,728</td>
+<td style="text-align: right;">38,960</td>
+<td style="text-align: right;">13.78</td>
+<td style="text-align: right;">13.78</td>
+<td style="text-align: right;">38,888</td>
+<td style="text-align: right;">13.81</td>
+<td style="text-align: right;">13.81</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,073,741,824</td>
+<td style="text-align: right;">268,435,456</td>
+<td style="text-align: right;">77,783</td>
+<td style="text-align: right;">13.80</td>
+<td style="text-align: right;">13.80</td>
+<td style="text-align: right;">77,824</td>
+<td style="text-align: right;">13.80</td>
+<td style="text-align: right;">13.80</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Avg bus bandwidth: 13.54 GB/s</strong></p>
+<p>We will try to unpick the exact bandwidth numbers later, but for now we just note that communicating over the host bridge is slower. This confirms that we should expect the AllReduces to take longer on the latter device pair. Given that the AllReduce operations on the PCIe-connected pair are already nearly densely packed (see below), we expect the AllReduce ops to start increasing the overall latency.</p>
+<p>Even though, as previously mentioned, AllReduces are not on the critical path of the backward pass itself, they must finish before the optimiser step can be taken. While even in the PCIe case the final AllReduce can only start after the backward pass propagates all the way through the final embedding layer, and therefore extends beyond (i.e.&nbsp;is not overlapped with) backward compute, if many AllReduces are queued up and haven’t finished by the time the embedding backward finishes, the final AllReduce may not even start for a while after. This is exactly the pattern seen in the traces below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-allreduce-timeline.png" class="img-fluid figure-img"></p>
+<figcaption>CUDA timeline showing AllReduce operations and their overlap (or lack thereof) with backward compute.</figcaption>
+</figure>
+</div>
+<p>Even though the final AllReduce will necessarily introduce a gap between the end of the backward pass and the optimiser step, for the PCIe case in the example above this is relatively minor and more than made up for by the fact that our compute-limited training loop now does ~half the work per device, leading to a nearly 2× speed-up.</p>
+<p>However, as the number of GPUs increases, the PCIe connection quickly becomes inadequate.</p>
+</section>
+<section id="increasing-the-number-of-devices" class="level2">
+<h2 class="anchored" data-anchor-id="increasing-the-number-of-devices">Increasing the Number of Devices</h2>
+<p>As the number of GPUs involved in computation increases, the size of the gradients being transferred also goes up; each gradient shard is <span class="math inline">\(\frac{2}{N}S\)</span> bytes, and <span class="math inline">\(N-1\)</span> shards (all but the one already present on the device) need to be communicated to each device. Evaluating the ratio of total comms size for <span class="math inline">\(N=2\)</span> and <span class="math inline">\(N=4\)</span>, we get a factor of 1.5.</p>
+<p>Moreover, since the host-mediated communication does not allow different pairs of devices to communicate in parallel at full interconnect bandwidth each — while in two-device DDP two comms streams shared the bus, in a four-device DDP this bus now serves all four streams — so each communication stream gets half as much bandwidth allocated. This means we’d expect the AllReduce latency to increase by at least 3× for the four-device configuration.</p>
+<p>In reality, we see closer to <strong>5×</strong> — likely due to imperfect bandwidth contention handling in the shared bus.</p>
+<p>The amount of backward pass compute is also less when the same effective batch is shared between four devices, leading to a prolonged stall waiting for the NCCL collectives to complete. Overall, this leads to a significant decrease in training speed; increasing the number of devices is actually <strong>counterproductive</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-scaling-pcie.png" class="img-fluid figure-img"></p>
+<figcaption>Training performance comparison across device counts — adding GPUs hurts when communication bottlenecks on PCIe.</figcaption>
+</figure>
+</div>
+</section>
+<section id="nvlinks-and-nvswitches" class="level2">
+<h2 class="anchored" data-anchor-id="nvlinks-and-nvswitches">NVLinks and NVSwitches</h2>
+<p>Let us now consider a different setup, where the layout of host-device networking is unchanged, but devices are additionally networked with NVLink interconnect via a NVSwitch box, as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-nvswitch-topology.png" class="img-fluid figure-img"></p>
+<figcaption>NVSwitch topology — direct GPU-to-GPU connections via dedicated switching hardware.</figcaption>
+</figure>
+</div>
+<p>In the NVSwitch setup, each link has a much higher bandwidth (nearly 10×), and the NVSwitch itself is a dedicated piece of networking hardware, which allows for non-blocking DtoD communication channels to be handled simultaneously. In fact, in the particular configuration tested, each GPU is linked to six separate NVSwitch boxes with two NVLinks per box, for a total of 12 NVLink connections per GPU. This is shown in the diagram borrowed from the Nvidia Developer page:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-nvswitch-hgx.png" class="img-fluid figure-img"></p>
+<figcaption>HGX A100 NVSwitch configuration — 12 NVLink connections per GPU across 6 NVSwitch boxes.</figcaption>
+</figure>
+</div>
+<p>This config can be viewed with <code>nvidia-smi nvlink --status -i 0</code>, which displays all NVLinks for the GPU with the id specified by <code>-i</code>.</p>
+<p>This config enables direct DtoD communication between any pair of devices, which significantly reduces the AllReduce latencies. Due to this comms parallelism, scaling from two to four devices still results in a significant speed-up. Even going up to eight devices still accelerates training, although the gains slowly become marginal as individual kernel latencies start approaching single-digit µs durations (at which point these durations are of the same order as networking latency) and the AllReduce kernels become largely non-overlapped with compute.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-scaling-nvswitch.png" class="img-fluid figure-img"></p>
+<figcaption>Training speed vs.&nbsp;number of devices with NVSwitch — sustained speed-up even at 8 GPUs.</figcaption>
+</figure>
+</div>
+<p>While I have kept the overall batch size at a level where I expected to see this behaviour while working on an 8×A100 GPU box, and in practice training batches would be significantly larger, this is still symptomatic of the kinds of limitations present in real training runs. Once the batch is sharded to a point where the amount of work is not sufficient to mask the AllReduce ops, gains from further device count scaling may become marginal (or even reversed) as the collective op latency becomes dominant.</p>
+</section>
+<section id="sanity-checks" class="level2">
+<h2 class="anchored" data-anchor-id="sanity-checks">Sanity Checks</h2>
+<p>So far, we have been looking at trends: do collective ops get faster with increased bandwidth; does compute time reduce as work is shared between more GPUs. But before moving on, let us be more quantitative with respect to the numbers we are seeing. We know the maximum bandwidth numbers for individual configurations — but is our training loop anywhere near those numbers? How far can we push our hardware?</p>
+<p>There is some overhead associated with launching and routing collective ops, so for the purpose of comparison it is best to marginalise these by increasing bucket size; we saw that 100MB is a sensible value for bucket size, so we will use these instead of the default 25MB.</p>
+<p>Testing on two different GPU boxes, each supposedly identically networked in terms of NVLink count (12 per device) and generation (3.0) and the NVSwitch generation (2.0), we get different numbers for AllReducing a 100MB bucket: <strong>1250µs</strong> and <strong>800µs</strong> for the 40GB SKU and 80GB SKU, respectively. For 100MB buckets, this implies around <strong>80 GB/s</strong> and <strong>120 GB/s</strong>, respectively — neither anywhere close to the theoretical maximum of 300 GB/s. What gives?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-allreduce-latency.png" class="img-fluid figure-img"></p>
+<figcaption>AllReduce latency comparison between the two GPU boxes.</figcaption>
+</figure>
+</div>
+<p>First, let us consider the differences between the boxes themselves. At face value, only the HBM capacity and HBM bandwidth is different — and neither of those two parameters should matter; HBM bandwidth is orders of magnitude larger than the transfer speeds in question, so writing to/from HBM is not the limiting factor here. Since the count and generation of the NVLinks is identical, the only remaining difference is the NVSwitch. While this reports as being the same generation as well, the NVSwitch silicon varies in-generation, whereas, as far as I am aware, there are no in-generation differences between NVLink interconnects. This example shows that all components of the network must be considered when optimising throughput — the system is only as fast as the slowest link in the chain.</p>
+<p>As for the absolute shortfall with respect to the theoretical maximum, this is a combination of two factors. Firstly, AllReduces observed in training suffer from contention with other operations taking place on-chip. We can see this is the case by once again resorting to <code>all_reduce_perf</code>. By performing the op in isolation, the same 100MB AllReduce reports <strong>100 GB/s</strong> and <strong>180 GB/s</strong> for the two GPU boxes.</p>
+<p>Secondly, the 100MB bucket size is still relatively small; for bucket sizes of the order of 1GB and more, we get <strong>130 GB/s</strong> and <strong>205 GB/s</strong>, respectively.</p>
+<p>Finally, AllReduces themselves require some computation — such as summing the local and arriving shards — and therefore are reliant on SM slots being available. The computations are not particularly heavy-weight, but they do add some scheduling contention and latency. To expose this difference, let us construct a bandwidth test that does not require any computation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> torch.ones(<span class="dv">1024</span><span class="op">*</span><span class="dv">1024</span><span class="op">*</span><span class="dv">1024</span>, dtype<span class="op">=</span>torch.float32, device<span class="op">=</span><span class="st">'cuda:0'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> torch.empty(<span class="dv">1024</span><span class="op">*</span><span class="dv">1024</span><span class="op">*</span><span class="dv">1024</span>, dtype<span class="op">=</span>torch.float32, device<span class="op">=</span><span class="st">'cuda:1'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># warm up</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    b.copy_(a)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>torch.cuda.synchronize()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.perf_counter()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(N):</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    b.copy_(a)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>torch.cuda.synchronize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This test reports <strong>180 GB/s</strong> and <strong>280 GB/s</strong>. For the more recent box, we nearly saturate the NVLink bandwidth; this suggests that the other box, networked with identical interconnects, must indeed be limited by a slower NVSwitch internal bandwidth.</p>
+<p>So, what kind of speed-up can we get from going from a single GPU up to eight? Well, since almost all of the AllReduces are overlapped with compute, unsurprisingly we get a near-linear speed-up with the number of devices.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-scaling-efficiency.png" class="img-fluid figure-img"></p>
+<figcaption>Near-linear scaling efficiency with NVSwitch — AllReduces largely overlapped with compute.</figcaption>
+</figure>
+</div>
+</section>
+<section id="fsdp" class="level2">
+<h2 class="anchored" data-anchor-id="fsdp">FSDP</h2>
+<p>In DDP, we feed identical replicas of the model different partitions of the training data, and synchronise the resulting gradients. For very large models, the model itself (alongside the associated gradients and optimiser states) can take up a significant proportion of the on-chip memory. Replicating all this on each chip can leave little room for data, and since the size of the gradients which need to be AllReduced is fixed, this can lead to the ratio of compute to data transfer being insufficient to overlap the transfers and, consequently, the system being memory bandwidth rather than compute limited.</p>
+<p>To avoid this, we can distribute the model itself between GPUs. At any given point, each GPU only holds a fraction of the model’s weights, and when a particular chip requires the entire weights matrix to carry out a computation, chips communicate via the networking hardware to gather all the shards onto the chip in question. If the bandwidth is sufficient, this AllGather operation will be performed ahead of time, so that a continuous compute pipeline is maintained.</p>
+<p>Also, since each GPU only holds a smaller proportion of weights instead of a full replica, only the gradients corresponding to the local weights are needed to perform the optimizer step, so there is no need to AllReduce the entire gradient — a ReduceScatter operation, which reduces and materialises just the gradients corresponding to the local shard of model parameters, is performed instead.</p>
+<p>In our case, however, the model itself only occupies a small fraction of the memory. We have ample space to fit a batch size large enough to mask any AllReduce computations. And while it is true that the final AllReduce cannot be overlapped with compute, and that in FSDP this AllReduce is replaced with a smaller ReduceScatter, FSDP also has to perform a separate operation that cannot (or at least not easily) be overlapped with compute: the initial AllGather of the first layer in the forward pass. All in all, in our case the difference is marginal.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-ddp-vs-fsdp.png" class="img-fluid figure-img"></p>
+<figcaption>DDP vs FSDP — performance comparison for our model size.</figcaption>
+</figure>
+</div>
+<p>For completeness, here are some notes regarding FSDP:</p>
+<ul>
+<li>We must specify how to shard the model; a sensible choice is to shard every layer, meaning with <span class="math inline">\(N\)</span> devices each device holds <span class="math inline">\(\frac{1}{N}\)</span>th of each layer, and during the computation of layer <span class="math inline">\(l\)</span> the weights corresponding to layer <span class="math inline">\(l+1\)</span> are being gathered. This means that at any given time only approximately <span class="math inline">\(\frac{2}{L} \times \text{model\_size}\)</span> is materialised on each GPU. If we do not specify the sharding strategy, PyTorch will fall back to sharding the entire model, meaning that the entire model will be gathered at the start of the forward pass, entirely defeating the purpose of applying FSDP. Sharding can be specified via the wrapping policy:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>auto_wrap_policy <span class="op">=</span> partial(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    transformer_auto_wrap_policy, transformer_layer_cls<span class="op">=</span>{TransformerBlock}</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>distributed_model <span class="op">=</span> FSDP(model, auto_wrap_policy<span class="op">=</span>auto_wrap_policy, use_orig_params<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Some operations used in the process of sharding/unsharding the model introduce graph breaks, so in order to <code>torch.compile</code> the sharded model we have to allow graph breaks by setting <code>full_graph=False</code>.</li>
+<li>FSDP has a settable mixed precision policy, settable via the <code>mixed_precision</code> argument during initialisation. This defaults to fp32, so some care is advisable when using autocast. FSDP and autocast are perfectly compatible, but, particularly if working in lower precision, it is worth checking that we are not casting dtypes back and forth for no good reason.</li>
+</ul>
+</section>
+<section id="gradient-checkpointing" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-checkpointing">Gradient Checkpointing</h2>
+<p>By default, activations generated during the forward pass are cached for later use in the backward pass. While this does save compute — as otherwise those activations would have to be recomputed — the memory footprint of storing activations is significant. In fact, without any treatment, this footprint can get so large that it dwarfs every other memory allocation. To see this, let us carry out a quick back-of-the-envelope estimation of different memory requirements.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Footprint</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Model weights (120M × bf16)</td>
+<td>~240 MB</td>
+</tr>
+<tr class="even">
+<td>Gradients (one per parameter)</td>
+<td>~240 MB</td>
+</tr>
+<tr class="odd">
+<td>Optimiser states (two momentum params per parameter)</td>
+<td>~480 MB</td>
+</tr>
+<tr class="even">
+<td><strong>Total (model + gradients + optimiser)</strong></td>
+<td><strong>~960 MB</strong></td>
+</tr>
+</tbody>
+</table>
+<p>And yet, when we attempt to run with a batch size of 512 and context length of 1024 (which, with DDP over 8 GPUs, gives a per-chip batch size of 64), we hit out-of-memory errors on an 80GB device.</p>
+<p>In transformer layers, we have some fairly large matrix multiplication ops:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Activation Shape</th>
+<th>Size (bf16)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Attention Wqkv projection</td>
+<td>(64, 1024, 768×3)</td>
+<td>~300 MB</td>
+</tr>
+<tr class="even">
+<td>Feed-forward Wup projection</td>
+<td>(64, 1024, 3072)</td>
+<td>~400 MB</td>
+</tr>
+<tr class="odd">
+<td>Vocab projection</td>
+<td>(64, 1024, 50256)</td>
+<td><strong>~6.6 GB</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The attention and feed-forward activations scale with the number of layers (12 in our case), and even looking at just some of the larger activation tensors, we see that the required memory quickly grows to fill and exceed the chip’s memory.</p>
+<p>Instead of saving all the activations, we can choose to not save anything at all and recompute, or to save some but not all activations. Recomputation will of course generate additional overhead compared to a fully cached training run; however, since the amount of memory required in fully cached runs is so asymmetrically higher, by reducing the amount of caching we may be able to fit a much larger batch on the chip, and thus increase token throughput overall. The caveat is that a larger batch size is not always what we want, and we should think carefully whether this increased throughput is what we really care about. For now, we are only seeking to maximise throughput.</p>
+<p>For simplicity, it is common to checkpoint model per-layer. We can achieve this with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> args.checkpoint_grads:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    non_reentrant_wrapper <span class="op">=</span> partial(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        checkpoint_wrapper,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        checkpoint_impl<span class="op">=</span>CheckpointImpl.NO_REENTRANT,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    check_fn <span class="op">=</span> <span class="kw">lambda</span> layer: <span class="bu">isinstance</span>(layer, TransformerBlock)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    apply_activation_checkpointing(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        distributed_model,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        non_reentrant_wrapper,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        check_fn,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This traverses the model and applies checkpointing to any <code>nn.Module</code> instance picked up by <code>check_fn</code>.</p>
+<p>A more optimised treatment would be to cache operations that are expensive to compute but produce relatively small activations, and recompute otherwise. For example, in the feed-forward layer, the up- and down-projection require the same amount of computation, but the up projection produces activations that are four times larger than the down-projection. Similarly, the un-embedding produces an enormous matrix owing to the <code>vocab_size</code> — it may be worth experimenting with not caching those activations.</p>
+<p>To be more selective about how we checkpoint, we can either perform some logic inside <code>check_fn</code> to verify the FLOPs/footprint of the individual module, or we can wrap layers we wish to checkpoint inside custom classes. For example, if we wish to checkpoint the vocab projection op:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LayerWrapper(nn.Module):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, d_attention, vocab_size):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.large_projection <span class="op">=</span> nn.Linear(d_attention, vocab_size)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.large_projection(x)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify the lambda to also checkpoint LayerWrapper</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>check_fn <span class="op">=</span> <span class="kw">lambda</span> layer: <span class="bu">isinstance</span>(layer, (TransformerBlock, LayerWrapper))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For our model specifically though, even without checkpointing, we can fit a large enough batch to saturate kernels; fitting an ever larger batch not only does not help (as the operations are pipelined in sequential order), it actually hurts throughput due to re-computation. For completeness, below is an example of running with and without checkpointing and its effect on memory allocation and throughput.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-memory-checkpointing.png" class="img-fluid figure-img"></p>
+<figcaption>Allocated GPU memory — with and without gradient checkpointing.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../../images/gpt-adventures/phase4-throughput-checkpointing.png" class="img-fluid figure-img"></p>
+<figcaption>Throughput — with and without gradient checkpointing.</figcaption>
+</figure>
+</div>
+</section>
+<section id="tensor-parallelism" class="level2">
+<h2 class="anchored" data-anchor-id="tensor-parallelism">Tensor Parallelism</h2>
+<p>While FSDP and gradient checkpointing were not helpful in our situation, there is another technique which will reduce the activation memory pressure without the need to recompute activations.</p>
+<p>While FSDP shards the contracting dimension of the weight tensors of our model, tensor parallelism shards the non-contracting dimension. The immediate effect of this is that the size of the activations is reduced, allowing us to fit a larger local batch.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
