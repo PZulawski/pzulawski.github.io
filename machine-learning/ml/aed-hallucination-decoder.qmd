@@ -1,5 +1,5 @@
 ---
-title: "AED Hallucinations — the Decoder Knows Too"
+title: "AED Hallucinations — The Decoder Knows Too"
 ---
 
 In the [previous articles](aed-hallucination-probe.qmd), we established two things: the encoder of our AED model builds a near-perfect linear representation of speech vs non-speech from the very first transformer layer, and — crucially — this representation is causally upstream of the decoder. Steering encoder activations along the probe direction suppresses approximately 50% of hallucinations on non-speech audio, without measurably degrading transcription of real speech. **Case A is confirmed**: the model knows it is looking at non-speech; it simply fails to act on that knowledge.
