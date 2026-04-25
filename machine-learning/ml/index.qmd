@@ -2,6 +2,14 @@
 title: "Machine Learning"
 ---
 
+**Hearing Things — AED Hallucination Investigation**
+
+- [Part 1: Where Do AED Hallucinations Come From?](aed-hallucination-probe.qmd) --- Linear probing reveals the encoder builds a near-perfect latent representation of speech/non-speech from layer 0
+- [Part 2: Causal Intervention](aed-hallucination-intervention.qmd) --- Activation steering confirms the probe direction is causally upstream of the decoder, suppressing ~50% of hallucinations
+- [Part 3: The Decoder Knows Too](aed-hallucination-decoder.qmd) --- Probing the decoder during generation: 99% recall, 99% precision, errors are labelling noise
+
+**GPT Adventures**
+
 - [GPT Adventures](gpt-adventures/index.qmd) --- Building a GPT-2 Small from scratch and progressively optimising it
 - [A Neural Net From Scratch](neural-net-from-scratch.qmd)
 - [Corneal Endothelium Image Processing](corneal-endothelium.qmd)

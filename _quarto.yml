@@ -52,6 +52,7 @@ website:
           contents:
             - machine-learning/ml/aed-hallucination-probe.qmd
             - machine-learning/ml/aed-hallucination-intervention.qmd
+            - machine-learning/ml/aed-hallucination-decoder.qmd
         - text: "GPT Adventures"
           contents:
             - machine-learning/ml/gpt-adventures/index.qmd

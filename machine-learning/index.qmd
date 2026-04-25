@@ -32,6 +32,16 @@ A collection of ML project write-ups.
 </a>
 :::
 
+::: {.g-col-4}
+<a href="ml/aed-hallucination-decoder.qmd" class="home-card">
+<div class="home-card-img"><img src="/images/machine-learning/thumb-aed-decoder.png" alt="AED Decoder Probe"></div>
+<div class="home-card-body">
+<h3>Hearing Things — Part 3</h3>
+<p>Decoder probe: the model knows it's hallucinating at both ends</p>
+</div>
+</a>
+:::
+
 ::::
 
 ### GPT Adventures
