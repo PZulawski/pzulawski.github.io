@@ -29,9 +29,11 @@ The collection loop tracks how many entries were scanned before the training set
 
 ### The decoder also separates
 
-Probe accuracy is above 0.99 at every decoder layer, peaking at 0.995 ± 0.006. Unlike the encoder, where the curve is flat at essentially 1.000 from the very first layer, the decoder shows a small consistent rise across its early layers before plateauing — the distinction is present from the start, but becomes slightly more linearly decodable after the first attention block processes both the generated tokens and the encoder context.
+One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments — acoustically unambiguous non-speech — against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of **sparse speech segments** — real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.
 
-![Probe accuracy across decoder layers. All layers exceed 0.99; peak accuracy is 0.995.](/images/ml/decoder-probe-accuracy.png)
+The curve rises monotonically with depth, reaching above 0.97 towards the final layer. Unlike the encoder where separation is essentially complete from the very first layer, the decoder sharpens progressively — the signal is present early but becomes more linearly decodable as cross-attention information is integrated across the full stack.
+
+![Probe accuracy across decoder layers, trained on sparse speech vs hallucination. The curve rises with depth, peaking above 0.97.](/images/ml/decoder-probe-accuracy.png)
 
 The 1D projection at the best layer shows essentially complete separation, with a gap of 7.6 pooled standard deviations between the two class centres.
 
@@ -41,13 +43,10 @@ The 1D projection at the best layer shows essentially complete separation, with 
 
 The fitted probe is evaluated on the held-out test set as a runtime hallucination detector: run the model, collect decoder activations, classify without looking at the transcript output.
 
-| | Detected | Missed | Recall |
-|---|---:|---:|---:|
-| Non-speech hallucinations | 458 | 5 | **0.99** |
-
-| | False positives | True negatives | Precision |
-|---|---:|---:|---:|
-| Speech transcriptions | 6 | 793 | **0.99** |
+| | Correct | Errors | Rate |
+|:---|---:|---:|---:|
+| Non-speech hallucinations | 458 detected | 5 missed | **recall 0.99** |
+| Speech transcriptions | 793 passed | 6 false positives | **precision 0.99** |
 
 Of 463 hallucinating segments in the test set, 458 are correctly identified. Of 799 normal speech segments, 793 are correctly cleared. 11 cases in total appear as errors. The correctly detected hallucinations are characteristic of the failure mode: short, affirmative-sounding fragments produced from ambient silence — *"Oh,"*, *"Hold on."*, *"Thank you."*, *"I'm gonna go with it."*, *"Jesus."* — consistent with what was observed in the encoder steering experiments.
 
@@ -103,6 +102,22 @@ This is not a pathology of the probe. It is pointing at something real. The pref
 
 The implication is that the hallucination signal in the decoder is encoded primarily in the **initial cross-attention state**, not in the autoregressive generation. The decoder does not become progressively more "aware" that it is hallucinating as it generates tokens — it knows from the very first step, before producing a single word, because it has already read the encoder's non-speech representation. The tokens that follow are then generated from a starting point that already carries the hallucination signal in its mean-pooled representation. The cross-attention is the mechanism; everything else is downstream.
 
+### Ablation: ruling out sequence-length confounds
+
+Two potential confounds are worth addressing. The first is **transcript length**: hallucinated transcripts are short (typically one to three words) while normal transcripts are long. The second is **audio duration**: silence segments used for the hallucination class may be systematically shorter than the speech segments, meaning the decoder's cross-attention attends over a shorter encoder sequence — and the probe might be learning this length difference rather than anything about acoustic content.
+
+Two ablations are run:
+
+- **Transcript position**: the probe is retrained using only the first word of each segment. At position 0, both classes are in the same place in the sequence; any remaining separation must come from cross-attention content.
+- **Audio duration**: the probe is retrained using only segments whose natural duration falls within the overlap window between the two classes. Segments are used whole — not trimmed — to avoid the risk of cutting a speech segment down to a silent passage.
+
+| | Full probe | First-word | Duration-matched |
+|:---|---:|---:|---:|
+| First layer | 0.942 | 0.927 | 0.894 |
+| Last layer | 0.973 | 0.972 | 0.969 |
+
+The first-word probe barely moves — consistent with the positional confound being structurally implausible in any case, since the primary signal carrier is the prefix activation, computed before any token exists. Duration matching causes a ~5 percentage point drop in the first layer, suggesting the earliest decoder layer is somewhat sensitive to encoder sequence length; by the final layer the gap has closed to under half a point as deeper cross-attention integration takes over. Both ablations confirm that the separation is primarily grounded in acoustic content.
+
 ## Interpretation
 
 The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder — it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all four decoder layers, with no learning beyond a logistic regression.
@@ -111,6 +126,6 @@ This means the model has **redundant, multilayered knowledge that it is hallucin
 
 The suppression achieved by encoder-level steering works not because it introduces new information into the system, but because it amplifies a signal the model already possesses. The decoder probe shows the complementary side of this: the decoder would, if it had a way to act on its own internal state, be capable of flagging its output as hallucinated.
 
-The information required to suppress hallucinations is present in the model twice over — once at the input stage, once at the output stage. What is absent is any mechanism in the training objective that rewards the model for acting on it.
+The information required to suppress hallucinations is present in the model twice over — once at the input stage, once at the output stage. What is absent is not a training signal — non-speech and sparse-speech data were included in training, and the model does produce silence in the typical case. What is absent is a training objective that explicitly rewards the model for routing through the latent representation the probe identifies. The coupling between its internal knowledge that it is hallucinating and the decision to output EOS is loose enough to fail at the margin.
 
-A secondary finding worth noting: the decoder probe is precise enough to function as an approximate label auditor. Applied to a labelled dataset, it surfaces samples where the label and the audio content disagree. This is not its intended use, but it suggests that interpretability tools applied at the output-generation stage can detect annotation noise that would otherwise require manual review to find.
+A secondary finding worth noting: the decoder probe is precise enough to function as an approximate label auditor. Applied to a labelled dataset, it surfaces samples where the label and the audio content disagree. This is not its intended use, but it suggests that interpretability tools applied at the output-generation stage can detect annotation noise that are otherwise challenging to identify.

@@ -259,6 +259,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#held-out-evaluation-99-recall-99-precision" id="toc-held-out-evaluation-99-recall-99-precision" class="nav-link" data-scroll-target="#held-out-evaluation-99-recall-99-precision">Held-out evaluation: 99% recall, 99% precision</a></li>
   <li><a href="#the-errors-are-labelling-noise" id="toc-the-errors-are-labelling-noise" class="nav-link" data-scroll-target="#the-errors-are-labelling-noise">The errors are labelling noise</a></li>
   <li><a href="#where-the-signal-lives-cross-attention-not-generation" id="toc-where-the-signal-lives-cross-attention-not-generation" class="nav-link" data-scroll-target="#where-the-signal-lives-cross-attention-not-generation">Where the signal lives: cross-attention, not generation</a></li>
+  <li><a href="#ablation-ruling-out-sequence-length-confounds" id="toc-ablation-ruling-out-sequence-length-confounds" class="nav-link" data-scroll-target="#ablation-ruling-out-sequence-length-confounds">Ablation: ruling out sequence-length confounds</a></li>
   </ul></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   </ul>
@@ -308,11 +309,12 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <section id="the-decoder-also-separates" class="level3">
 <h3 class="anchored" data-anchor-id="the-decoder-also-separates">The decoder also separates</h3>
-<p>Probe accuracy is above 0.99 at every decoder layer, peaking at 0.995 ± 0.006. Unlike the encoder, where the curve is flat at essentially 1.000 from the very first layer, the decoder shows a small consistent rise across its early layers before plateauing — the distinction is present from the start, but becomes slightly more linearly decodable after the first attention block processes both the generated tokens and the encoder context.</p>
+<p>One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments — acoustically unambiguous non-speech — against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of <strong>sparse speech segments</strong> — real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.</p>
+<p>The curve rises monotonically with depth, reaching above 0.97 towards the final layer. Unlike the encoder where separation is essentially complete from the very first layer, the decoder sharpens progressively — the signal is present early but becomes more linearly decodable as cross-attention information is integrated across the full stack.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/decoder-probe-accuracy.png" class="img-fluid figure-img"></p>
-<figcaption>Probe accuracy across decoder layers. All layers exceed 0.99; peak accuracy is 0.995.</figcaption>
+<figcaption>Probe accuracy across decoder layers, trained on sparse speech vs hallucination. The curve rises with depth, peaking above 0.97.</figcaption>
 </figure>
 </div>
 <p>The 1D projection at the best layer shows essentially complete separation, with a gap of 7.6 pooled standard deviations between the two class centres.</p>
@@ -327,38 +329,32 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="held-out-evaluation-99-recall-99-precision">Held-out evaluation: 99% recall, 99% precision</h3>
 <p>The fitted probe is evaluated on the held-out test set as a runtime hallucination detector: run the model, collect decoder activations, classify without looking at the transcript output.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
 <thead>
 <tr class="header">
-<th></th>
-<th style="text-align: right;">Detected</th>
-<th style="text-align: right;">Missed</th>
-<th style="text-align: right;">Recall</th>
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Correct</th>
+<th style="text-align: right;">Errors</th>
+<th style="text-align: right;">Rate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Non-speech hallucinations</td>
-<td style="text-align: right;">458</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;"><strong>0.99</strong></td>
+<td style="text-align: left;">Non-speech hallucinations</td>
+<td style="text-align: right;">458 detected</td>
+<td style="text-align: right;">5 missed</td>
+<td style="text-align: right;"><strong>recall 0.99</strong></td>
 </tr>
-</tbody>
-</table>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th style="text-align: right;">False positives</th>
-<th style="text-align: right;">True negatives</th>
-<th style="text-align: right;">Precision</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Speech transcriptions</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">793</td>
-<td style="text-align: right;"><strong>0.99</strong></td>
+<tr class="even">
+<td style="text-align: left;">Speech transcriptions</td>
+<td style="text-align: right;">793 passed</td>
+<td style="text-align: right;">6 false positives</td>
+<td style="text-align: right;"><strong>precision 0.99</strong></td>
 </tr>
 </tbody>
 </table>
@@ -510,14 +506,48 @@ ul.task-list li input[type="checkbox"] {
 <p>This is not a pathology of the probe. It is pointing at something real. The prefix activation is the decoder’s first and only opportunity to read the encoder output without any autoregressive context. Its state at that point is entirely determined by what the encoder produced — which is itself a near-perfect linear representation of speech vs non-speech. For non-speech audio, the encoder output sits deep in the non-speech cluster; the decoder’s initial cross-attention read of that output puts it in the hallucination region before any token is generated. For speech audio, the encoder output sits in the speech cluster; the initial cross-attention puts the decoder in the normal zone, and it stays there.</p>
 <p>The implication is that the hallucination signal in the decoder is encoded primarily in the <strong>initial cross-attention state</strong>, not in the autoregressive generation. The decoder does not become progressively more “aware” that it is hallucinating as it generates tokens — it knows from the very first step, before producing a single word, because it has already read the encoder’s non-speech representation. The tokens that follow are then generated from a starting point that already carries the hallucination signal in its mean-pooled representation. The cross-attention is the mechanism; everything else is downstream.</p>
 </section>
+<section id="ablation-ruling-out-sequence-length-confounds" class="level3">
+<h3 class="anchored" data-anchor-id="ablation-ruling-out-sequence-length-confounds">Ablation: ruling out sequence-length confounds</h3>
+<p>Two potential confounds are worth addressing. The first is <strong>transcript length</strong>: hallucinated transcripts are short (typically one to three words) while normal transcripts are long. The second is <strong>audio duration</strong>: silence segments used for the hallucination class may be systematically shorter than the speech segments, meaning the decoder’s cross-attention attends over a shorter encoder sequence — and the probe might be learning this length difference rather than anything about acoustic content.</p>
+<p>Two ablations are run:</p>
+<ul>
+<li><strong>Transcript position</strong>: the probe is retrained using only the first word of each segment. At position 0, both classes are in the same place in the sequence; any remaining separation must come from cross-attention content.</li>
+<li><strong>Audio duration</strong>: the probe is retrained using only segments whose natural duration falls within the overlap window between the two classes. Segments are used whole — not trimmed — to avoid the risk of cutting a speech segment down to a silent passage.</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Full probe</th>
+<th style="text-align: right;">First-word</th>
+<th style="text-align: right;">Duration-matched</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">First layer</td>
+<td style="text-align: right;">0.942</td>
+<td style="text-align: right;">0.927</td>
+<td style="text-align: right;">0.894</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Last layer</td>
+<td style="text-align: right;">0.973</td>
+<td style="text-align: right;">0.972</td>
+<td style="text-align: right;">0.969</td>
+</tr>
+</tbody>
+</table>
+<p>The first-word probe barely moves — consistent with the positional confound being structurally implausible in any case, since the primary signal carrier is the prefix activation, computed before any token exists. Duration matching causes a ~5 percentage point drop in the first layer, suggesting the earliest decoder layer is somewhat sensitive to encoder sequence length; by the final layer the gap has closed to under half a point as deeper cross-attention integration takes over. Both ablations confirm that the separation is primarily grounded in acoustic content.</p>
+</section>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
 <p>The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder — it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all four decoder layers, with no learning beyond a logistic regression.</p>
 <p>This means the model has <strong>redundant, multilayered knowledge that it is hallucinating</strong>. The encoder has it from layer 0. The decoder builds it from generation step 1. Neither representation surfaces in the output.</p>
 <p>The suppression achieved by encoder-level steering works not because it introduces new information into the system, but because it amplifies a signal the model already possesses. The decoder probe shows the complementary side of this: the decoder would, if it had a way to act on its own internal state, be capable of flagging its output as hallucinated.</p>
-<p>The information required to suppress hallucinations is present in the model twice over — once at the input stage, once at the output stage. What is absent is any mechanism in the training objective that rewards the model for acting on it.</p>
-<p>A secondary finding worth noting: the decoder probe is precise enough to function as an approximate label auditor. Applied to a labelled dataset, it surfaces samples where the label and the audio content disagree. This is not its intended use, but it suggests that interpretability tools applied at the output-generation stage can detect annotation noise that would otherwise require manual review to find.</p>
+<p>The information required to suppress hallucinations is present in the model twice over — once at the input stage, once at the output stage. What is absent is not a training signal — non-speech and sparse-speech data were included in training, and the model does produce silence in the typical case. What is absent is a training objective that explicitly rewards the model for routing through the latent representation the probe identifies. The coupling between its internal knowledge that it is hallucinating and the decision to output EOS is loose enough to fail at the margin.</p>
+<p>A secondary finding worth noting: the decoder probe is precise enough to function as an approximate label auditor. Applied to a labelled dataset, it surfaces samples where the label and the audio content disagree. This is not its intended use, but it suggests that interpretability tools applied at the output-generation stage can detect annotation noise that are otherwise challenging to identify.</p>
 
 
 </section>
