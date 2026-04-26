@@ -50,9 +50,8 @@ A collection of ML project write-ups.
 
 :::: {.grid}
 
-::: {.g-col-4}
+::: {.g-col-12}
 <a href="ml/gpt-adventures/index.qmd" class="home-card">
-<div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-index.png" alt="GPT Adventures"></div>
 <div class="home-card-body">
 <h3>GPT Adventures — Overview</h3>
 <p>Training a GPT-2 Small from scratch</p>
@@ -60,7 +59,11 @@ A collection of ML project write-ups.
 </a>
 :::
 
-::: {.g-col-4}
+::::
+
+:::: {.grid}
+
+::: {.g-col-6}
 <a href="ml/gpt-adventures/phase1.qmd" class="home-card">
 <div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt1.png" alt="GPT Adventures Part 1"></div>
 <div class="home-card-body">
@@ -70,7 +73,7 @@ A collection of ML project write-ups.
 </a>
 :::
 
-::: {.g-col-4}
+::: {.g-col-6}
 <a href="ml/gpt-adventures/phase2.qmd" class="home-card">
 <div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt2.png" alt="GPT Adventures Part 2"></div>
 <div class="home-card-body">
@@ -80,7 +83,11 @@ A collection of ML project write-ups.
 </a>
 :::
 
-::: {.g-col-4}
+::::
+
+:::: {.grid}
+
+::: {.g-col-6}
 <a href="ml/gpt-adventures/phase3.qmd" class="home-card">
 <div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt3.png" alt="GPT Adventures Part 3"></div>
 <div class="home-card-body">
@@ -90,7 +97,7 @@ A collection of ML project write-ups.
 </a>
 :::
 
-::: {.g-col-4}
+::: {.g-col-6}
 <a href="ml/gpt-adventures/phase4.qmd" class="home-card">
 <div class="home-card-img"><img src="/images/machine-learning/thumb-gpt-pt4.png" alt="GPT Adventures Part 4"></div>
 <div class="home-card-body">

@@ -227,13 +227,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
+ <span class="menu-text">AED Hallucinations - Causal Intervention</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../machine-learning/ml/aed-hallucination-decoder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">AED Hallucinations — The Decoder Knows Too</span></a>
+ <span class="menu-text">AED Hallucinations - The Decoder Knows Too</span></a>
   </div>
 </li>
       </ul>
@@ -321,7 +321,6 @@ window.Quarto = {
   <li><a href="#sanity-checks" id="toc-sanity-checks" class="nav-link" data-scroll-target="#sanity-checks">Sanity Checks</a></li>
   <li><a href="#fsdp" id="toc-fsdp" class="nav-link" data-scroll-target="#fsdp">FSDP</a></li>
   <li><a href="#gradient-checkpointing" id="toc-gradient-checkpointing" class="nav-link" data-scroll-target="#gradient-checkpointing">Gradient Checkpointing</a></li>
-  <li><a href="#tensor-parallelism" id="toc-tensor-parallelism" class="nav-link" data-scroll-target="#tensor-parallelism">Tensor Parallelism</a></li>
   </ul>
 </nav>
     </div>
@@ -962,11 +961,6 @@ window.Quarto = {
 <figcaption>Throughput — with and without gradient checkpointing.</figcaption>
 </figure>
 </div>
-</section>
-<section id="tensor-parallelism" class="level2">
-<h2 class="anchored" data-anchor-id="tensor-parallelism">Tensor Parallelism</h2>
-<p>While FSDP and gradient checkpointing were not helpful in our situation, there is another technique which will reduce the activation memory pressure without the need to recompute activations.</p>
-<p>While FSDP shards the contracting dimension of the weight tensors of our model, tensor parallelism shards the non-contracting dimension. The immediate effect of this is that the size of the activations is reduced, allowing us to fit a larger local batch.</p>
 
 
 </section>

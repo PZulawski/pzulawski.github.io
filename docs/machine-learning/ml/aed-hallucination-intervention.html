@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AED Hallucinations — Causal Intervention – Piotr Zulawski</title>
+<title>AED Hallucinations - Causal Intervention – Piotr Zulawski</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -156,7 +156,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-intervention.html">AED Hallucinations — Causal Intervention</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-intervention.html">AED Hallucinations - Causal Intervention</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -192,13 +192,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
+ <span class="menu-text">AED Hallucinations - Causal Intervention</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../machine-learning/ml/aed-hallucination-decoder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">AED Hallucinations — the Decoder Knows Too</span></a>
+ <span class="menu-text">AED Hallucinations - The Decoder Knows Too</span></a>
   </div>
 </li>
       </ul>
@@ -297,9 +297,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-intervention.html">AED Hallucinations — Causal Intervention</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-intervention.html">AED Hallucinations - Causal Intervention</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">AED Hallucinations — Causal Intervention</h1>
+<h1 class="title">AED Hallucinations - Causal Intervention</h1>
 </div>
 
 
@@ -316,16 +316,16 @@ window.Quarto = {
 </header>
 
 
-<p>In the <a href="../../machine-learning/ml/aed-hallucination-probe.html">previous article</a>, we established that the encoder of our AED model builds a near-perfect linear representation of the speech/non-speech distinction — from the very first transformer layer, with essentially zero ambiguity. The model unambiguously “knows” it is looking at non-speech audio. This strongly suggests <strong>Case A</strong>: the latent representation exists, and the hallucination is a failure of the decoder to read it, not a failure of the encoder to build it.</p>
-<p>But probe accuracy alone does not establish this. A logistic regression finding a separating hyperplane tells you the representation <em>correlates</em> with the input class. It says nothing about causality. The decoder might be routing around that subspace entirely — building its output from entirely different directions in activation space — in which case the probe direction is an artefact of the input statistics, not a signal the decoder ever attends to. To distinguish these, we need to intervene.</p>
+<p>In the <a href="../../machine-learning/ml/aed-hallucination-probe.html">previous article</a>, we established that the encoder of our AED model builds a near-perfect linear representation of the speech/non-speech distinction - from the very first transformer layer, with essentially zero ambiguity. The model unambiguously “knows” it is looking at non-speech audio. This strongly suggests <strong>Case A</strong>: the latent representation exists, and the hallucination is a failure of the decoder to read it, not a failure of the encoder to build it.</p>
+<p>But probe accuracy alone does not establish this. A logistic regression finding a separating hyperplane tells you the representation <em>correlates</em> with the input class. It says nothing about causality. The decoder might be routing around that subspace entirely - building its output from entirely different directions in activation space - in which case the probe direction is an artefact of the input statistics, not a signal the decoder ever attends to. To distinguish these, we need to intervene.</p>
 <section id="method" class="level2">
 <h2 class="anchored" data-anchor-id="method">Method</h2>
 <section id="the-intervention" class="level3">
 <h3 class="anchored" data-anchor-id="the-intervention">The intervention</h3>
-<p><strong>Activation patching</strong> — or steering — is the standard tool for testing causal relevance. The idea is simple: take an example from one class, modify its activations at a specific layer to push them towards the other class, and check whether the decoded output changes. If it does, the modified direction is causally upstream of the decoder. If the output is unchanged regardless of how hard we push, the decoder is ignoring that subspace.</p>
+<p><strong>Activation patching</strong> - or steering - is the standard tool for testing causal relevance. The idea is simple: take an example from one class, modify its activations at a specific layer to push them towards the other class, and check whether the decoded output changes. If it does, the modified direction is causally upstream of the decoder. If the output is unchanged regardless of how hard we push, the decoder is ignoring that subspace.</p>
 <p>Concretely, we take a non-speech example and add a scaled version of the probe direction <span class="math inline">\(\hat{\mathbf{w}}\)</span> to the residual stream at the best probe layer (layer 2) during the encoder forward pass:</p>
 <p><span class="math display">\[\mathbf{a}' = \mathbf{a} + \alpha \cdot (\mu_\text{sp} - \mu_\text{ns}) \cdot \hat{\mathbf{w}}\]</span></p>
-<p>where <span class="math inline">\(\mu_\text{sp} = \boldsymbol{\mu}_\text{sp} \cdot \hat{\mathbf{w}}\)</span> and <span class="math inline">\(\mu_\text{ns} = \boldsymbol{\mu}_\text{ns} \cdot \hat{\mathbf{w}}\)</span> are the scalar projections of the class centres onto the probe direction, and <span class="math inline">\(\alpha\)</span> is a signed scaling factor. Setting <span class="math inline">\(\alpha &lt; 0\)</span> pushes the non-speech activation towards the non-speech end of the direction; <span class="math inline">\(\alpha &gt; 0\)</span> pushes it towards speech. We are interested in whether pushing a non-speech example further into the non-speech region reduces hallucinated output — i.e.&nbsp;whether the decoder, confronted with a more emphatic non-speech signal, produces less text.</p>
+<p>where <span class="math inline">\(\mu_\text{sp} = \boldsymbol{\mu}_\text{sp} \cdot \hat{\mathbf{w}}\)</span> and <span class="math inline">\(\mu_\text{ns} = \boldsymbol{\mu}_\text{ns} \cdot \hat{\mathbf{w}}\)</span> are the scalar projections of the class centres onto the probe direction, and <span class="math inline">\(\alpha\)</span> is a signed scaling factor. Setting <span class="math inline">\(\alpha &lt; 0\)</span> pushes the non-speech activation towards the non-speech end of the direction; <span class="math inline">\(\alpha &gt; 0\)</span> pushes it towards speech. We are interested in whether pushing a non-speech example further into the non-speech region reduces hallucinated output - i.e.&nbsp;whether the decoder, confronted with a more emphatic non-speech signal, produces less text.</p>
 </section>
 <section id="adaptive-alpha" class="level3">
 <h3 class="anchored" data-anchor-id="adaptive-alpha">Adaptive alpha</h3>
@@ -341,16 +341,16 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="what-we-are-looking-for">What we are looking for</h3>
 <p>Three outcomes are possible:</p>
 <ol type="1">
-<li><p><strong>Output changes</strong> — the decoder produces fewer tokens, different tokens, or silence when the non-speech activation is pushed further into the non-speech region. This is the key evidence for Case A: the probe direction is causally upstream of the decoder.</p></li>
-<li><p><strong>Output unchanged at all <span class="math inline">\(\alpha\)</span></strong> — the decoder routes around the probed subspace. The representation exists (the probe works) but the decoder ignores it. The hallucination is a decoder-level failure.</p></li>
-<li><p><strong>Output degrades at large <span class="math inline">\(|\alpha|\)</span> but doesn’t improve</strong> — the perturbation is large enough to corrupt the encoder representation, but there is no clean causal path from the probe direction to reduced output. This would suggest the direction is adjacent to something real, but not quite aligned with what the decoder actually uses.</p></li>
+<li><p><strong>Output changes</strong> - the decoder produces fewer tokens, different tokens, or silence when the non-speech activation is pushed further into the non-speech region. This is the key evidence for Case A: the probe direction is causally upstream of the decoder.</p></li>
+<li><p><strong>Output unchanged at all <span class="math inline">\(\alpha\)</span></strong> - the decoder routes around the probed subspace. The representation exists (the probe works) but the decoder ignores it. The hallucination is a decoder-level failure.</p></li>
+<li><p><strong>Output degrades at large <span class="math inline">\(|\alpha|\)</span> but doesn’t improve</strong> - the perturbation is large enough to corrupt the encoder representation, but there is no clean causal path from the probe direction to reduced output. This would suggest the direction is adjacent to something real, but not quite aligned with what the decoder actually uses.</p></li>
 </ol>
-<p>Each outcome has different implications for what a principled fix would look like — and all three are more informative than the probe result alone.</p>
+<p>Each outcome has different implications for what a principled fix would look like - and all three are more informative than the probe result alone.</p>
 </section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> — i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> — on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.</p>
+<p>The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> - i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> - on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.</p>
 <section id="non-speech-segments" class="level3">
 <h3 class="anchored" data-anchor-id="non-speech-segments">Non-speech segments</h3>
 <p>18 out of 100 non-speech segments had their hallucinated output suppressed to silence by steering. All 18 were sitting well within the non-speech cluster (<span class="math inline">\(t \leq 0.16\)</span>), attracting strong steering (<span class="math inline">\(|\alpha| \geq 2.7\)</span>).</p>
@@ -493,11 +493,11 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>The hallucinations are characteristic of the failure mode: short, confident-sounding fragments — affirmations, interjections, fragments of social speech — produced from ambient noise. The table shows only segments where the transcript changed; steering suppressed approximately 50% of hallucinations in the full non-speech test set. In some cases where full suppression did not occur, the hallucination was abbreviated rather than eliminated — e.g.&nbsp;<em>I’m</em> → <em>I</em>, <em>stopping</em> → <em>stop</em> — suggesting the steering is moving the activation in the right direction without fully crossing whatever threshold triggers silence. Critically, steering did not induce more extensive hallucination in any test sample. A more carefully calibrated steering mechanism would likely improve the suppression rate further, but the objective here is solely to demonstrate that the mechanism works — that the probe direction is causally connected to the decoder output.</p>
+<p>The hallucinations are characteristic of the failure mode: short, confident-sounding fragments - affirmations, interjections, fragments of social speech - produced from ambient noise. The table shows only segments where the transcript changed; steering supressed approximately 50% of hallucinations in the full non-speech test set. In some cases where full suppression did not occur, the hallucination was abbreviated rather than eliminated - e.g.&nbsp;<em>I’m</em> → <em>I</em>, <em>stopping</em> → <em>stop</em> - suggesting the steering is moving the activation in the right direction without fully crossing whatever threshold triggers silence. Critically, steering did not induce more extensive hallucination in any test sample. A more carefully calibrated steering mechanism would likely improve the suppression rate further, but the objetive here is solely to demonstrate that the mechanism works - that the probe direction is causally connected to the decoder output.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/probe-steering-movement.png" class="img-fluid figure-img"></p>
-<figcaption>Left: PCA scatter showing the pre-steering position of suppressed non-speech examples (blue dots) with arrows to their post-steering positions (gold diamonds) — all moving deeper into the non-speech cluster. Right: the same movement shown on the 1D probe axis, with the non-speech centre (blue dashed) and speech centre (red dashed) marked for reference. Every steered example moves further left, away from the ambiguous zone and deeper into non-speech territory.</figcaption>
+<figcaption>Left: PCA scatter showing the pre-steering position of suppressed non-speech examples (blue dots) with arrows to their post-steering positions (gold diamonds) - all moving deeper into the non-speech cluster. Right: the same movement shown on the 1D probe axis, with the non-speech centre (blue dashed) and speech centre (red dashed) marked for reference. Every steered example moves further left, away from the ambiguous zone and deeper into non-speech territory.</figcaption>
 </figure>
 </div>
 </section>
@@ -534,12 +534,12 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>At <span class="math inline">\(t = 0.97\)</span>, this example sits almost entirely within the speech cluster and receives minimal steering (<span class="math inline">\(\alpha = -0.10\)</span>). More extensive evaluation across larger samples suggests that, for speech segments, steering tends to produce fewer output words — but predominantly in cases where the model is already uncertain and often where it was already making a mistake. No rigorous WER evaluation was carried out at this stage, but superficially the pattern looks similar to the hallucination behaviour itself: steering seems to make the model guess less when only partial or uncertain audio information is available, rather than suppressing confident, well-supported transcription.</p>
+<p>At <span class="math inline">\(t = 0.97\)</span>, this example sits almost entirely within the speech cluster and receives minimal steering (<span class="math inline">\(\alpha = -0.10\)</span>). More extensive evaluation across larger samples suggests that, for speech segments, steering tends to produce fewer output words - but predominantly in cases where the model is already uncertain and often where it was already making a mistake. No rigorous WER evaluation was carried out at this stage, but superficially the pattern looks similar to the hallucination behaviour itself: steering seems to make the model guess less when only partial or uncertain audio information is available, rather than suppressing confident, well-supported transcription.</p>
 </section>
 <section id="sign-flip-inducing-hallucinations" class="level3">
 <h3 class="anchored" data-anchor-id="sign-flip-inducing-hallucinations">Sign flip: inducing hallucinations</h3>
 <p>Having established that steering in the non-speech direction suppresses hallucinations, we can run the reverse experiment as a control: flip the sign of <span class="math inline">\(\alpha\)</span>, pushing non-speech activations <em>towards</em> the speech end of the direction. If the direction genuinely encodes speech-likeness, this should make the model hallucinate more, and more confidently.</p>
-<p><strong>Non-speech segments — sign-flipped steering (α &gt; 0):</strong></p>
+<p><strong>Non-speech segments - sign-flipped steering (α &gt; 0):</strong></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 15%">
@@ -623,8 +623,8 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Segments that produced no output at baseline now hallucinate; segments that already hallucinated produce more extensive output. The repetitive, looping structure — “I’m at the end, I’m at the end, …” — is characteristic of the model entering an unstable decoding trajectory, which is itself a known hallucination pattern. The model at <span class="math inline">\(t = 0.00\)</span> (index 12), pushed maximally toward speech, produces over a hundred repetitions of “I’m”.</p>
-<p><strong>Speech segments — sign-flipped steering (α &gt; 0):</strong></p>
+<p>Segments that produced no output at baseline now hallucinate; segments that already hallucinated produce more extensive output. The repetitive, looping structure - “I’m at the end, I’m at the end, …” - is characteristic of the model entering an unstable decoding trajectory, which is itself a known hallucination pattern. The model at <span class="math inline">\(t = 0.00\)</span> (index 12), pushed maximally toward speech, produces over a hundred repetitions of “I’m”.</p>
+<p><strong>Speech segments - sign-flipped steering (α &gt; 0):</strong></p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -663,15 +663,15 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Speech segments at high <span class="math inline">\(t\)</span> receive minimal positive steering and are largely unaffected — the changes are within the noise of normal beam search variation.</p>
+<p>Speech segments at high <span class="math inline">\(t\)</span> receive minimal positive steering and are largely unaffected - the changes are within the noise of normal beam search variation.</p>
 </section>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
 <p>The results confirm <strong>Case A</strong>: the probe direction is causally upstream of the decoder. Steering non-speech activations further into the non-speech region suppresses hallucinated output, while leaving speech transcription essentially untouched.</p>
-<p>Of the 100 non-speech test segments, approximately 35 had hallucinated output at baseline — the rest were already silent. The meaningful denominator is therefore 35, not 100: of the segments that were actually liable to be corrected, 18 were suppressed, giving a suppression rate of roughly <strong>50%</strong>. All 18 had their hallucination fully eliminated rather than merely reduced (though partial reduction was observed in additional segments not captured by the word-count filter). A more carefully calibrated steering mechanism would likely push this further; the objective here is solely to demonstrate the mechanism, not to optimise it.</p>
+<p>Of the 100 non-speech test segments, approximately 35 had hallucinated output at baseline - the rest were already silent. The meaningful denominator is therefore 35, not 100: of the segments that were actually liable to be corrected, 18 were suppressed, giving a suppression rate of roughly <strong>50%</strong>. All 18 had their hallucination fully eliminated rather than merely reduced (though partial reduction was observed in additional segments not captured by the word-count filter). A more carefully calibrated steering mechanism would likely push this further; the objective here is solely to demonstrate the mechanism, not to optimise it.</p>
 <p>The one affected speech segment received near-zero steering (<span class="math inline">\(|\alpha| = 0.10\)</span>) and the output change was cosmetic. This is the adaptive scheme working as intended: the steering magnitude scales with how far the example sits from the speech cluster, and at <span class="math inline">\(t = 0.97\)</span> there is almost nothing to apply.</p>
-<p>Taken together: the encoder builds a robust, linearly decodable representation of speech-likeness from the earliest layers; the decoder is sensitive to it; and a simple, targeted intervention along the probe direction suppresses hallucinations on non-speech audio without measurably degrading transcription of real speech. The open question is how this translates from a post-hoc analytical intervention to a practical deployment strategy — that is for future work.</p>
+<p>Taken together: the encoder builds a robust, linearly decodable representation of speech-likeness from the earliest layers; the decoder is sensitive to it; and a simple, targeted intervention along the probe direction suppresses hallucinations on non-speech audio without measurably degrading transciption of real speech. The open question is how this translates from a post-hoc analytical intervention to a practical deployment strategy - that is for future work.</p>
 
 
 </section>

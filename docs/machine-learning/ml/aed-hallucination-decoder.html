@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AED Hallucinations — The Decoder Knows Too – Piotr Zulawski</title>
+<title>AED Hallucinations - The Decoder Knows Too – Piotr Zulawski</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -127,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-decoder.html">AED Hallucinations — The Decoder Knows Too</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-decoder.html">AED Hallucinations - The Decoder Knows Too</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -163,13 +163,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../machine-learning/ml/aed-hallucination-intervention.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">AED Hallucinations — Causal Intervention</span></a>
+ <span class="menu-text">AED Hallucinations - Causal Intervention</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../machine-learning/ml/aed-hallucination-decoder.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">AED Hallucinations — The Decoder Knows Too</span></a>
+ <span class="menu-text">AED Hallucinations - The Decoder Knows Too</span></a>
   </div>
 </li>
       </ul>
@@ -268,9 +268,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-decoder.html">AED Hallucinations — The Decoder Knows Too</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-probe.html">Hearing Things</a></li><li class="breadcrumb-item"><a href="../../machine-learning/ml/aed-hallucination-decoder.html">AED Hallucinations - The Decoder Knows Too</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">AED Hallucinations — The Decoder Knows Too</h1>
+<h1 class="title">AED Hallucinations - The Decoder Knows Too</h1>
 </div>
 
 
@@ -287,19 +287,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>In the <a href="../../machine-learning/ml/aed-hallucination-probe.html">previous articles</a>, we established two things: the encoder of our AED model builds a near-perfect linear representation of speech vs non-speech from the very first transformer layer, and — crucially — this representation is causally upstream of the decoder. Steering encoder activations along the probe direction suppresses approximately 50% of hallucinations on non-speech audio, without measurably degrading transcription of real speech. <strong>Case A is confirmed</strong>: the model knows it is looking at non-speech; it simply fails to act on that knowledge.</p>
-<p>This raises a natural follow-on question. When the decoder generates a hallucinated transcript — token by token, producing “Oh,” or “Thank you.” from ambient noise — does it build an internal representation of what it is doing? Does it, at the point of generation, “know” that it is hallucinating?</p>
-<p>This is a distinct question from the encoder probe. The encoder is processing audio; we are asking whether the acoustic features it builds distinguish the two classes. Here, we are asking about the decoder’s state during generation — whether the hidden representations it constructs while producing output differ between hallucination and real transcription. The answer would tell us whether the failure to suppress hallucinations is isolated to the encoder-decoder interface, or whether it runs all the way through to the output stage.</p>
+<p>In the <a href="../../machine-learning/ml/aed-hallucination-probe.html">previous articles</a>, we established two things: the encoder of our AED model builds a near-perfect linear representation of speech vs non-speech from the very first transformer layer, and - crucially - this representation is causally upstream of the decoder. Steering encoder activations along the probe direction suppresses approximately 50% of hallucinations on non-speech audio, without measurably degrading transcription of real speech. <strong>Case A is confirmed</strong>: the model knows it is looking at non-speech; it simply fails to act on that knowledge.</p>
+<p>This raises a natural follow-on question. When the decoder generates a hallucinated transcript - token by token, producing “Oh,” or “Thank you.” from ambient noise - does it build an internal representation of what it is doing? Does it, at the point of generation, “know” that it is hallucinating?</p>
+<p>This is a distinct question from the encoder probe. The encoder is processing audio; we are asking whether the acoustic features it builds distinguish the two classes. Here, we are asking about the decoder’s state during generation - whether the hidden representations it constructs while producing output differ between hallucination and real transcription. The answer would tell us whether the failure to suppress hallucinations is isolated to the encoder-decoder interface, or whether it runs all the way through to the output stage.</p>
 <section id="method" class="level2">
 <h2 class="anchored" data-anchor-id="method">Method</h2>
-<p>The method is identical in structure to the encoder probe, applied to the decoder layers. We register forward hooks on each decoder transformer layer during beam search. At each generation step, the new token’s hidden state is captured — with key-value caching enabled, each step processes exactly one new token, so the hook fires once per step and records a <code>(hidden_dim,)</code> vector. These are mean-pooled over the generated sequence to give one vector per example per layer.</p>
+<p>The method is identical in structure to the encoder probe, applied to the decoder layers. We register forward hooks on each decoder transformer layer during beam search. At each generation step, the new token’s hidden state is captured - with key-value caching enabled, each step processes exactly one new token, so the hook fires once per step and records a <code>(hidden_dim,)</code> vector. These are mean-pooled over the generated sequence to give one vector per example per layer.</p>
 <p>The two classes are:</p>
 <ul>
 <li><strong>Hallucination</strong> (<code>y = 0</code>): non-speech audio where the model produced non-empty output</li>
 <li><strong>Normal</strong> (<code>y = 1</code>): speech audio where the model produced a transcript</li>
 </ul>
 <p>A logistic regression is trained per decoder layer, and 5-fold cross-validation gives unbiased accuracy estimates.</p>
-<p>One subtlety: for non-speech audio, many segments produce no output at all — silence segments that the model correctly transcribes as silent. These contribute nothing to the hallucination class, since there is no decoder activation to probe. The collection therefore only retains examples where the model actually generated output, ensuring we are probing the decoder’s state during active hallucination rather than measuring the (trivially separable) difference between “generated something” and “generated nothing”.</p>
+<p>One subtlety: for non-speech audio, many segments produce no output at all - silence segments that the model correctly transcribes as silent. These contribute nothing to the hallucination class, since there is no decoder activation to probe. The collection therefore only retains examples where the model actually generated output, ensuring we are probing the decoder’s state during active hallucination rather than measuring the (trivially separable) difference between “generated something” and “generated nothing”.</p>
 <section id="held-out-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="held-out-evaluation">Held-out evaluation</h3>
 <p>The collection loop tracks how many entries were scanned before the training set was filled. All entries beyond that scan boundary are held out and form a clean test set, guaranteed to have never been processed during training. This avoids any risk of leakage from examples that were scanned but discarded (e.g.&nbsp;non-hallucinating non-speech segments). The eval loop runs on this fully disjoint slice.</p>
@@ -309,8 +309,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <section id="the-decoder-also-separates" class="level3">
 <h3 class="anchored" data-anchor-id="the-decoder-also-separates">The decoder also separates</h3>
-<p>One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments — acoustically unambiguous non-speech — against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of <strong>sparse speech segments</strong> — real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.</p>
-<p>The curve rises monotonically with depth, reaching above 0.97 towards the final layer. Unlike the encoder where separation is essentially complete from the very first layer, the decoder sharpens progressively — the signal is present early but becomes more linearly decodable as cross-attention information is integrated across the full stack.</p>
+<p>One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments - acoustically unambiguous non-speech - against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of <strong>sparse speech segments</strong> - real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.</p>
+<p>The curve rises monotonically with depth, reaching above 0.97 towards the final layer. Unlike the encoder where separation is essentially complete from the very first layer, the decoder sharpens progressively - the signal is present early but becomes more linearly decodable as cross-attention information is integrated across the full stack.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/decoder-probe-accuracy.png" class="img-fluid figure-img"></p>
@@ -321,7 +321,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/decoder-probe-direction-viz.png" class="img-fluid figure-img"></p>
-<figcaption>Left: 1D projection of all examples onto the probe direction. Hallucination (blue) and normal transcription (red) are cleanly separated. Right: PCA scatter at the same layer, with ambiguous-zone examples highlighted (gold diamonds) — borderline cases corresponding to single punctuation marks and very short fragments.</figcaption>
+<figcaption>Left: 1D projection of all examples onto the probe direction. Hallucination (blue) and normal transcription (red) are cleanly separated. Right: PCA scatter at the same layer, with ambiguous-zone examples highlighted (gold diamonds) - borderline cases corresponding to single punctuation marks and very short fragments.</figcaption>
 </figure>
 </div>
 </section>
@@ -358,12 +358,12 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Of 463 hallucinating segments in the test set, 458 are correctly identified. Of 799 normal speech segments, 793 are correctly cleared. 11 cases in total appear as errors. The correctly detected hallucinations are characteristic of the failure mode: short, affirmative-sounding fragments produced from ambient silence — <em>“Oh,”</em>, <em>“Hold on.”</em>, <em>“Thank you.”</em>, <em>“I’m gonna go with it.”</em>, <em>“Jesus.”</em> — consistent with what was observed in the encoder steering experiments.</p>
+<p>Of 463 hallucinating segments in the test set, 458 are correctly identified. Of 799 normal speech segments, 793 are correctly cleared. 11 cases in total appear as errors. The correctly detected hallucinations are characteristic of the failure mode: short, affirmative-sounding fragments produced from ambient silence - <em>“Oh,”</em>, <em>“Hold on.”</em>, <em>“Thank you.”</em>, <em>“I’m gonna go with it.”</em>, <em>“Jesus.”</em> - consistent with what was observed in the encoder steering experiments.</p>
 </section>
 <section id="the-errors-are-labelling-noise" class="level3">
 <h3 class="anchored" data-anchor-id="the-errors-are-labelling-noise">The errors are labelling noise</h3>
-<p>On audio inspection of all 11 apparent errors, every single one is a labelling error in the evaluation dataset — not a probe failure.</p>
-<p>The 5 false negatives — hallucinations the probe missed — are non-speech segments that actually contain speech. The model transcribes them correctly; the probe correctly classifies them as normal transcription. The label is wrong.</p>
+<p>On audio inspection of all 11 apparent errors, every single one is a labelling error in the evaluation dataset - not a probe failure.</p>
+<p>The 5 false negatives - hallucinations the probe missed - are non-speech segments that actually contain speech. While the model transcribes them correctly, the probe correctly classifies them as normal transcription, i.e.&nbsp;the label is wrong.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -401,11 +401,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>FN</td>
 <td><em>Сколько вообще инвестиций…</em></td>
-<td>Audible Russian speech — correctly transcribed, mislabelled as non-speech</td>
+<td>Audible Russian speech - correctly transcribed, mislabelled as non-speech</td>
 </tr>
 </tbody>
 </table>
-<p>Five of the 6 false positives are mirror-image labelling errors: segments labelled as speech that, on listening, contain no intelligible speech content. The probe classifies these as hallucinations; it is correct.</p>
+<p>Five of the 6 false positives are mirror-image labelling errors: segments labelled as speach that, on listening, contain no intelligible speech content. Despite the probe classifying these as hallucinations, they are actually correct.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -447,7 +447,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The sixth is a genuine probe error. The segment contains difficult-to-follow speech, the model produces a transcript that does not match what is being said, and the probe flags it as a hallucination — which it is not. This is a real failure: the probe misclassifies a poor-quality transcription as a hallucination.</p>
+<p>The sixth is a genuine probe error. The segment contains difficult-to-follow speech, the model produces a transcript that does not match what is being said, and the probe flags it as a hallucination - which it is not. This is a real failure: the probe misclassifies a poor-quality transcription as a hallucination.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -465,7 +465,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>FP</td>
 <td><em>I got him here.</em></td>
-<td>Genuine probe error — speech present, transcript incorrect but not a hallucination</td>
+<td>Genuine probe error - speech present, transcript incorrect but not a hallucination</td>
 </tr>
 </tbody>
 </table>
@@ -473,8 +473,8 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="where-the-signal-lives-cross-attention-not-generation" class="level3">
 <h3 class="anchored" data-anchor-id="where-the-signal-lives-cross-attention-not-generation">Where the signal lives: cross-attention, not generation</h3>
-<p>Evaluating the probe per individual token — rather than on the mean-pooled sequence — reveals something unexpected. For a subset of cases, every individual generated token is classified as <em>normal</em> by the probe, yet the overall mean-pooled activation is classified as a <em>hallucination</em>. Since the probe is a linear classifier, this can only happen if the mean is being pulled across the decision boundary by an activation not included in the per-token breakdown.</p>
-<p>The culprit is the <strong>prefix activation</strong>: the decoder’s hidden state captured when it processes the initial <code>[BOS, LANG]</code> tokens before generating anything. This is the moment of the decoder’s first cross-attention over the encoder output — before a single transcript token exists. It is excluded from the per-token breakdown, but included in the mean.</p>
+<p>Evaluating the probe per individual token - rather than on the mean-pooled sequence - reveals something unexpected. For a subset of cases, every individual generated token is classified as <em>normal</em> by the probe, yet the overall mean-pooled activation is classified as a <em>hallucination</em>. Since the probe is a linear classifier, this can only happen if the mean is being pulled across the decision boundary by an activation not included in the per-token breakdown.</p>
+<p>The culprit is the <strong>prefix activation</strong>: the decoder’s hidden state captured when it processes the initial <code>[BOS, LANG]</code> tokens before generating anything. This is the moment of the decoder’s first cross-attention over the encoder output - before a single transcript token exists. It is excluded from the per-token breakdown, but included in the mean.</p>
 <p>A concrete example. A speech segment produces the output <em>“And,”</em> and the overall probe fires (false positive). The per-token breakdown looks like this:</p>
 <table class="caption-top table">
 <thead>
@@ -502,17 +502,17 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The prefix is the only hallucination-classified position. Everything the decoder generated looks normal; only its initial state — set before generation begins, purely through cross-attention to the encoder — looks like a hallucination.</p>
-<p>This is not a pathology of the probe. It is pointing at something real. The prefix activation is the decoder’s first and only opportunity to read the encoder output without any autoregressive context. Its state at that point is entirely determined by what the encoder produced — which is itself a near-perfect linear representation of speech vs non-speech. For non-speech audio, the encoder output sits deep in the non-speech cluster; the decoder’s initial cross-attention read of that output puts it in the hallucination region before any token is generated. For speech audio, the encoder output sits in the speech cluster; the initial cross-attention puts the decoder in the normal zone, and it stays there.</p>
-<p>The implication is that the hallucination signal in the decoder is encoded primarily in the <strong>initial cross-attention state</strong>, not in the autoregressive generation. The decoder does not become progressively more “aware” that it is hallucinating as it generates tokens — it knows from the very first step, before producing a single word, because it has already read the encoder’s non-speech representation. The tokens that follow are then generated from a starting point that already carries the hallucination signal in its mean-pooled representation. The cross-attention is the mechanism; everything else is downstream.</p>
+<p>The prefix is the only hallucination-classified position. Everything the decoder generated looks normal; only its initial state - set before generation begins, purely through cross-attention to the encoder - looks like a hallucination.</p>
+<p>This is not a pathology of the probe. It is pointing at something real. The prefix activation is the decoder’s first and only opportunity to read the encoder output without any autoregressive context. Its state at that point is entirely determined by what the encoder produced - which is itself a near-perfect linear representation of speech vs non-speech. For non-speech audio, the encoder output sits deep in the non-speech cluster; the decoder’s initial cross-attention read of that output puts it in the hallucination region before any token is generated. For speech audio, the encoder output sits in the speech cluster; the initial cross-attention puts the decoder in the normal zone, and it stays there.</p>
+<p>The implication is that the halucination signal in the decoder is encoded primarily in the <strong>initial cross-attention state</strong>, not in the autoregressive generation. The decoder does not become progressively more “aware” that it is hallucinating as it generates tokens - it knows from the very first step, before producing a single word, because it has already read the encoder’s non-speech representation. The tokens that follow are then generated from a starting point that already carries the hallucination signal in its mean-pooled representation. The cross-attention is the mechanism; everything else is downstream.</p>
 </section>
 <section id="ablation-ruling-out-sequence-length-confounds" class="level3">
 <h3 class="anchored" data-anchor-id="ablation-ruling-out-sequence-length-confounds">Ablation: ruling out sequence-length confounds</h3>
-<p>Two potential confounds are worth addressing. The first is <strong>transcript length</strong>: hallucinated transcripts are short (typically one to three words) while normal transcripts are long. The second is <strong>audio duration</strong>: silence segments used for the hallucination class may be systematically shorter than the speech segments, meaning the decoder’s cross-attention attends over a shorter encoder sequence — and the probe might be learning this length difference rather than anything about acoustic content.</p>
+<p>Two potential confounds are worth addressing. The first is <strong>transcript length</strong>: hallucinated transcripts are short (typically one to three words) while normal transcripts are long. The second is <strong>audio duration</strong>: silence segments used for the hallucination class may be systematically shorter than the speech segments, meaning the decoder’s cross-attention attends over a shorter encoder sequence - and the probe might be learning this length difference rather than anything about acoustic content.</p>
 <p>Two ablations are run:</p>
 <ul>
 <li><strong>Transcript position</strong>: the probe is retrained using only the first word of each segment. At position 0, both classes are in the same place in the sequence; any remaining separation must come from cross-attention content.</li>
-<li><strong>Audio duration</strong>: the probe is retrained using only segments whose natural duration falls within the overlap window between the two classes. Segments are used whole — not trimmed — to avoid the risk of cutting a speech segment down to a silent passage.</li>
+<li><strong>Audio duration</strong>: the probe is retrained using only segments whose natural duration falls within the overlap window between the two classes. Segments are used whole - not trimmed - to avoid the risk of cutting a speech segment down to a silent passage.</li>
 </ul>
 <table class="caption-top table">
 <thead>
@@ -538,15 +538,15 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The first-word probe barely moves — consistent with the positional confound being structurally implausible in any case, since the primary signal carrier is the prefix activation, computed before any token exists. Duration matching causes a ~5 percentage point drop in the first layer, suggesting the earliest decoder layer is somewhat sensitive to encoder sequence length; by the final layer the gap has closed to under half a point as deeper cross-attention integration takes over. Both ablations confirm that the separation is primarily grounded in acoustic content.</p>
+<p>The first-word probe barely moves - consistent with the positional confound being structurally implausible in any case, since the primary signal carrier is the prefix activation, computed before any token exists. Duration matching causes a ~5 percentage point drop in the first layer, suggesting the earliest decoder layer is somewhat sensitive to encoder sequence length; by the final layer the gap has closed to under half a point as deeper cross-attention integration takes over. Both ablations confirm that the separation is primarily grounded in acoustic content.</p>
 </section>
 </section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder — it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all four decoder layers, with no learning beyond a logistic regression.</p>
-<p>This means the model has <strong>redundant, multilayered knowledge that it is hallucinating</strong>. The encoder has it from layer 0. The decoder builds it from generation step 1. Neither representation surfaces in the output.</p>
+<p>The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder - it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all four decoder layers, with no learning beyond a logistic regression.</p>
+<p>This means the model has <strong>redundant, multilayerd knowledge that it is hallucinating</strong>. We show that the encoder has it from layer 0 and that the decoder builds it from generation step 1, but neither representation surfaces in the output.</p>
 <p>The suppression achieved by encoder-level steering works not because it introduces new information into the system, but because it amplifies a signal the model already possesses. The decoder probe shows the complementary side of this: the decoder would, if it had a way to act on its own internal state, be capable of flagging its output as hallucinated.</p>
-<p>The information required to suppress hallucinations is present in the model twice over — once at the input stage, once at the output stage. What is absent is not a training signal — non-speech and sparse-speech data were included in training, and the model does produce silence in the typical case. What is absent is a training objective that explicitly rewards the model for routing through the latent representation the probe identifies. The coupling between its internal knowledge that it is hallucinating and the decision to output EOS is loose enough to fail at the margin.</p>
+<p>The information required to suppress hallucinations is present in the model twice over - once at the input stage, once at the output stage. What is absent is not a training signal - non-speech and sparse-speech data were included in training, and the model does produce silence in the typical case. What is absent is a training objective that explicitly rewards the model for routing through the latent representation the probe identifies. The coupling between its internal knowledge that it is hallucinating and the decision to output EOS is loose enough to fail at the margin.</p>
 <p>A secondary finding worth noting: the decoder probe is precise enough to function as an approximate label auditor. Applied to a labelled dataset, it surfaces samples where the label and the audio content disagree. This is not its intended use, but it suggests that interpretability tools applied at the output-generation stage can detect annotation noise that are otherwise challenging to identify.</p>
 
 

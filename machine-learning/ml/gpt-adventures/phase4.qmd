@@ -275,9 +275,3 @@ For our model specifically though, even without checkpointing, we can fit a larg
 ![Allocated GPU memory — with and without gradient checkpointing.](/images/gpt-adventures/phase4-memory-checkpointing.png)
 
 ![Throughput — with and without gradient checkpointing.](/images/gpt-adventures/phase4-throughput-checkpointing.png)
-
-## Tensor Parallelism
-
-While FSDP and gradient checkpointing were not helpful in our situation, there is another technique which will reduce the activation memory pressure without the need to recompute activations.
-
-While FSDP shards the contracting dimension of the weight tensors of our model, tensor parallelism shards the non-contracting dimension. The immediate effect of this is that the size of the activations is reduced, allowing us to fit a larger local batch.
