@@ -12,7 +12,7 @@ The specific question I am looking to answer is: does the model internally repre
 
 There are two possible cases:
 
-- **Case A**: a latent `is_speech` representation exists in the encoder activations, but has no causal path to the output - the decoder ignores it. The information is there; the model just doesn't report it.
+- **Case A**: a latent `is_speech` representation exists in the encoder activations, but has no causal path to the output - the decoder ignores it, which means the information is there but the model just doesn't report it.
 - **Case B**: no such representation exists. The encoder processes all audio through the same features regardless of content.
 
 A standard performance evaluation - word error rate, or WER - collapses both cases to the same observable, so we need to look inside the model.
@@ -78,7 +78,7 @@ The PCA scatter underlines this: PC1 alone accounts for 42% of the variance at t
 
 The probe results strongly suggest **Case A**: the encoder builds a near-perfect linear representation of the speech/non-speech distinction from the very first layer, grounded in low-level acoustic features. This representation does not change materially as it propagates through the encoder stack. The model unambiguously "knows" it is looking at non-speech.
 
-This has an interesting implication for the data-side fix applied earlier. Adding non-speech training data reduced hallucinations substantially - but these probe results suggest it may have worked by changing how the decoder was trained to respond to non-speech encoder representations, rather than by teaching the encoder to build the distinction in the first place. The encoder's representation was already there; it was esentially acoustic from the outset. The fix, in effect, created a causal path from an existing representation to the correct output.
+This has an interesting implication for the data-side fix applied earlier. Adding non-speech training data reduced hallucinations substantially - but these probe results suggest it may have worked by changing how the decoder was trained to respond to non-speech encoder representations, rather than by teaching the encoder to build the distinction in the first place. The encoder's representation was already there, but it was esentially acoustic from the outset. The fix, in effect, created a causal path from an existing representation to the correct output.
 
 Several questions remain that the probe alone cannot answer. First: why are some segments - which are to a human ear quite clearly non-speech, and which presumably sit well within the non-speech cluster - still hallucinated on? Are they, despite appearances, not as separated from the speech cluster as they seem? Or is their position in activation space not the operative factor at all?
 
