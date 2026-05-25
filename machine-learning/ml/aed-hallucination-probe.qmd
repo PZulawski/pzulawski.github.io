@@ -6,7 +6,7 @@ It is a well-known fact that encoder-decoder (AED) models for speech-to-text (ST
 
 Some authors have previously attempted to tackle these hallucinations with post-processing [2], training data selection [3], test-time data filtering [4], and fine-tuning with specific non-speech datasets [5]. In my own work, I have applied these and other techniques to suppress hallucinations in AED models, with good success.
 
-Some residual hallucinations remain despite this careful, multi-pronged treatment, and they still manifest on audio that, to a human ear, is relatively unambiguous. This is surprising, given that the model is able to transcribe challenging audio accurately across dozens of languages - it feels counterintuitive that a much simpler task, deciding on the mere presence of speech in a given segment, should be problematic. Motivated by this, and as an excuse to develop skills relevant to interpretability work, I decided to look more closely at the model internals to understand the origin of hallucinations. The model under investigation is Cohere's [`cohere-transcribe-03-2026`](https://huggingface.co/CohereLabs/cohere-transcribe-03-2026) — a large multilingual encoder-decoder ASR system — and I will refer to it throughout. The full analysis is available as a [Jupyter notebook on GitHub](REPO_URL_PLACEHOLDER).
+Some residual hallucinations remain despite this careful, multi-pronged treatment, and they still manifest on audio that, to a human ear, is relatively unambiguous. This is surprising, given that the model is able to transcribe challenging audio accurately across dozens of languages - it feels counterintuitive that a much simpler task, deciding on the mere presence of speech in a given segment, should be problematic. Motivated by this, and as an excuse to develop skills relevant to interpretability work, I decided to look more closely at the model internals to understand the origin of hallucinations. The model under investigation is Cohere's [`cohere-transcribe-03-2026`](https://huggingface.co/CohereLabs/cohere-transcribe-03-2026) — a large multilingual encoder-decoder ASR system — and I will refer to it throughout. The full analysis is available as a [Jupyter notebook on GitHub](https://github.com/PZulawski/AED_nonspeech_probe).
 
 The specific question I am looking to answer is: does the model internally represent the difference between speech and non-speech, and simply not surface it in its output? Or is the speech/non-speech distinction simply absent?
 
@@ -61,17 +61,17 @@ For each layer, logistic regression is trained and the fitted weight vector $\ma
 
 ### The probe
 
-The accuracy curve is high from the very first layer, peaking at 0.985 at layer 4 and remaining well above chance throughout.
+The accuracy curve is essentially flat at high values from the very first layer, peaking at 0.990 at layer 7.
 
 ![Linear probe accuracy across encoder layers. Chance is 0.5.](/images/ml/probe-accuracy-vs-depth.png)
 
-Across all layers, probe accuracy ranges from roughly 0.94 at layer 0 to a peak of 0.985 at layer 4, where it stabilises for the remainder of the encoder stack. The distinction is present from the very first layer — there is a modest rise over the first few layers as early acoustic features are consolidated, but it never approaches chance. The model encodes the speech/non-speech distinction strongly across the full depth of the encoder.
+Across all layers, probe accuracy is 0.975–0.990, with no warm-up period — the distinction is present from layer 0 and stays there. The best layer (layer 7) achieves 0.990; the earliest layers are already above 0.975. The model encodes the speech/non-speech distinction strongly across the full depth of the encoder.
 
 The 1D projection confirms it visually: the two distributions are well-separated, with only a small region of overlap near the ambiguous zone boundary. The ambiguous zone (shaded gold) sits in the gap - examples that genuinely straddle the boundary: crowd noise, intelligible background conversations, shouts and yells, lyrics within background music. On audio inspection, these are exactly the cases one would expect to be ambiguous.
 
 ![Left: 1D projection of all examples onto the probe direction - strong separation. Right: PCA scatter at the best layer, with ambiguous-zone examples highlighted (gold diamonds).](/images/ml/probe-direction-viz.png)
 
-The PCA scatter underlines this: PC1 accounts for 30.9% of the variance at this layer, and the two classes sit cleanly at opposite ends of it. It is also worth noting that the distribution along the probe direction is smooth - a continuous gradation from confidently non-speech to confidently speech-like rather than a hard split. This is circumstantial but suggestive evidence that the direction genuinely encodes speech-likeness, rather than some other quantity that merely correlates with the class label.
+The PCA scatter underlines this: PC1 accounts for 29.6% of the variance at this layer, and the two classes sit cleanly at opposite ends of it. It is also worth noting that the distribution along the probe direction is smooth - a continuous gradation from confidently non-speech to confidently speech-like rather than a hard split. This is circumstantial but suggestive evidence that the direction genuinely encodes speech-likeness, rather than some other quantity that merely correlates with the class label.
 
 ## Interpretation
 
