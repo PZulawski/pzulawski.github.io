@@ -79,28 +79,28 @@ The 23 false positives fall into two groups. The first consists of short, halluc
 | *Come on* | 0.67 |
 | *So* | 0.50 |
 
-The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation:
+The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. A few examples are included inline in the table below:
 
-| Model output | Hallucinated token fraction |
-|---|---|
-| *Dance dance to the baby* | 1.00 |
-| *I'm not gonna do it!* | 1.00 |
-| *Jump!* | 1.00 |
-| *Get him up!* | 1.00 |
-| *WHAT THEY ARE?!* | 0.92 |
-| *Your top tower is under attack.* | 0.89 |
-| *Take a picture of that.* | 0.86 |
-| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 |
-| *We'll be right back.* | 0.75 |
-| *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 |
-| *So here he is, you can see the...* | 0.64 |
-| *Nope, I have not.* | 0.62 |
-| *And then it's flying fire.* | 0.60 |
-| *Quick hands.* | 0.60 |
-| *I'm gonna go see* | 0.57 |
-| *Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.* | 0.57 |
-| *Sometimes you say, you hear it?* | 0.56 |
-| *That feels like a tight fit.* | 0.50 |
+| Model output | Hallucinated token fraction | |
+|---|---|---|
+| *Dance dance to the baby* | 1.00 | |
+| *I'm not gonna do it!* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-im-not-gonna-do-it.wav" type="audio/wav"></audio> |
+| *Jump!* | 1.00 | |
+| *Get him up!* | 1.00 | |
+| *WHAT THEY ARE?!* | 0.92 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-what-they-are.wav" type="audio/wav"></audio> |
+| *Your top tower is under attack.* | 0.89 | |
+| *Take a picture of that.* | 0.86 | |
+| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 | |
+| *We'll be right back.* | 0.75 | |
+| *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 | |
+| *So here he is, you can see the...* | 0.64 | |
+| *Nope, I have not.* | 0.62 | |
+| *And then it's flying fire.* | 0.60 | |
+| *Quick hands.* | 0.60 | |
+| *I'm gonna go see* | 0.57 | |
+| *Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.* | 0.57 | |
+| *Sometimes you say, you hear it?* | 0.56 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-sometimes-you-say.wav" type="audio/wav"></audio> |
+| *That feels like a tight fit.* | 0.50 | |
 
 It is worth noting that the probe was trained on only 3,000 examples per class, with no deliberate coverage of these corner cases. Performance on acoustically unusual speech — processed voices, background vocals, heavily reverberant or noise-overlapped audio — would likely improve with broader training data that includes such examples. The hallucination token fractions are higher for the energetic, exclamatory utterances at the top, which are acoustically the closest to hallucination-typical output. One observation from the token-level breakdown that is worth noting: in the first-group cases — short, stock phrases on borderline audio — both the prefix and a majority of the individual tokens tend to be classified as hallucinations. A classifier that requires the prefix to be hallucinated *and* a threshold fraction of the content tokens to be hallucinated would likely reduce false positives on legitimate speech while retaining sensitivity to genuine hallucinations. This was not pursued here, as the goal was to understand the mechanism rather than to optimise a detection method.
 
