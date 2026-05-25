@@ -87,7 +87,7 @@ The second group are genuine probe errors, where real speech is present but in a
 | *WHAT THEY ARE?!* | 0.92 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-13.wav" type="audio/wav"></audio> |
 | *Your top tower is under attack.* | 0.89 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-12.wav" type="audio/wav"></audio> |
 | *Take a picture of that.* | 0.86 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-11.wav" type="audio/wav"></audio> |
-| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-01.wav" type="audio/wav"></audio> |
+| *Get on the truck, let's go! F***ing normies! Eat this!* | 0.77 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-01.wav" type="audio/wav"></audio> |
 | *We'll be right back.* | 0.75 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-03.wav" type="audio/wav"></audio> |
 | *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-07.wav" type="audio/wav"></audio> |
 | *Come on* | 0.67 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-05.wav" type="audio/wav"></audio> |
