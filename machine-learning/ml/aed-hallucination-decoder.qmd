@@ -52,22 +52,22 @@ Of 494 hallucinating segments in the test set, 482 are correctly identified. Of 
 
 ### The errors
 
-The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content.
+The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content. The hallucinated token fractions are correspondingly low (0.00–0.56), in contrast to genuine hallucinations where the prefix and, most frequently, all tokens are classified as hallucinations.
 
-| Model output | |
-|---|---|
-| *I just...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-01.wav" type="audio/wav"></audio> |
-| *Right here.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-02.wav" type="audio/wav"></audio> |
-| *about it.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-03.wav" type="audio/wav"></audio> |
-| *I don't know why I always just.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-04.wav" type="audio/wav"></audio> |
-| *Well, and, um...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-05.wav" type="audio/wav"></audio> |
-| *Any* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-06.wav" type="audio/wav"></audio> |
-| *And Janet, what the...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-07.wav" type="audio/wav"></audio> |
-| *Oh.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-08.wav" type="audio/wav"></audio> |
-| *We are taking.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-09.wav" type="audio/wav"></audio> |
-| *That's what you get.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-10.wav" type="audio/wav"></audio> |
-| *Uh,* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-11.wav" type="audio/wav"></audio> |
-| *Thank you.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-12.wav" type="audio/wav"></audio> |
+| Model output | Hallucinated token fraction | |
+|---|---|---|
+| *I just...* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-01.wav" type="audio/wav"></audio> |
+| *Right here.* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-02.wav" type="audio/wav"></audio> |
+| *about it.* | 0.25 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-03.wav" type="audio/wav"></audio> |
+| *I don't know why I always just.* | 0.27 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-04.wav" type="audio/wav"></audio> |
+| *Well, and, um...* | 0.29 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-05.wav" type="audio/wav"></audio> |
+| *Any* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-06.wav" type="audio/wav"></audio> |
+| *And Janet, what the...* | 0.56 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-07.wav" type="audio/wav"></audio> |
+| *Oh.* | 0.33 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-08.wav" type="audio/wav"></audio> |
+| *We are taking.* | 0.40 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-09.wav" type="audio/wav"></audio> |
+| *That's what you get.* | 0.25 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-10.wav" type="audio/wav"></audio> |
+| *Uh,* | 0.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-11.wav" type="audio/wav"></audio> |
+| *Thank you.* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-12.wav" type="audio/wav"></audio> |
 
 The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe's classification is arguably correct and the label is wrong:
 
