@@ -71,7 +71,7 @@ The 12 false negatives are non-speech segments that contain audible speech, wher
 
 The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe's classification is arguably correct and the label is wrong:
 
-| Model output | Hallu token fraction |
+| Model output | Hallucinated token fraction |
 |---|---|
 | *Thank you.* | 0.75 |
 | *Thank you.* | 0.75 |
@@ -81,7 +81,7 @@ The 23 false positives fall into two groups. The first consists of short, halluc
 
 The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation:
 
-| Model output | Hallu token fraction |
+| Model output | Hallucinated token fraction |
 |---|---|
 | *Dance dance to the baby* | 1.00 |
 | *I'm not gonna do it!* | 1.00 |
