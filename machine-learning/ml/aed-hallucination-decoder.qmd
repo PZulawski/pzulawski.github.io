@@ -31,56 +31,78 @@ The collection loop tracks how many entries were scanned before the training set
 
 One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments - acoustically unambiguous non-speech - against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of **sparse speech segments** - real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.
 
-The curve rises monotonically with depth, reaching above 0.97 towards the final layer. Unlike the encoder where separation is essentially complete from the very first layer, the decoder sharpens progressively - the signal is present early but becomes more linearly decodable as cross-attention information is integrated across the full stack.
+The curve is essentially flat at above 0.96 across all decoder layers, peaking at 0.972 at layer 6. Like the encoder, the distinction is present from the very first layer and does not materially change with depth — the signal is immediately accessible and remains so throughout the full decoder stack.
 
-![Probe accuracy across decoder layers, trained on sparse speech vs hallucination. The curve rises with depth, peaking above 0.97.](/images/ml/decoder-probe-accuracy.png)
+![Probe accuracy across decoder layers, trained on sparse speech vs hallucination. The curve is flat above 0.96 throughout, peaking at 0.972 at layer 6.](/images/ml/decoder-probe-accuracy.png)
 
-The 1D projection at the best layer shows essentially complete separation, with a gap of 7.6 pooled standard deviations between the two class centres.
+The 1D projection at the best layer shows essentially complete separation, with a gap of 5.46 pooled standard deviations between the two class centres.
 
 ![Left: 1D projection of all examples onto the probe direction. Hallucination (blue) and normal transcription (red) are cleanly separated. Right: PCA scatter at the same layer, with ambiguous-zone examples highlighted (gold diamonds) - borderline cases corresponding to single punctuation marks and very short fragments.](/images/ml/decoder-probe-direction-viz.png)
 
-### Held-out evaluation: 99% recall, 99% precision
+### Held-out evaluation: 98% recall, 95% precision
 
 The fitted probe is evaluated on the held-out test set as a runtime hallucination detector: run the model, collect decoder activations, classify without looking at the transcript output.
 
 | | Correct | Errors | Rate |
 |:---|---:|---:|---:|
-| Non-speech hallucinations | 458 detected | 5 missed | **recall 0.99** |
-| Speech transcriptions | 793 passed | 6 false positives | **precision 0.99** |
+| Non-speech hallucinations | 482 detected | 12 missed | **recall 0.98** |
+| Speech transcriptions | 871 passed | 23 false positives | **precision 0.95** |
 
-Of 463 hallucinating segments in the test set, 458 are correctly identified. Of 799 normal speech segments, 793 are correctly cleared. 11 cases in total appear as errors. The correctly detected hallucinations are characteristic of the failure mode: short, affirmative-sounding fragments produced from ambient silence - *"Oh,"*, *"Hold on."*, *"Thank you."*, *"I'm gonna go with it."*, *"Jesus."* - consistent with what was observed in the encoder steering experiments.
+Of 494 hallucinating segments in the test set, 482 are correctly identified. Of 894 normal speech segments, 871 are correctly cleared. 35 cases in total appear as errors. The correctly detected hallucinations are characteristic of the failure mode: short, affirmative-sounding fragments produced from ambient silence - *"Oh,"*, *"Hold on."*, *"Thank you."*, *"I'm gonna go with it."*, *"Jesus."* - consistent with what was observed in the encoder steering experiments.
 
-### The errors are labelling noise
+### The errors
 
-On audio inspection of all 11 apparent errors, every single one is a labelling error in the evaluation dataset - not a probe failure.
+The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content.
 
-The 5 false negatives - hallucinations the probe missed - are non-speech segments that actually contain speech. While the model transcribes them correctly, the probe correctly classifies them as normal transcription, i.e. the label is wrong.
+| Type | Model output |
+|---|---|
+| FN | *I just...* |
+| FN | *Right here.* |
+| FN | *about it.* |
+| FN | *I don't know why I always just.* |
+| FN | *Well, and, um...* |
+| FN | *Any* |
+| FN | *And Janet, what the...* |
+| FN | *We are taking.* |
+| FN | *That's what you get.* |
+| FN | *Oh.* |
+| FN | *Uh,* |
+| FN | *Thank you.* |
 
-| Type | Model output | Why it's a label error |
-|---|---|---|
-| FN | *Hey, Laluquet. Laluquet.* | Audible speech in a segment marked as silence |
-| FN | *Michael.* | Audible name in a silence segment |
-| FN | *it, man.* | Audible speech fragment in a silence segment |
-| FN | *like my family.* | Audible speech in a silence segment |
-| FN | *Сколько вообще инвестиций…* | Audible Russian speech - correctly transcribed, mislabelled as non-speech |
+The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe's classification is arguably correct and the label is wrong:
 
-Five of the 6 false positives are mirror-image labelling errors: segments labelled as speach that, on listening, contain no intelligible speech content. Despite the probe classifying these as hallucinations, they are actually correct.
+| Model output | Hallu token fraction |
+|---|---|
+| *Thank you.* | 0.75 |
+| *Thank you.* | 0.75 |
+| *Yeah.* | 0.67 |
+| *Come on* | 0.67 |
+| *So* | 0.50 |
 
-| Type | Model output | Why it's a label error |
-|---|---|---|
-| FP | *Okay.* | Segment contains no intelligible speech; output is a hallucination |
-| FP | *Um,* | Borderline segment; no clear speech content |
-| FP | *Session.* | Segment contains no intelligible speech |
-| FP | *Oh.* | Segment contains no intelligible speech |
-| FP | *And,* | Very short segment (~1.2s); no intelligible speech content |
+The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation:
 
-The sixth is a genuine probe error. The segment contains difficult-to-follow speech, the model produces a transcript that does not match what is being said, and the probe flags it as a hallucination - which it is not. This is a real failure: the probe misclassifies a poor-quality transcription as a hallucination.
+| Model output | Hallu token fraction |
+|---|---|
+| *Dance dance to the baby* | 1.00 |
+| *I'm not gonna do it!* | 1.00 |
+| *Jump!* | 1.00 |
+| *Get him up!* | 1.00 |
+| *WHAT THEY ARE?!* | 0.92 |
+| *Your top tower is under attack.* | 0.89 |
+| *Take a picture of that.* | 0.86 |
+| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 |
+| *We'll be right back.* | 0.75 |
+| *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 |
+| *So here he is, you can see the...* | 0.64 |
+| *Nope, I have not.* | 0.62 |
+| *And then it's flying fire.* | 0.60 |
+| *Quick hands.* | 0.60 |
+| *I'm gonna go see* | 0.57 |
+| *Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.* | 0.57 |
+| *Sometimes you say, you hear it?* | 0.56 |
+| *That feels like a tight fit.* | 0.50 |
 
-| Type | Model output | Assessment |
-|---|---|---|
-| FP | *I got him here.* | Genuine probe error - speech present, transcript incorrect but not a hallucination |
-
-10 of the 11 apparent errors are labelling noise in the evaluation dataset. One is a genuine probe failure.
+It is worth noting that the probe was trained on only 3,000 examples per class, with no deliberate coverage of these corner cases. Performance on acoustically unusual speech — processed voices, background vocals, heavily reverberant or noise-overlapped audio — would likely improve with broader training data that includes such examples. The hallucination token fractions are higher for the energetic, exclamatory utterances at the top, which are acoustically the closest to hallucination-typical output. One observation from the token-level breakdown that is worth noting: in the first-group cases — short, stock phrases on borderline audio — both the prefix and a majority of the individual tokens tend to be classified as hallucinations. A classifier that requires the prefix to be hallucinated *and* a threshold fraction of the content tokens to be hallucinated would likely reduce false positives on legitimate speech while retaining sensitivity to genuine hallucinations. This was not pursued here, as the goal was to understand the mechanism rather than to optimise a detection method.
 
 ### Where the signal lives: cross-attention, not generation
 
@@ -120,7 +142,7 @@ The first-word probe barely moves - consistent with the positional confound bein
 
 ## Interpretation
 
-The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder - it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all four decoder layers, with no learning beyond a logistic regression.
+The decoder builds its own independent representation distinguishing hallucination from normal transcription, to essentially the same accuracy as the encoder probe. The model does not merely process non-speech audio differently in the encoder - it also generates tokens differently when hallucinating. Its internal state during hallucination generation is linearly distinguishable from its state during real transcription, consistently, across all eight decoder layers, with no learning beyond a logistic regression.
 
 This means the model has **redundant, multilayerd knowledge that it is hallucinating**. We show that the encoder has it from layer 0 and that the decoder builds it from generation step 1, but neither representation surfaces in the output.
 
