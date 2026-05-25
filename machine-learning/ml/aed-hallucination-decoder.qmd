@@ -54,53 +54,53 @@ Of 494 hallucinating segments in the test set, 482 are correctly identified. Of 
 
 The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content.
 
-| Type | Model output |
+| Model output | |
 |---|---|
-| FN | *I just...* |
-| FN | *Right here.* |
-| FN | *about it.* |
-| FN | *I don't know why I always just.* |
-| FN | *Well, and, um...* |
-| FN | *Any* |
-| FN | *And Janet, what the...* |
-| FN | *We are taking.* |
-| FN | *That's what you get.* |
-| FN | *Oh.* |
-| FN | *Uh,* |
-| FN | *Thank you.* |
+| *I just...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-01.wav" type="audio/wav"></audio> |
+| *Right here.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-02.wav" type="audio/wav"></audio> |
+| *about it.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-03.wav" type="audio/wav"></audio> |
+| *I don't know why I always just.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-04.wav" type="audio/wav"></audio> |
+| *Well, and, um...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-05.wav" type="audio/wav"></audio> |
+| *Any* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-06.wav" type="audio/wav"></audio> |
+| *And Janet, what the...* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-07.wav" type="audio/wav"></audio> |
+| *Oh.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-08.wav" type="audio/wav"></audio> |
+| *We are taking.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-09.wav" type="audio/wav"></audio> |
+| *That's what you get.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-10.wav" type="audio/wav"></audio> |
+| *Uh,* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-11.wav" type="audio/wav"></audio> |
+| *Thank you.* | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fn-12.wav" type="audio/wav"></audio> |
 
 The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe's classification is arguably correct and the label is wrong:
 
-| Model output | Hallucinated token fraction |
-|---|---|
-| *Thank you.* | 0.75 |
-| *Thank you.* | 0.75 |
-| *Yeah.* | 0.67 |
-| *Come on* | 0.67 |
-| *So* | 0.50 |
+| Model output | Hallucinated token fraction | |
+|---|---|---|
+| *Thank you.* | 0.75 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-04.wav" type="audio/wav"></audio> |
+| *Thank you.* | 0.75 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-16.wav" type="audio/wav"></audio> |
+| *Yeah.* | 0.67 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-10.wav" type="audio/wav"></audio> |
+| *Come on* | 0.67 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-05.wav" type="audio/wav"></audio> |
+| *So* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-17.wav" type="audio/wav"></audio> |
 
-The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. A few examples are included inline in the table below:
+The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. All examples can be played back inline:
 
 | Model output | Hallucinated token fraction | |
 |---|---|---|
-| *Dance dance to the baby* | 1.00 | |
-| *I'm not gonna do it!* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-im-not-gonna-do-it.wav" type="audio/wav"></audio> |
-| *Jump!* | 1.00 | |
-| *Get him up!* | 1.00 | |
-| *WHAT THEY ARE?!* | 0.92 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-what-they-are.wav" type="audio/wav"></audio> |
-| *Your top tower is under attack.* | 0.89 | |
-| *Take a picture of that.* | 0.86 | |
-| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 | |
-| *We'll be right back.* | 0.75 | |
-| *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 | |
-| *So here he is, you can see the...* | 0.64 | |
-| *Nope, I have not.* | 0.62 | |
-| *And then it's flying fire.* | 0.60 | |
-| *Quick hands.* | 0.60 | |
-| *I'm gonna go see* | 0.57 | |
-| *Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.* | 0.57 | |
-| *Sometimes you say, you hear it?* | 0.56 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-sometimes-you-say.wav" type="audio/wav"></audio> |
-| *That feels like a tight fit.* | 0.50 | |
+| *Dance dance to the baby* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-18.wav" type="audio/wav"></audio> |
+| *I'm not gonna do it!* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-02.wav" type="audio/wav"></audio> |
+| *Jump!* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-21.wav" type="audio/wav"></audio> |
+| *Get him up!* | 1.00 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-06.wav" type="audio/wav"></audio> |
+| *WHAT THEY ARE?!* | 0.92 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-13.wav" type="audio/wav"></audio> |
+| *Your top tower is under attack.* | 0.89 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-12.wav" type="audio/wav"></audio> |
+| *Take a picture of that.* | 0.86 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-11.wav" type="audio/wav"></audio> |
+| *Get on the truck, let's go! Fucking normies! Eat this!* | 0.77 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-01.wav" type="audio/wav"></audio> |
+| *We'll be right back.* | 0.75 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-03.wav" type="audio/wav"></audio> |
+| *I hit one of them, 40 white. His dude died on air by the other team.* | 0.71 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-07.wav" type="audio/wav"></audio> |
+| *So here he is, you can see the...* | 0.64 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-23.wav" type="audio/wav"></audio> |
+| *Nope, I have not.* | 0.62 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-15.wav" type="audio/wav"></audio> |
+| *And then it's flying fire.* | 0.60 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-14.wav" type="audio/wav"></audio> |
+| *Quick hands.* | 0.60 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-19.wav" type="audio/wav"></audio> |
+| *I'm gonna go see* | 0.57 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-20.wav" type="audio/wav"></audio> |
+| *Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.* | 0.57 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-22.wav" type="audio/wav"></audio> |
+| *Sometimes you say, you hear it?* | 0.56 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-09.wav" type="audio/wav"></audio> |
+| *That feels like a tight fit.* | 0.50 | <audio controls style="height:1.4em;width:160px"><source src="/audio/ml/fp-08.wav" type="audio/wav"></audio> |
 
 There is a rough correspondence between the hallucinated token fraction and the intelligibility of the underlying audio: segments at the top of the table — non-legible crowd noises, heavily processed voices, shouted exclamations — are acoustically distant from conversational speech, and the probe's confidence is accordingly high. Those at the bottom are altered or unusual in some way but remain clearly recognisable as speech, and the probe fires with correspondingly less certainty. It is worth noting that the probe was trained on only 3,000 examples per class, with no deliberate coverage of these corner cases. Performance on acoustically unusual speech — processed voices, background vocals, heavily reverberant or noise-overlapped audio — would likely improve with broader training data that includes such examples. The hallucination token fractions are higher for the energetic, exclamatory utterances at the top, which are acoustically the closest to hallucination-typical output. One observation from the token-level breakdown that is worth noting: in the first-group cases — short, stock phrases on borderline audio — both the prefix and a majority of the individual tokens tend to be classified as hallucinations. A classifier that requires the prefix to be hallucinated *and* a threshold fraction of the content tokens to be hallucinated would likely reduce false positives on legitimate speech while retaining sensitivity to genuine hallucinations. This was not pursued here, as the goal was to understand the mechanism rather than to optimise a detection method.
 

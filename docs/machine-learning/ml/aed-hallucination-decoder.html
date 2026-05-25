@@ -364,95 +364,110 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="the-errors">The errors</h3>
 <p>The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Type</th>
 <th>Model output</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>FN</td>
 <td><em>I just…</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-01.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
-<td>FN</td>
 <td><em>Right here.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-02.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
-<td>FN</td>
 <td><em>about it.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-03.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
-<td>FN</td>
 <td><em>I don’t know why I always just.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-04.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
-<td>FN</td>
 <td><em>Well, and, um…</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-05.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
-<td>FN</td>
 <td><em>Any</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-06.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
-<td>FN</td>
 <td><em>And Janet, what the…</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-07.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
-<td>FN</td>
-<td><em>We are taking.</em></td>
-</tr>
-<tr class="odd">
-<td>FN</td>
-<td><em>That’s what you get.</em></td>
-</tr>
-<tr class="even">
-<td>FN</td>
 <td><em>Oh.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-08.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
-<td>FN</td>
-<td><em>Uh,</em></td>
+<td><em>We are taking.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-09.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
-<td>FN</td>
+<td><em>That’s what you get.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-10.wav" type="audio/wav"></audio></td>
+</tr>
+<tr class="odd">
+<td><em>Uh,</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-11.wav" type="audio/wav"></audio></td>
+</tr>
+<tr class="even">
 <td><em>Thank you.</em></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fn-12.wav" type="audio/wav"></audio></td>
 </tr>
 </tbody>
 </table>
 <p>The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe’s classification is arguably correct and the label is wrong:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Model output</th>
 <th>Hallucinated token fraction</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><em>Thank you.</em></td>
 <td>0.75</td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-04.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Thank you.</em></td>
 <td>0.75</td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-16.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>Yeah.</em></td>
 <td>0.67</td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-10.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Come on</em></td>
 <td>0.67</td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-05.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>So</em></td>
 <td>0.50</td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-17.wav" type="audio/wav"></audio></td>
 </tr>
 </tbody>
 </table>
-<p>The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. A few examples are included inline in the table below:</p>
+<p>The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. All examples can be played back inline:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -470,92 +485,92 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><em>Dance dance to the baby</em></td>
 <td>1.00</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-18.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>I’m not gonna do it!</em></td>
 <td>1.00</td>
-<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-im-not-gonna-do-it.wav" type="audio/wav"></audio></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-02.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>Jump!</em></td>
 <td>1.00</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-21.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Get him up!</em></td>
 <td>1.00</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-06.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>WHAT THEY ARE?!</em></td>
 <td>0.92</td>
-<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-what-they-are.wav" type="audio/wav"></audio></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-13.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Your top tower is under attack.</em></td>
 <td>0.89</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-12.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>Take a picture of that.</em></td>
 <td>0.86</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-11.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Get on the truck, let’s go! Fucking normies! Eat this!</em></td>
 <td>0.77</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-01.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>We’ll be right back.</em></td>
 <td>0.75</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-03.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>I hit one of them, 40 white. His dude died on air by the other team.</em></td>
 <td>0.71</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-07.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>So here he is, you can see the…</em></td>
 <td>0.64</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-23.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Nope, I have not.</em></td>
 <td>0.62</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-15.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>And then it’s flying fire.</em></td>
 <td>0.60</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-14.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Quick hands.</em></td>
 <td>0.60</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-19.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>I’m gonna go see</em></td>
 <td>0.57</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-20.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>Aw, stop it. If you guys like this video and you guys want to watch me try more fun Halloween hacks, I have a whole playlist.</em></td>
 <td>0.57</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-22.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="odd">
 <td><em>Sometimes you say, you hear it?</em></td>
 <td>0.56</td>
-<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-sometimes-you-say.wav" type="audio/wav"></audio></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-09.wav" type="audio/wav"></audio></td>
 </tr>
 <tr class="even">
 <td><em>That feels like a tight fit.</em></td>
 <td>0.50</td>
-<td></td>
+<td><audio controls="" style="height:1.4em;width:160px"><source src="../../audio/ml/fp-08.wav" type="audio/wav"></audio></td>
 </tr>
 </tbody>
 </table>
