@@ -28,9 +28,9 @@ $$t = \text{clip}\left(\frac{\mathbf{a} \cdot \hat{\mathbf{w}} - \mu_\text{ns}}{
 
 $t = 0$ means the activation sits at the non-speech centre; $t = 1$ at the speech centre. We then set:
 
-$$\alpha = -0.5 \cdot (1 - t)$$
+$$\alpha = -A \cdot (1 - t)$$
 
-Maximum steering ($\alpha = -0.5$) is applied to examples deep in the non-speech cluster; steering tapers to zero as $t \to 1$. The rationale for parametrising the steering is that we do not want to disturb the ASR task when the model is confident the segment is speech-like; we only want to ensure that, if steering has the effect of suppressing hallucinations, steering is preferentially applied to suppress output on ambiguous and hallucinated non-speech segments.
+Maximum steering ($\alpha = -A$) is applied to examples deep in the non-speech cluster; steering tapers to zero as $t \to 1$. The rationale for parametrising the steering is that we do not want to disturb the ASR task when the model is confident the segment is speech-like; we only want to ensure that, if steering has the effect of suppressing hallucinations, steering is preferentially applied to suppress output on ambiguous and hallucinated non-speech segments.
 
 **Pass 2**: apply the computed $\alpha$, decode with beam search, and compare word count and transcript against the baseline.
 
@@ -48,7 +48,7 @@ Each outcome has different implications for what a principled fix would look lik
 
 ## Results
 
-The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to $\alpha_\text{max} = 3.2$ - i.e. $\alpha = -3.2 \cdot (1 - t)$ - on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.
+The probe direction is fitted on 900 examples per class. The steering magnitude $A$ is tuned to $\alpha_\text{max} = 3.2$ - i.e. $\alpha = -3.2 \cdot (1 - t)$ - on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.
 
 ### Non-speech segments
 
