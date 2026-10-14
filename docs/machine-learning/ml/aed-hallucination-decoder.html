@@ -258,7 +258,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-decoder-also-separates" id="toc-the-decoder-also-separates" class="nav-link" data-scroll-target="#the-decoder-also-separates">The decoder also separates</a></li>
   <li><a href="#held-out-evaluation-98-recall-95-precision" id="toc-held-out-evaluation-98-recall-95-precision" class="nav-link" data-scroll-target="#held-out-evaluation-98-recall-95-precision">Held-out evaluation: 98% recall, 95% precision</a></li>
   <li><a href="#the-errors" id="toc-the-errors" class="nav-link" data-scroll-target="#the-errors">The errors</a></li>
-  <li><a href="#where-the-signal-lives-cross-attention-not-generation" id="toc-where-the-signal-lives-cross-attention-not-generation" class="nav-link" data-scroll-target="#where-the-signal-lives-cross-attention-not-generation">Where the signal lives: cross-attention, not generation</a></li>
+  <li><a href="#where-the-signal-lives-cross-attention" id="toc-where-the-signal-lives-cross-attention" class="nav-link" data-scroll-target="#where-the-signal-lives-cross-attention">Where the signal lives: cross-attention</a></li>
   <li><a href="#ablation-ruling-out-sequence-length-confounds" id="toc-ablation-ruling-out-sequence-length-confounds" class="nav-link" data-scroll-target="#ablation-ruling-out-sequence-length-confounds">Ablation: ruling out sequence-length confounds</a></li>
   </ul></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
@@ -310,7 +310,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="the-decoder-also-separates" class="level3">
 <h3 class="anchored" data-anchor-id="the-decoder-also-separates">The decoder also separates</h3>
 <p>One important difference from the encoder probe is the choice of training data. The encoder probe used pure silence segments - acoustically unambiguous non-speech - against dense, fluent speech. The decoder probe here uses a harder, more realistic setting: the non-speech class consists of <strong>sparse speech segments</strong> - real audio containing speech interrupted by long pauses, background noise, and extended non-speech passages. These are exactly the segments most likely to cause hallucinations in production, and they represent the worst case for linear separability. The goal is to establish whether the separation holds even when the acoustic boundary between speech and non-speech is genuinely ambiguous.</p>
-<p>The curve is essentially flat at above 0.96 across all decoder layers, peaking at 0.972 at layer 6. Like the encoder, the distinction is present from the very first layer and does not materially change with depth — the signal is immediately accessible and remains so throughout the full decoder stack.</p>
+<p>The curve is essentially flat at above 0.96 across all decoder layers, peaking at 0.972 at layer 6. Like the encoder, the distinction is present from the very first layer and does not materially change with depth - the signal is immediately accessible and remains so throughout the full decoder stack.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/ml/decoder-probe-accuracy.png" class="img-fluid figure-img"></p>
@@ -362,7 +362,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="the-errors" class="level3">
 <h3 class="anchored" data-anchor-id="the-errors">The errors</h3>
-<p>The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription — the label is inconsistent with the audio content. The hallucinated token fractions are correspondingly low (0.00–0.56), in contrast to genuine hallucinations where the prefix and, most frequently, all tokens are classified as hallucinations.</p>
+<p>The 12 false negatives are non-speech segments that contain audible speech, where the model produces a coherent-sounding transcript and the probe correctly classifies it as normal transcription - the label is inconsistent with the audio content. The hallucinated token fractions are correspondingly low (0.00–0.56), in contrast to genuine hallucinations where the prefix and, most frequently, all tokens are classified as hallucinations.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -439,7 +439,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech — in which case the probe’s classification is arguably correct and the label is wrong:</p>
+<p>The 23 false positives fall into two groups. The first consists of short, hallucination-typical phrases on segments where the audio may contain no intelligible speech - in which case the probe’s classification is arguably correct and the label is wrong:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -471,7 +471,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training — synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. All examples can be played back inline:</p>
+<p>The second group are genuine probe errors, where real speech is present but in a form the probe has not encountered during training - synthetic or effects-processed game voices, song lyrics in background music, speech with heavy ambient noise or reverberation. All examples can be played back inline:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -588,12 +588,12 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>There is a rough correspondence between the hallucinated token fraction and the intelligibility of the underlying audio: segments at the top of the table — non-legible crowd noises, heavily processed voices, shouted exclamations — are acoustically distant from conversational speech, and the probe’s confidence is accordingly high. Those at the bottom are altered or unusual in some way but remain clearly recognisable as speech, and the probe fires with correspondingly less certainty. It is worth noting that the probe was trained on only 3,000 examples per class, with no deliberate coverage of these corner cases. Performance on acoustically unusual speech — processed voices, background vocals, heavily reverberant or noise-overlapped audio — would likely improve with broader training data that includes such examples. The hallucination token fractions are higher for the energetic, exclamatory utterances at the top, which are acoustically the closest to hallucination-typical output. One observation from the token-level breakdown that is worth noting: in the first-group cases — short, stock phrases on borderline audio — both the prefix and a majority of the individual tokens tend to be classified as hallucinations. A classifier that requires the prefix to be hallucinated <em>and</em> a threshold fraction of the content tokens to be hallucinated would likely reduce false positives on legitimate speech while retaining sensitivity to genuine hallucinations. This was not pursued here, as the goal was to understand the mechanism rather than to optimise a detection method.</p>
+<p>There is a rough correspondence between the hallucinated token fraction and the intelligibility of the underlying audio: segments at the top of the table - non-legible crowd noises, heavily processed voices, shouted exclamations - are acoustically distant from conversational speech, and the probe’s confidence is accordingly high. Those at the bottom are altered or unusual in some way but remain clearly recognisable as speech, and the probe fires with correspondingly less certainty. It is worth noting that the probe was trained on only 3,000 examples per class, with no deliberate coverage of these corner cases. Performance on acoustically unusual speech - processed voices, background vocals, heavily reverberant or noise-overlapped audio - would likely improve with broader training data that includes such examples. The hallucination token fractions are higher for the energetic, exclamatory utterances at the top, which are acoustically the closest to hallucination-typical output. One observation from the token-level breakdown that is worth noting: in the first-group cases - short, stock phrases on borderline audio - both the prefix and a majority of the individual tokens tend to be classified as hallucinations. A classifier that requires the prefix to be hallucinated <em>and</em> a threshold fraction of the content tokens to be hallucinated would likely reduce false positives on legitimate speech while retaining sensitivity to genuine hallucinations. This was not pursued here, as the goal was to understand the mechanism rather than to optimise a detection method.</p>
 </section>
-<section id="where-the-signal-lives-cross-attention-not-generation" class="level3">
-<h3 class="anchored" data-anchor-id="where-the-signal-lives-cross-attention-not-generation">Where the signal lives: cross-attention, not generation</h3>
-<p>Evaluating the probe per individual token - rather than on the mean-pooled sequence - reveals something unexpected. For a subset of cases, every individual generated token is classified as <em>normal</em> by the probe, yet the overall mean-pooled activation is classified as a <em>hallucination</em>. Since the probe is a linear classifier, this can only happen if the mean is being pulled across the decision boundary by an activation not included in the per-token breakdown.</p>
-<p>The culprit is the <strong>prefix activation</strong>: the decoder’s hidden state captured when it processes the initial <code>[BOS, LANG]</code> tokens before generating anything. This is the moment of the decoder’s first cross-attention over the encoder output - before a single transcript token exists. It is excluded from the per-token breakdown, but included in the mean.</p>
+<section id="where-the-signal-lives-cross-attention" class="level3">
+<h3 class="anchored" data-anchor-id="where-the-signal-lives-cross-attention">Where the signal lives: cross-attention</h3>
+<p>Evaluating the probe per individual token (rather than on the mean-pooled sequence) reveals something unexpected. For a subset of cases, every individual generated token is classified as <em>normal</em> by the probe, yet the overall mean-pooled activation is classified as a <em>hallucination</em>. Since the probe is a linear classifier, this can only happen if the mean is being pulled across the decision boundary by an activation not included in the per-token breakdown.</p>
+<p>The culprit is the <strong>prefix activation</strong>: the decoder’s hidden state captured when it processes the initial <code>[BOS, LANG]</code> tokens before generating anything. This is the moment of the decoder’s first cross-attention over the encoder output, before a single transcript token exists. It is excluded from the per-token breakdown, but included in the mean.</p>
 <p>A concrete example. A speech segment produces the output <em>“And,”</em> and the overall probe fires (false positive). The per-token breakdown looks like this:</p>
 <table class="caption-top table">
 <thead>

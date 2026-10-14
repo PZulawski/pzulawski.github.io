@@ -333,8 +333,8 @@ window.Quarto = {
 <p><strong>Pass 1</strong> (clean forward pass): capture the activation at layer 2 and project it onto <span class="math inline">\(\hat{\mathbf{w}}\)</span>. Compute the normalised position along the non-speech → speech axis:</p>
 <p><span class="math display">\[t = \text{clip}\left(\frac{\mathbf{a} \cdot \hat{\mathbf{w}} - \mu_\text{ns}}{\mu_\text{sp} - \mu_\text{ns}},\ 0,\ 1\right)\]</span></p>
 <p><span class="math inline">\(t = 0\)</span> means the activation sits at the non-speech centre; <span class="math inline">\(t = 1\)</span> at the speech centre. We then set:</p>
-<p><span class="math display">\[\alpha = -0.5 \cdot (1 - t)\]</span></p>
-<p>Maximum steering (<span class="math inline">\(\alpha = -0.5\)</span>) is applied to examples deep in the non-speech cluster; steering tapers to zero as <span class="math inline">\(t \to 1\)</span>. The rationale for parametrising the steering is that we do not want to disturb the ASR task when the model is confident the segment is speech-like; we only want to ensure that, if steering has the effect of suppressing hallucinations, steering is preferentially applied to suppress output on ambiguous and hallucinated non-speech segments.</p>
+<p><span class="math display">\[\alpha = -A \cdot (1 - t)\]</span></p>
+<p>Maximum steering (<span class="math inline">\(\alpha = -A\)</span>) is applied to examples deep in the non-speech cluster; steering tapers to zero as <span class="math inline">\(t \to 1\)</span>. The rationale for parametrising the steering is that we do not want to disturb the ASR task when the model is confident the segment is speech-like; we only want to ensure that, if steering has the effect of suppressing hallucinations, steering is preferentially applied to suppress output on ambiguous and hallucinated non-speech segments.</p>
 <p><strong>Pass 2</strong>: apply the computed <span class="math inline">\(\alpha\)</span>, decode with beam search, and compare word count and transcript against the baseline.</p>
 </section>
 <section id="what-we-are-looking-for" class="level3">
@@ -350,7 +350,7 @@ window.Quarto = {
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>The probe direction is fitted on 900 examples per class. The steering magnitude is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> - i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> - on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.</p>
+<p>The probe direction is fitted on 900 examples per class. The steering magnitude <span class="math inline">\(A\)</span> is tuned to <span class="math inline">\(\alpha_\text{max} = 3.2\)</span> - i.e.&nbsp;<span class="math inline">\(\alpha = -3.2 \cdot (1 - t)\)</span> - on a held-out development set. Evaluation is then run on 100 fresh, unseen examples per class.</p>
 <section id="non-speech-segments" class="level3">
 <h3 class="anchored" data-anchor-id="non-speech-segments">Non-speech segments</h3>
 <p>18 out of 100 non-speech segments had their hallucinated output suppressed to silence by steering. All 18 were sitting well within the non-speech cluster (<span class="math inline">\(t \leq 0.16\)</span>), attracting strong steering (<span class="math inline">\(|\alpha| \geq 2.7\)</span>).</p>
